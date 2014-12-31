@@ -1,0 +1,133 @@
+#include "Project2.h"
+#include "Project1.h"
+#include<iostream>
+#include "MiscFunc.h"
+#include "Token.h"
+
+const std::string Project2::SYNCH_PATH = "synch.txt";
+
+Project2::Project2(Project1* p1) : lookAhead(Token()), p(p1)
+{
+	synch.open(SYNCH_PATH);
+	target.open(Project1::TARGET_PATH, std::ios::app);
+	LoadSynch();
+	Parse();
+}
+
+Project2::~Project2()
+{
+	synch.close();
+}
+
+
+int main()
+{
+	Project1 a;
+	a.HandleLexing();
+	Project2 b(&a);
+	return 0;
+}
+
+
+void Project2::LoadSynch()
+{
+	std::string line1;
+	if (synch.is_open())
+	{
+		while (std::getline(synch, line1))
+		{
+			std::string line2;
+			if (std::getline(synch, line2))
+			{
+				synchSet[line1] = line2;
+			}
+		}
+	}
+}
+
+void Project2::Parse()
+{
+	lookAhead = p->nextToken();
+	prgm();
+	MatchEOF();
+}
+
+void Project2::MatchEOF()
+{
+	if (lookAhead.token == EOF)
+	{
+		return; // end parse
+	}
+	else
+	{
+		SynErrorTok("EOF", "EOF"); // The lex matches what we want to match when we're matching an individual token.
+	}
+}
+
+
+void Project2::Match(int T, std::string nt, std::string exp)
+{
+	int C = lookAhead.token;
+	if (T == C && C != EOF)
+	{
+		std::cout << "Matched: <" << p->TokenToGrammar(T) << ">\n";
+		lookAhead = p->nextToken();
+	}
+	else if (T == C && C == EOF)
+	{
+		return; // end parse
+	}
+	else
+	{
+		SynErrorTok(nt, exp);
+	}
+}
+
+void Project2::SynErrorTok(std::string nt, std::string exp)
+{
+	target << "SYNERR at line: " << lookAhead.line << " char pos " << lookAhead.charNum
+		<< " NonTerminal: <" << nt
+		<< "> \nEncountered: <" << lookAhead.lex << "> Expected one of: <"
+		<< exp << ">\n\n";
+	target.flush();
+	if (exp == "EOF")
+	{
+		return;
+	}
+	UniteSynchronization(nt);
+}
+
+void Project2::UniteSynchronization(std::string nt)
+{
+	bool recover = false;
+	std::cout << "In UniteSynchronization attempting to match one of <" << synchSet[nt] << ">\n";
+	while (p->hasToken())
+	{
+		if (p->GTT(lookAhead.gram()) == p->GTT("+") && contains(synchSet[nt], "addop"))
+		{
+			recover = true;
+			break;
+		}
+		else if (!contains(synchSet[nt], lookAhead.gram()))
+		{
+			lookAhead = p->nextToken();
+		}
+		else
+		{
+			recover = true;
+			break;
+		}
+	}
+	if (recover == false && !contains(synchSet[nt], lookAhead.gram()))
+	{
+		target << "Reached EOF while trying to synchronize NT <" << nt
+			<< "> \nExpecting one of following <" << synchSet[nt] << ">\n";
+		target.flush();
+	}
+}
+// Lol. So inneficient. I ain't optimizing this shit unless I need too.
+bool Project2::contains(std::string str, std::string targ)
+{
+	std::vector<std::string> split = MiscFunc::split(str, ' ');
+	return (std::find(split.begin(), split.end(), targ) != split.end());
+}

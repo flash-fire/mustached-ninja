@@ -1,0 +1,124 @@
+# I use two formats since this one is faster to write by hand and easier to search
+# The other format works better for printing in my opinion
+# The format is as follows:
+
+# non terminal
+# "\t" + production
+# Epsilon is represented by a single tab
+
+# "#"ed lines are ignored, and blank lines are also ignored.
+# Watch out for extraneous tabs!
+# Watch out for Nonterminals that have the same name as a terminal [that specifically will cause you to become VERY unhappy I swear!]
+prgm
+	program id ( id ) ; decs subprgm_decs comp_stmt .
+
+decs
+	decs var id : type ;
+	
+
+type
+	std_type
+	array [ num .. num ] of std_type
+
+std_type
+	integer
+	real
+
+subprgm_decs
+	subprgm_decs subprgm_dec ;
+	
+
+subprgm_dec
+	subprgm_head decs subprgm_decs comp_stmt
+
+subprgm_head
+	procedure id args ;
+
+
+args
+	( param_list )
+	
+
+param_list
+	id : type
+	param_list ; id : type
+
+comp_stmt
+	begin opt_stmts end
+
+opt_stmts
+	stmt_list
+	
+
+stmt_list
+	stmt
+	stmt_list ; stmt
+
+stmt
+	variable assignop expr
+	proc_stmt
+	comp_stmt
+	if expr then stmt
+	if expr then stmt else stmt
+	while expr do stmt
+# i commented out the if statement so I know to change it
+# to the unambiguous grammar format!
+
+variable
+	id
+	id [ expr ]
+
+proc_stmt
+	call id
+	call id ( expr_list )
+
+expr_list
+	expr
+	expr_list , expr
+
+expr
+	simple_expr
+	simple_expr relop simple_expr
+
+term
+	factor
+	term mulop factor
+
+simple_expr
+	term
+	sign term
+	simple_expr addop term
+
+factor
+	id
+	num
+	( expr )
+	not factor
+	id [ expr ]
+
+sign
+	+
+	-
+
+addop
+	+
+	-
+	or
+
+assignop
+	:=
+
+mulop
+	*
+	/
+	div
+	mod
+	and
+
+relop
+	=
+	<>
+	<
+	<=
+	>=
+	>

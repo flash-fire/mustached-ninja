@@ -1,0 +1,31 @@
+# Lexeme Token Attr
+# Use tabs bro.
+# This place is where the reserved entries go that have alpha numeric stuff
+# ID is arbitrarily 42 and is done in code. As the attr is pointer
+var	1	0	VAR
+array	2	0	ARY
+of	3	0	OF
+call	4	0	CALL
+procedure	5	0	PROC
+begin	6	0	BEGIN
+end	7	0	END
+if	8	0	IF
+then	9	0	THEN
+else	10	0	ELSE
+while	11	0	WHILE
+do	12	0	DO
+not	13	0	NOT
+program	14	0	PROGRAM
+integer	15	0	INT
+real	16	0	REAL
+#longreal	17	0
+#num	45	0
+#some mulops are words they are placed here for matching convenience
+# MULOPS
+div	32	2	DIV
+mod	32	3	MOD
+and	32	4	AND
+
+# ADDOP 
+or	31	2	OR
+#id	42	*	ID

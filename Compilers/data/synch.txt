@@ -1,0 +1,76 @@
+args
+; $
+comp_stmt
+; end $ . begin call while id else if
+comp_stmtLF1
+; end $ . begin call while id else if
+decs
+begin $ procedure
+decsLR1
+begin $ procedure
+expr
+$ ) do then ] addop
+exprLF1
+$ ) do then ] addop
+expr_list
+$ )
+expr_listLR1
+$ )
+factor
+- mulop $ ) do + addop not num relop then id ] (
+factorLF1
+- mulop $ ) do + addop not num relop then id ] (
+opt_stmts
+end $
+param_list
+$ )
+param_listLR1
+$ )
+prgm
+$
+prgmLF1
+$
+prgmLF1LF1
+$
+proc_stmt
+end while $ id begin else if call
+proc_stmtLF1
+end while $ id begin else if call
+sign
+mulop $
+simple_expr
+relop $ ) do then ] addop
+simple_exprLR1
+relop $ ) do then ] addop
+std_type
+; id $ )
+stmt
+end while $ id begin else if call
+stmt_list
+end $
+stmt_listLR1
+end $
+subprgm_dec
+; $
+subprgm_decLF1
+; $
+subprgm_decLF1LF1
+; $
+subprgm_decs
+begin $
+subprgm_decsLR1
+begin $
+subprgm_head
+var begin $ procedure
+subprgm_headLF1
+var begin $ procedure
+term
+- mulop $ ) do + addop relop then ]
+termLR1
+- mulop $ ) do + addop relop then ]
+type
+; id $ )
+variable
+assignop $
+variableLF1
+assignop $

@@ -1,0 +1,61 @@
+prgm -> program id ( id ) ; decs subprgm_decs comp_stmt .
+decs -> decs var id : type ;
+decs -> 
+type -> std_type
+type -> array [ num .. num ] of std_type
+std_type -> integer
+std_type -> real
+subprgm_decs -> subprgm_decs subprgm_dec ;
+subprgm_decs -> 
+subprgm_dec -> subprgm_head decs subprgm_decs comp_stmt
+subprgm_head -> procedure id args ;
+args -> ( param_list )
+args -> 
+param_list -> id : type
+param_list -> param_list ; id : type
+comp_stmt -> begin opt_stmts end
+opt_stmts -> stmt_list
+opt_stmts -> 
+stmt_list -> stmt
+stmt_list -> stmt_list ; stmt
+stmt -> variable assignop expr
+stmt -> proc_stmt
+stmt -> comp_stmt
+stmt -> if expr then stmt
+stmt -> if expr then stmt else stmt
+stmt -> while expr do stmt
+variable -> id
+variable -> id [ expr ]
+proc_stmt -> call id
+proc_stmt -> call id ( expr_list )
+expr_list -> expr
+expr_list -> expr_list , expr
+expr -> simple_expr
+expr -> simple_expr relop simple_expr
+term -> factor
+term -> term mulop factor
+simple_expr -> term
+simple_expr -> sign term
+simple_expr -> simple_expr addop term
+factor -> id
+factor -> num
+factor -> ( expr )
+factor -> not factor
+factor -> id [ expr ]
+sign -> +
+sign -> -
+addop -> +
+addop -> -
+addop -> or
+assignop -> :=
+mulop -> *
+mulop -> /
+mulop -> div
+mulop -> mod
+mulop -> and
+relop -> =
+relop -> <>
+relop -> <
+relop -> <=
+relop -> >=
+relop -> >

@@ -1,0 +1,10 @@
+	Token lookAhead;
+	Project1* p;
+	std::ofstream target;
+
+	static const std::string Project2::SYNCH_PATH;
+	std::ifstream synch;
+	bool contains(std::string str, std::string targ);
+
+};
+#endif
