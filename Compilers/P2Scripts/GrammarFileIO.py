@@ -67,7 +67,8 @@ def loadGrammar(gramLoc):
       else:
          nts.append(nt)
          productions[nt] = {toks}
-   return (startSym,nts,productions)
+   terms = findTerms(nts,productions)
+   return (startSym,nts,terms,productions)
 
 def reformGrammar(fileIn, fileOut):
    filename = fileIn
@@ -94,6 +95,16 @@ def reformGrammar(fileIn, fileOut):
    f.close()
    o.close()
 
+def findTerms(nts, productions):
+   terms = []
+   for key,prodSet in productions.items():
+      for prod in prodSet:
+         for term in prod:
+            if term and term not in nts and term not in terms:
+               terms.append(term)
+
+   print(terms)
+   return term
 def printProd(productions, nt):
    for prod in productions[nt]:
       print(nt, separator, tupToString(prod))

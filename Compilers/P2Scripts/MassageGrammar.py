@@ -156,7 +156,7 @@ def leftFactoring(nts,productions):
    return productions
 
 def massageYourGrammar(fileName, epsFileName, leftRecFileName, leftFactorFileName):
-   start,nts,orig_prods = loadGrammar(fileName)
+   start,nts,terms,orig_prods = loadGrammar(fileName)
    productions = remove_eps(start, orig_prods );
    writeProductions(epsFileName, nts, productions)
 
