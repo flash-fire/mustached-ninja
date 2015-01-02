@@ -103,7 +103,7 @@ def findTerms(nts, productions):
             if term and term not in nts and term not in terms:
                terms.append(term)
 
-   print(terms)
+   #print(terms)
    return term
 def printProd(productions, nt):
    for prod in productions[nt]:
