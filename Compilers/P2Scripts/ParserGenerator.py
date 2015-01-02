@@ -159,7 +159,7 @@ def buildParser(nts, productions):
 if __name__ == '__main__':
    g="grammar/"
    reformGrammar("OriginalGrammar.txt",g+"FormattedGrammar.txt")
-   nts, productions = massageYourGrammar(g+"FormattedGrammar.txt"
+   start,nts,terms,productions = massageYourGrammar(g+"FormattedGrammar.txt"
    , g+"NoEpsilons.txt", g+"NoLeftRec.txt", g+"LeftFactored.txt")
    buildParser(nts, productions)
    print("Done!")

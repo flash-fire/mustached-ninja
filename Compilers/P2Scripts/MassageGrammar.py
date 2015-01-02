@@ -157,11 +157,11 @@ def massageYourGrammar(fileName, epsFileName, leftRecFileName, leftFactorFileNam
    writeProductions(leftRecFileName, nts, productions)
    productions = leftFactoring(nts, productions)
    writeProductions(leftFactorFileName, nts, productions)
-   return nts,productions
+   return start,nts,terms,productions
    
 if __name__ == '__main__':
    g="grammar/"
    reformGrammar("OriginalGrammar.txt",g+"FormattedGrammar.txt")
-   nts, productions = massageYourGrammar(g+"FormattedGrammar.txt"
+   massageYourGrammar(g+"FormattedGrammar.txt"
    , g+"NoEpsilons.txt", g+"NoLeftRec.txt", g+"LeftFactored.txt")  #printProds(productions, nts)
    print("Done!")
