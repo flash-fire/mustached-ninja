@@ -76,18 +76,17 @@ def follows(nts, productions, first_dict):
       followsOf(nt, nts, productions, first_dict, follows_dict)
    return follows_dict
 
-g = 'grammar/'
-start,nts,terms,prods =  massageYourGrammar(g+"FormattedGrammar.txt"
-   , g+"NoEpsilons.txt", g+"NoLeftRec.txt", g+"LeftFactored.txt")  #printProds(productions, nts)
+if __name__ == '__main__':
+   g = 'grammar/'
+   start,nts,terms,prods =  massageYourGrammar(g+"FormattedGrammar.txt"
+      , g+"NoEpsilons.txt", g+"NoLeftRec.txt", g+"LeftFactored.txt")  #printProds(productions, nts)
 
-#follows_dict = {key : set() for key in nts}
-#follows_dict[nts[0]] = {'$'}
-first_dict = firsts(nts, prods)
-follows(nts, prods, first_dict)
+   first_dict = firsts(nts, prods)
+   follows_dict = follows(nts, prods, first_dict)
 
-print("\n\n\n*** FIRSTS ***\n\n")
-#for nt in nts:
-#   print (nt, first_dict[nt])
-#print("\n\n*** FOLLOWS ***\n\n")
-#for nt in nts:
-#   print (nt, follows_dict[nt])
+   print("\n\n\n*** FIRSTS ***\n\n")
+   for nt in nts:
+      print (nt, first_dict[nt])
+   print("\n\n*** FOLLOWS ***\n\n")
+   for nt in nts:
+      print (nt, follows_dict[nt])

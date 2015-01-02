@@ -1,0 +1,86 @@
+addop
+	num not ( id
+args
+	;
+assignop
+	num + - not ( id
+comp_stmt
+	; . end else
+comp_stmtLF1
+	; . end else
+decs
+	procedure begin
+decsLR1
+	procedure begin
+expr
+	do ; ] else ) , end then
+exprLF1
+	do ) then ; ] else , end
+expr_list
+	)
+expr_listLR1
+	)
+factor
+	or <= ) >= < then ; ] / mod , do * div <> > = + and else - end
+factorLF1
+	or <= ) >= < then ; ] / mod , do * div <> > = + and else - end
+mulop
+	num not ( id
+opt_stmts
+	end
+param_list
+	)
+param_listLR1
+	)
+prgm
+	$
+prgmLF1
+	$
+prgmLF1LF1
+	$
+proc_stmt
+	; end else
+proc_stmtLF1
+	; end else
+relop
+	num + - not ( id
+sign
+	num not ( id
+simple_expr
+	<= ) >= < then ; ] , do <> > = else end
+simple_exprLR1
+	do <> > <= ) = >= < then ; ] else , end
+std_type
+	) ;
+stmt
+	; end else
+stmtLF1
+	; end else
+stmt_list
+	end
+stmt_listLR1
+	end
+subprgm_dec
+	;
+subprgm_decLF1
+	;
+subprgm_decLF1LF1
+	;
+subprgm_decs
+	begin
+subprgm_decsLR1
+	begin
+subprgm_head
+	var procedure begin
+subprgm_headLF1
+	var procedure begin
+term
+	or <= ) >= < then ; ] , do <> > = + else - end
+termLR1
+	or <= ) >= < then ; ] , do <> > = + else - end
+type
+	) ;
+variable
+	:=
+variableLF1
+	:=

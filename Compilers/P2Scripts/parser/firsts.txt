@@ -1,0 +1,86 @@
+addop
+	or - +
+args
+	(
+assignop
+	:=
+comp_stmt
+	begin
+comp_stmtLF1
+	call id begin while end if
+decs
+	var
+decsLR1
+	 var
+expr
+	num + - not ( id
+exprLF1
+	 <> > <= = >= <
+expr_list
+	num + - not ( id
+expr_listLR1
+	 ,
+factor
+	num not ( id
+factorLF1
+	 [
+mulop
+	mod * and / div
+opt_stmts
+	call id begin while if
+param_list
+	id
+param_listLR1
+	 ;
+prgm
+	program
+prgmLF1
+	var procedure begin
+prgmLF1LF1
+	procedure begin
+proc_stmt
+	call
+proc_stmtLF1
+	 (
+relop
+	<> > <= = >= <
+sign
+	- +
+simple_expr
+	num - not + ( id
+simple_exprLR1
+	 or - +
+std_type
+	real integer
+stmt
+	call id begin while if
+stmtLF1
+	 else
+stmt_list
+	call id begin while if
+stmt_listLR1
+	 ;
+subprgm_dec
+	procedure
+subprgm_decLF1
+	var procedure begin
+subprgm_decLF1LF1
+	procedure begin
+subprgm_decs
+	procedure
+subprgm_decsLR1
+	 procedure
+subprgm_head
+	procedure
+subprgm_headLF1
+	; (
+term
+	num not ( id
+termLR1
+	 * div / mod and
+type
+	integer array real
+variable
+	id
+variableLF1
+	 [

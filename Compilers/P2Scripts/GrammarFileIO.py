@@ -21,6 +21,23 @@ def writeSynchSetFormat(fileHandle, nts, dict):
       temp = temp + '\n'
       fileHandle.write(temp)
 
+# write the format used for making shenoi happier
+def writeShenoi(fileHandle, nts, dict):
+   ls = nts.copy()
+   ls.sort()
+   for nt in ls:
+      fileHandle.write(nt)
+      temp = '' #'\t'
+      e1 = True
+      for str1 in dict[nt]:
+         if e1:
+            temp = '\n\t' +  str1
+            e1 = False
+         else:
+            temp = temp + ' ' + str1
+      temp = temp + '\n'
+      fileHandle.write(temp)
+   
 def writeProductions(fileName, nts, dict):
    fileHandle = open(fileName,'w')
    fileHandle.truncate()

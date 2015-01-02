@@ -1,10 +1,13 @@
 from MassageGrammar import *
 from FirstFollows import *
 
+# Path to where stuff is :D
+p = "parser/"
+d = "data/"
+g = "grammar/"
+
 # First of a single token   
-def writeParser():
-   first_dict = firsts(nts, productions)
-   follows_dict = follows(nts, productions, first_dict)
+def writeParser(nts, productions, first_dict, follows_dict):
    def wizardPowers(nt):
       # Here we handle a given nonterminal's method for the parser
       outStr = "void Project2::" + nt + "() {\n" # declaration
@@ -39,7 +42,6 @@ def writeParser():
             else:
             
                checkStr = firstsLs[i]
-               #outStr += "\tstd::string curr = \"" + firstsLs[i] + "\";\n"
                outStr += "\n\tif("
                outStr += "lookAhead.token == p->GTT(\"" + checkStr + "\")) {\n" # if statements
                for targ in prods:
@@ -54,9 +56,6 @@ def writeParser():
       return outStr
 
    # Here we write the parser
-   p = "parser/"
-   d = "data/"
-   synch     = open(p+"synch.txt","w") # Writes synchset
    parseboil = open(d+"ParserBoilerCode.txt","r")
    headStart = open(d+"ParserHeaderStart.txt","r")
    headEnd   = open(d+"ParserHeaderEnd.txt","r")
@@ -73,21 +72,35 @@ def writeParser():
    
    copyFile(headEnd, hout)
    
-   # Here we write the synch sets
-   synch_dict = {nt: follows_dict[nt] | {'$'} for nt in nts}
-   writeSynchSetFormat(synch, nts, synch_dict)
-   
-   synch.close()
    parseboil.close()
    headStart.close()
    headEnd.close()
    pout.close()
    hout.close()
 
+# Writes synch file, firsts and follows file...
+def writeMiscTextFiles(nts, firsts_dict, follows_dict): 
+   synch     = open(p+"synch.txt","w") # Writes synchset
+   firsts    = open(p+"firsts.txt","w")
+   follows   = open(p+"follows.txt","w")
+   
+   synch_dict = {nt: follows_dict[nt] | {'$'} for nt in nts}
+   writeSynchSetFormat(synch, nts, synch_dict)
+   writeShenoi(firsts, nts, first_dict)
+   writeShenoi(follows, nts, follows_dict)
+   
+   synch.close()
+   firsts.close()
+   follows.close()
+
 if __name__ == '__main__':
-   g="grammar/"
    reformGrammar("OriginalGrammar.txt",g+"FormattedGrammar.txt")
    start,nts,terms,productions = massageYourGrammar(g+"FormattedGrammar.txt"
    , g+"NoEpsilons.txt", g+"NoLeftRec.txt", g+"LeftFactored.txt")
-   buildParser(nts, productions)
+   
+   first_dict = firsts(nts, productions)
+   follows_dict = follows(nts, productions, first_dict)
+   
+   writeParser(nts, productions, first_dict, follows_dict)
+   writeMiscTextFiles(nts, first_dict, follows_dict)
    print("Done!")
