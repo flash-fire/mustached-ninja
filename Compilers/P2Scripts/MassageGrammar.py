@@ -69,18 +69,11 @@ def removeLeftRecursion(startSym,nts,productions):
             alphas |= {prod[1:]}
          else:
             betas |= {prod}
-      if nt == 'param_list':
-         print("param_list data")
-         print("ALPHAS:", alphas)
-         print("BETAS:", betas)
       if alphas:
          nt1 = findNTInsName(nts, nt, 'LR')
          f = lambda x: x+(nt1,)
          A = {f(alpha) for alpha in alphas} |{()}
          B = {f(beta) for beta in betas}
-         if nt == 'param_list':
-            print('(A) prod[', nt, "] :=" , B)
-            print('(B) prod[', nt1, "] :=", A)
          removedRec[nt]  = B
          removedRec[nt1] = A
          insNT(nts, nt, nt1)
