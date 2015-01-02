@@ -1,68 +1,11 @@
 from MassageGrammar import *
-
+from FirstFollows import *
 
 # First of a single token  
 def buildParser(nts, productions):
-   first_calc = {key : False for key in nts}
-   first_dict = {key : set() for key in nts}
-   follows_calc = {key : False for key in nts}
-   follows_dict = {key : set() for key in nts}
-   follows_dict[nts[0]] = {'$'}
-
-   def firstOfTok(str1):
-      if not str1:
-         return {''} # first of epsilon is epsilon
-      elif str1 not in nts:
-         return {str1}; # firsts of a terminal is itself
-      else:
-         return firstNT(str1)
-
-   def firstNT(nt):
-      if first_calc[nt]: # memoizing calculation of first
-         return first_dict[nt]
-
-      for prod in productions[nt]:
-         first_dict[nt] |= firstTokStream(prod)
-
-      first_calc[nt] = True;
-      return first_dict[nt];
-
-   def firstTokStream(toks):
-      retSet = set()
-      canBeNulled = True;
-      for tok in toks:
-         retSet |= (firstOfTok(tok) - {''})
-         if not nullable(tok, productions): #4.2 -- the tok is nullable : Else 4.1
-            canBeNulled = False
-            break
-      if canBeNulled: # 4.3
-         retSet |= {''}
-      return retSet
-
-   def followsOf(nonTerm):
-      def followsIg(nt, igls):
-         if follows_calc[nt]:
-            return follows_dict[nt]
-         
-         for nt2,prodset in productions.items():
-            for prod in prodset:
-               for i in range(0, len(prod)): # need to know index of match
-                  if prod[i] == nt:
-                     if i == len(prod)-1: # case 3
-                        if nt2 not in igls:
-                           igls.append(nt)
-                           follows_dict[nt] |= followsIg(nt2, igls)
-                     else:
-                        follows_dict[nt] |= (firstTokStream(prod[i+1:]) - {''})
-                        if all(nullable(tok,productions) for tok in prod[i+1:]):
-                           if nt2 not in igls:
-                              igls.append(nt)
-                              follows_dict[nt] |= followsIg(nt2, igls)           
-         return follows_dict[nt]
-      ret = followsIg(nonTerm, [])
-      follows_calc[nonTerm] = True   
-      return ret
-
+   first_dict = firsts(nts, productions)
+   follows_dict = follows(nts, productions, first_dict)
+   
    def writeParser():
       def wizardPowers(nt):
          # Here we handle a given nonterminal's method for the parser
@@ -82,7 +25,7 @@ def buildParser(nts, productions):
          outStr += "\tstd::string exp = \"" + expout + "\";\n" # make expected
          
          for prods in productions[nt]:
-            firsts = firstTokStream(prods)
+            firsts = firstTokStream(prods, nts, productions, first_dict)
             firstsLs = list(firsts)
             for i in range(0, len(firstsLs)):
                if '' in firsts:
@@ -144,9 +87,9 @@ def buildParser(nts, productions):
       hout.close()
      
    for nt in nts:
-      firstNT(nt)
+      firstNT(nt, nts, productions)
    for nt in nts:
-      followsOf(nt)
+      followsOf(nt, nts, productions)
    print("\n\n\n*** FIRSTS ***\n\n")
    for nt in nts:
       print (nt, first_dict[nt])
