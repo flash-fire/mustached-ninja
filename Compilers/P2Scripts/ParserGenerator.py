@@ -6,6 +6,35 @@ p = "parser/"
 d = "data/"
 g = "grammar/"
 
+def createParseTableEntry(nt, terms, productions, firsts_dict, follows_dict):
+   entry = {term:[] for term in terms}
+   expected = set()
+   follows = []
+   for prod in productions[nt]:
+      firsts = firstTokStream(prod, nts, productions, first_dict)
+      firstsLs = list(firsts)
+      for i in range(0, len(firstsLs)):
+         if '' in firsts:
+            followsSet = follows_dict[nt]
+            if nt == 'stmt' + LEFT_FACTORING_ABREV + '1':
+               followsSet -={'else'}
+            expected |= followsSet
+            follows = list(followsSet)
+            for term in follows:
+               ent = entry[term] + [prod]
+               entry[term] = ent
+               continue # ambiguous else
+         else:
+            term = firstsLs[i]
+            expected |= {term}
+            ent = entry[term] + [prod]
+            entry[term] = ent
+   for key, val in entry.items():
+      if val and len(val) > 1:
+         print("Ambiguous parse table.  YOU WILL DIE AND I WILL KILL YOU AT:", key, len(val), val)
+   return entry, expected, follows
+
+
 # First of a single token   
 def writeParser(nts, productions, first_dict, follows_dict):
    def wizardPowers(nt):
@@ -15,6 +44,7 @@ def writeParser(nts, productions, first_dict, follows_dict):
       outStr += "\tstd::string debugLEX = lookAhead.lex;\n"
       outStr += "\tint debugLineNum = lookAhead.line+1;\n"
       outStr += "\tint debugCharCol = lookAhead.charNum+1;\n"
+      
       if '' in first_dict[nt]:
          exp = (first_dict[nt] | follows_dict[nt]) - {''}
       else:
@@ -31,6 +61,8 @@ def writeParser(nts, productions, first_dict, follows_dict):
          for i in range(0, len(firstsLs)):
             if '' in firsts:
                outStr += "\n\tif("
+               if nt == 'stmt' + LEFT_FACTORING_ABREV + '1':
+                  continue # ambiguous else
                followsLs = list(follows_dict[nt])
                for j in range(0, len(followsLs)):
                   if j == len(followsLs) -1:
@@ -78,6 +110,7 @@ def writeParser(nts, productions, first_dict, follows_dict):
    pout.close()
    hout.close()
 
+ 
 # Writes synch file, firsts and follows file...
 def writeMiscTextFiles(nts, firsts_dict, follows_dict): 
    synch     = open(p+"synch.txt","w") # Writes synchset
@@ -101,6 +134,12 @@ if __name__ == '__main__':
    first_dict = firsts(nts, productions)
    follows_dict = follows(nts, productions, first_dict)
    
-   writeParser(nts, productions, first_dict, follows_dict)
-   writeMiscTextFiles(nts, first_dict, follows_dict)
-   print("Done!")
+  # writeParser(nts, productions, first_dict, follows_dict)
+  # writeMiscTextFiles(nts, first_dict, follows_dict)
+   #entry, exp, follows = createParseTableEntry("decsLR1", terms, productions, first_dict, follows_dict)
+   #print("EXP:",tupToString(exp))
+   #print("FOLLOWS:",follows)
+   #for e,res in entry.items():
+   #   if res:
+   #      print(e, "   ", prodToString('decsLR1', res[0] ))
+   #print("Done!")

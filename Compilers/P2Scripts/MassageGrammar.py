@@ -2,6 +2,9 @@ import copy
 import random
 from GrammarFileIO import *
 
+LEFT_FACTORING_ABREV = 'LF'
+LEFT_RECURSION_ABREV = 'LR'
+
 def nullable(x, productions):
    def nullable1(x, productions, visited):
       if x not in productions or x in visited:
@@ -70,7 +73,7 @@ def removeLeftRecursion(startSym,nts,productions):
          else:
             betas |= {prod}
       if alphas:
-         nt1 = findNTInsName(nts, nt, 'LR')
+         nt1 = findNTInsName(nts, nt, LEFT_RECURSION_ABREV)
          f = lambda x: x+(nt1,)
          A = {f(alpha) for alpha in alphas} |{()}
          B = {f(beta) for beta in betas}
@@ -138,7 +141,7 @@ def leftFactoring(nts,productions):
             alphaTup = alphaTup[:-1] # remove the last failing element which always occurs yay
  
             # Generate and insert name of left factored thing
-            ntPrime = findNTInsName(nts, nt, 'LF')
+            ntPrime = findNTInsName(nts, nt, LEFT_FACTORING_ABREV)
             insNT(nts, nt,ntPrime)
             productions[nt] |= {alphaTup + (ntPrime,)}
             productions[ntPrime] = currBetas
