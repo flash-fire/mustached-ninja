@@ -43,7 +43,7 @@ def writeParseEntry(nt, nts, terms, productions, first_dict, follows_dict):
    
    entry, expected, follows = createParseTableEntry(nt, terms, productions, first_dict, follows_dict)
    
-   outStr += "\tstd::string exp = \"" + tupToString(expected) + "\";\n"
+   outStr += "\tstd::string exp = \"" + tupToString(expected)[-1] + "\";\n"
    for term, prod in entry.items():
       if prod and term not in follows:
          outStr += writeNonEps(nt, nts, term, prod[0])
