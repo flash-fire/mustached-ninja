@@ -45,13 +45,6 @@ void Project2::LoadSynch()
 	}
 }
 
-void Project2::Parse()
-{
-	lookAhead = p->nextToken();
-	prgm();
-	MatchEOF();
-}
-
 void Project2::MatchEOF()
 {
 	if (lookAhead.token == EOF)

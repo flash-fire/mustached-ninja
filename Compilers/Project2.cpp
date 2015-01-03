@@ -12,7 +12,6 @@ Project2::Project2(Project1* p1) : lookAhead(Token()), p(p1)
 	target.open(Project1::TARGET_PATH, std::ios::app);
 	LoadSynch();
 	Parse();
-	std::cout << "Done with parsing.";
 }
 
 Project2::~Project2()
@@ -26,7 +25,7 @@ int main()
 	Project1 a;
 	a.HandleLexing();
 	Project2 b(&a);
-	return 0; 
+	return 0;
 }
 
 
@@ -44,13 +43,6 @@ void Project2::LoadSynch()
 			}
 		}
 	}
-}
-
-void Project2::Parse()
-{
-	lookAhead = p->nextToken();
-	prgm();
-	MatchEOF();
 }
 
 void Project2::MatchEOF()
@@ -125,10 +117,6 @@ void Project2::UniteSynchronization(std::string nt)
 			<< "> \nExpecting one of following <" << synchSet[nt] << ">\n";
 		target.flush();
 	}
-	if (recover == true)
-	{
-
-	}
 }
 // Lol. So inneficient. I ain't optimizing this shit unless I need too.
 bool Project2::contains(std::string str, std::string targ)
@@ -136,12 +124,18 @@ bool Project2::contains(std::string str, std::string targ)
 	std::vector<std::string> split = MiscFunc::split(str, ' ');
 	return (std::find(split.begin(), split.end(), targ) != split.end());
 }
+void Project2::Parse()
+{
+	lookAhead = p->nextToken();
+	prgm();
+	MatchEOF();
+}
 void Project2::prgm() {
 	std::string nt = "prgm";
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "program";
+	std::string exp = "program ";
 
 	if (lookAhead.token == p->GTT("program")) {
 		Match(p->GTT("program"), nt, "program");
@@ -161,18 +155,18 @@ void Project2::prgmLF1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "begin procedure var";
+	std::string exp = "begin var procedure ";
+
+	if (lookAhead.token == p->GTT("var")) {
+		decs();
+		prgmLF1LF1();
+		return;
+	}
 
 	if (lookAhead.token == p->GTT("procedure")) {
 		subprgm_decs();
 		comp_stmt();
 		Match(p->GTT("."), nt, ".");
-		return;
-	}
-
-	if (lookAhead.token == p->GTT("var")) {
-		decs();
-		prgmLF1LF1();
 		return;
 	}
 
@@ -189,7 +183,7 @@ void Project2::prgmLF1LF1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "begin procedure";
+	std::string exp = "begin procedure ";
 
 	if (lookAhead.token == p->GTT("procedure")) {
 		subprgm_decs();
@@ -211,7 +205,7 @@ void Project2::decs() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "var";
+	std::string exp = "var ";
 
 	if (lookAhead.token == p->GTT("var")) {
 		Match(p->GTT("var"), nt, "var");
@@ -230,7 +224,7 @@ void Project2::decsLR1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "begin var procedure";
+	std::string exp = "begin var procedure ";
 
 	if (lookAhead.token == p->GTT("var")) {
 		Match(p->GTT("var"), nt, "var");
@@ -253,12 +247,7 @@ void Project2::type() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "integer array real";
-
-	if (lookAhead.token == p->GTT("integer")) {
-		std_type();
-		return;
-	}
+	std::string exp = "array integer real ";
 
 	if (lookAhead.token == p->GTT("real")) {
 		std_type();
@@ -276,6 +265,11 @@ void Project2::type() {
 		std_type();
 		return;
 	}
+
+	if (lookAhead.token == p->GTT("integer")) {
+		std_type();
+		return;
+	}
 	SynErrorTok(nt, exp);
 }
 
@@ -284,15 +278,15 @@ void Project2::std_type() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "integer real";
-
-	if (lookAhead.token == p->GTT("integer")) {
-		Match(p->GTT("integer"), nt, "integer");
-		return;
-	}
+	std::string exp = "integer real ";
 
 	if (lookAhead.token == p->GTT("real")) {
 		Match(p->GTT("real"), nt, "real");
+		return;
+	}
+
+	if (lookAhead.token == p->GTT("integer")) {
+		Match(p->GTT("integer"), nt, "integer");
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -303,7 +297,7 @@ void Project2::subprgm_decs() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "procedure";
+	std::string exp = "procedure ";
 
 	if (lookAhead.token == p->GTT("procedure")) {
 		subprgm_dec();
@@ -319,16 +313,16 @@ void Project2::subprgm_decsLR1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "begin procedure";
-
-	if (lookAhead.token == p->GTT("begin")) {
-		return;
-	}
+	std::string exp = "begin procedure ";
 
 	if (lookAhead.token == p->GTT("procedure")) {
 		subprgm_dec();
 		Match(p->GTT(";"), nt, ";");
 		subprgm_decsLR1();
+		return;
+	}
+
+	if (lookAhead.token == p->GTT("begin")) {
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -339,7 +333,7 @@ void Project2::subprgm_dec() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "procedure";
+	std::string exp = "procedure ";
 
 	if (lookAhead.token == p->GTT("procedure")) {
 		subprgm_head();
@@ -354,7 +348,7 @@ void Project2::subprgm_decLF1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "begin var procedure";
+	std::string exp = "begin var procedure ";
 
 	if (lookAhead.token == p->GTT("var")) {
 		decs();
@@ -380,7 +374,7 @@ void Project2::subprgm_decLF1LF1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "begin procedure";
+	std::string exp = "begin procedure ";
 
 	if (lookAhead.token == p->GTT("procedure")) {
 		subprgm_decs();
@@ -400,7 +394,7 @@ void Project2::subprgm_head() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "procedure";
+	std::string exp = "procedure ";
 
 	if (lookAhead.token == p->GTT("procedure")) {
 		Match(p->GTT("procedure"), nt, "procedure");
@@ -416,15 +410,15 @@ void Project2::subprgm_headLF1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "; (";
+	std::string exp = "( ; ";
 
-	if (lookAhead.token == p->GTT("(")) {
-		args();
+	if (lookAhead.token == p->GTT(";")) {
 		Match(p->GTT(";"), nt, ";");
 		return;
 	}
 
-	if (lookAhead.token == p->GTT(";")) {
+	if (lookAhead.token == p->GTT("(")) {
+		args();
 		Match(p->GTT(";"), nt, ";");
 		return;
 	}
@@ -436,7 +430,7 @@ void Project2::args() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "(";
+	std::string exp = "( ";
 
 	if (lookAhead.token == p->GTT("(")) {
 		Match(p->GTT("("), nt, "(");
@@ -452,7 +446,7 @@ void Project2::param_list() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "id";
+	std::string exp = "id ";
 
 	if (lookAhead.token == p->GTT("id")) {
 		Match(p->GTT("id"), nt, "id");
@@ -469,7 +463,7 @@ void Project2::param_listLR1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "; )";
+	std::string exp = ") ; ";
 
 	if (lookAhead.token == p->GTT(";")) {
 		Match(p->GTT(";"), nt, ";");
@@ -491,7 +485,7 @@ void Project2::comp_stmt() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "begin";
+	std::string exp = "begin ";
 
 	if (lookAhead.token == p->GTT("begin")) {
 		Match(p->GTT("begin"), nt, "begin");
@@ -506,15 +500,9 @@ void Project2::comp_stmtLF1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "begin call if while end id";
+	std::string exp = "call begin while if end id ";
 
 	if (lookAhead.token == p->GTT("end")) {
-		Match(p->GTT("end"), nt, "end");
-		return;
-	}
-
-	if (lookAhead.token == p->GTT("begin")) {
-		opt_stmts();
 		Match(p->GTT("end"), nt, "end");
 		return;
 	}
@@ -531,13 +519,19 @@ void Project2::comp_stmtLF1() {
 		return;
 	}
 
+	if (lookAhead.token == p->GTT("if")) {
+		opt_stmts();
+		Match(p->GTT("end"), nt, "end");
+		return;
+	}
+
 	if (lookAhead.token == p->GTT("id")) {
 		opt_stmts();
 		Match(p->GTT("end"), nt, "end");
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("if")) {
+	if (lookAhead.token == p->GTT("begin")) {
 		opt_stmts();
 		Match(p->GTT("end"), nt, "end");
 		return;
@@ -550,12 +544,7 @@ void Project2::opt_stmts() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "begin while call id if";
-
-	if (lookAhead.token == p->GTT("begin")) {
-		stmt_list();
-		return;
-	}
+	std::string exp = "if call id while begin ";
 
 	if (lookAhead.token == p->GTT("while")) {
 		stmt_list();
@@ -567,12 +556,17 @@ void Project2::opt_stmts() {
 		return;
 	}
 
+	if (lookAhead.token == p->GTT("if")) {
+		stmt_list();
+		return;
+	}
+
 	if (lookAhead.token == p->GTT("id")) {
 		stmt_list();
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("if")) {
+	if (lookAhead.token == p->GTT("begin")) {
 		stmt_list();
 		return;
 	}
@@ -584,13 +578,7 @@ void Project2::stmt_list() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "begin while call id if";
-
-	if (lookAhead.token == p->GTT("begin")) {
-		stmt();
-		stmt_listLR1();
-		return;
-	}
+	std::string exp = "call begin if id while ";
 
 	if (lookAhead.token == p->GTT("while")) {
 		stmt();
@@ -604,13 +592,19 @@ void Project2::stmt_list() {
 		return;
 	}
 
+	if (lookAhead.token == p->GTT("if")) {
+		stmt();
+		stmt_listLR1();
+		return;
+	}
+
 	if (lookAhead.token == p->GTT("id")) {
 		stmt();
 		stmt_listLR1();
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("if")) {
+	if (lookAhead.token == p->GTT("begin")) {
 		stmt();
 		stmt_listLR1();
 		return;
@@ -623,16 +617,16 @@ void Project2::stmt_listLR1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "; end";
-
-	if (lookAhead.token == p->GTT("end")) {
-		return;
-	}
+	std::string exp = "; end ";
 
 	if (lookAhead.token == p->GTT(";")) {
 		Match(p->GTT(";"), nt, ";");
 		stmt();
 		stmt_listLR1();
+		return;
+	}
+
+	if (lookAhead.token == p->GTT("end")) {
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -643,25 +637,18 @@ void Project2::stmt() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "begin while call id if";
-
-	if (lookAhead.token == p->GTT("id")) {
-		variable();
-		assignop();
-		expr();
-		return;
-	}
-
-	if (lookAhead.token == p->GTT("begin")) {
-		comp_stmt();
-		return;
-	}
+	std::string exp = "while if call begin id ";
 
 	if (lookAhead.token == p->GTT("while")) {
 		Match(p->GTT("while"), nt, "while");
 		expr();
 		Match(p->GTT("do"), nt, "do");
 		stmt();
+		return;
+	}
+
+	if (lookAhead.token == p->GTT("call")) {
+		proc_stmt();
 		return;
 	}
 
@@ -674,8 +661,15 @@ void Project2::stmt() {
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("call")) {
-		proc_stmt();
+	if (lookAhead.token == p->GTT("id")) {
+		variable();
+		assignop();
+		expr();
+		return;
+	}
+
+	if (lookAhead.token == p->GTT("begin")) {
+		comp_stmt();
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -686,7 +680,7 @@ void Project2::stmtLF1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "; end else";
+	std::string exp = "end else ; ";
 
 	if (lookAhead.token == p->GTT("else")) {
 		Match(p->GTT("else"), nt, "else");
@@ -694,7 +688,7 @@ void Project2::stmtLF1() {
 		return;
 	}
 
-	if (lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT("else")) {
+	if (lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("end")) {
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -705,7 +699,7 @@ void Project2::variable() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "id";
+	std::string exp = "id ";
 
 	if (lookAhead.token == p->GTT("id")) {
 		Match(p->GTT("id"), nt, "id");
@@ -720,16 +714,16 @@ void Project2::variableLF1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = ":= [";
-
-	if (lookAhead.token == p->GTT(":=")) {
-		return;
-	}
+	std::string exp = ":= [ ";
 
 	if (lookAhead.token == p->GTT("[")) {
 		Match(p->GTT("["), nt, "[");
 		expr();
 		Match(p->GTT("]"), nt, "]");
+		return;
+	}
+
+	if (lookAhead.token == p->GTT(":=")) {
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -740,7 +734,7 @@ void Project2::proc_stmt() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "call";
+	std::string exp = "call ";
 
 	if (lookAhead.token == p->GTT("call")) {
 		Match(p->GTT("call"), nt, "call");
@@ -756,7 +750,7 @@ void Project2::proc_stmtLF1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "; ( end else";
+	std::string exp = "else ; ( end ";
 
 	if (lookAhead.token == p->GTT("(")) {
 		Match(p->GTT("("), nt, "(");
@@ -765,7 +759,7 @@ void Project2::proc_stmtLF1() {
 		return;
 	}
 
-	if (lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT("else")) {
+	if (lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT(";")) {
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -776,15 +770,15 @@ void Project2::expr_list() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "+ ( - id num not";
+	std::string exp = "+ not num ( id - ";
 
-	if (lookAhead.token == p->GTT("+")) {
+	if (lookAhead.token == p->GTT("(")) {
 		expr();
 		expr_listLR1();
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("(")) {
+	if (lookAhead.token == p->GTT("not")) {
 		expr();
 		expr_listLR1();
 		return;
@@ -796,19 +790,19 @@ void Project2::expr_list() {
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("id")) {
-		expr();
-		expr_listLR1();
-		return;
-	}
-
 	if (lookAhead.token == p->GTT("num")) {
 		expr();
 		expr_listLR1();
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("not")) {
+	if (lookAhead.token == p->GTT("+")) {
+		expr();
+		expr_listLR1();
+		return;
+	}
+
+	if (lookAhead.token == p->GTT("id")) {
 		expr();
 		expr_listLR1();
 		return;
@@ -821,16 +815,16 @@ void Project2::expr_listLR1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = ") ,";
-
-	if (lookAhead.token == p->GTT(")")) {
-		return;
-	}
+	std::string exp = ", ) ";
 
 	if (lookAhead.token == p->GTT(",")) {
 		Match(p->GTT(","), nt, ",");
 		expr();
 		expr_listLR1();
+		return;
+	}
+
+	if (lookAhead.token == p->GTT(")")) {
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -841,15 +835,15 @@ void Project2::expr() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "+ ( - id num not";
+	std::string exp = "+ not num ( id - ";
 
-	if (lookAhead.token == p->GTT("+")) {
+	if (lookAhead.token == p->GTT("(")) {
 		simple_expr();
 		exprLF1();
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("(")) {
+	if (lookAhead.token == p->GTT("not")) {
 		simple_expr();
 		exprLF1();
 		return;
@@ -861,19 +855,19 @@ void Project2::expr() {
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("id")) {
-		simple_expr();
-		exprLF1();
-		return;
-	}
-
 	if (lookAhead.token == p->GTT("num")) {
 		simple_expr();
 		exprLF1();
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("not")) {
+	if (lookAhead.token == p->GTT("+")) {
+		simple_expr();
+		exprLF1();
+		return;
+	}
+
+	if (lookAhead.token == p->GTT("id")) {
 		simple_expr();
 		exprLF1();
 		return;
@@ -886,9 +880,11 @@ void Project2::exprLF1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "< do , then <> <= ] ) = ; >= end else >";
+	std::string exp = ") <= then = do >= < ] else end ; <> , > ";
 
-	if (lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT(",") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT("]") || lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT("else")) {
+	if (lookAhead.token == p->GTT("=")) {
+		relop();
+		simple_expr();
 		return;
 	}
 
@@ -898,13 +894,7 @@ void Project2::exprLF1() {
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("=")) {
-		relop();
-		simple_expr();
-		return;
-	}
-
-	if (lookAhead.token == p->GTT("<>")) {
+	if (lookAhead.token == p->GTT(">")) {
 		relop();
 		simple_expr();
 		return;
@@ -922,9 +912,13 @@ void Project2::exprLF1() {
 		return;
 	}
 
-	if (lookAhead.token == p->GTT(">")) {
+	if (lookAhead.token == p->GTT("<>")) {
 		relop();
 		simple_expr();
+		return;
+	}
+
+	if (lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT("]") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT(",")) {
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -935,7 +929,7 @@ void Project2::term() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "( id num not";
+	std::string exp = "not id num ( ";
 
 	if (lookAhead.token == p->GTT("(")) {
 		factor();
@@ -943,7 +937,7 @@ void Project2::term() {
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("id")) {
+	if (lookAhead.token == p->GTT("not")) {
 		factor();
 		termLR1();
 		return;
@@ -955,7 +949,7 @@ void Project2::term() {
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("not")) {
+	if (lookAhead.token == p->GTT("id")) {
 		factor();
 		termLR1();
 		return;
@@ -968,7 +962,28 @@ void Project2::termLR1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "< do then <> - <= mod ] + or = * end / >= , div and ) ; else >";
+	std::string exp = "= then >= < mod or / div > end ; - ) <= do * + <> ] else , and ";
+
+	if (lookAhead.token == p->GTT("mod")) {
+		mulop();
+		factor();
+		termLR1();
+		return;
+	}
+
+	if (lookAhead.token == p->GTT("/")) {
+		mulop();
+		factor();
+		termLR1();
+		return;
+	}
+
+	if (lookAhead.token == p->GTT("div")) {
+		mulop();
+		factor();
+		termLR1();
+		return;
+	}
 
 	if (lookAhead.token == p->GTT("*")) {
 		mulop();
@@ -984,28 +999,7 @@ void Project2::termLR1() {
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("/")) {
-		mulop();
-		factor();
-		termLR1();
-		return;
-	}
-
-	if (lookAhead.token == p->GTT("mod")) {
-		mulop();
-		factor();
-		termLR1();
-		return;
-	}
-
-	if (lookAhead.token == p->GTT("div")) {
-		mulop();
-		factor();
-		termLR1();
-		return;
-	}
-
-	if (lookAhead.token == p->GTT("<") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT("<>") || lookAhead.token == p->GTT("-") || lookAhead.token == p->GTT("<=") || lookAhead.token == p->GTT("]") || lookAhead.token == p->GTT("+") || lookAhead.token == p->GTT("or") || lookAhead.token == p->GTT("=") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT(">=") || lookAhead.token == p->GTT(",") || lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT(">")) {
+	if (lookAhead.token == p->GTT("=") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT(">=") || lookAhead.token == p->GTT("<") || lookAhead.token == p->GTT("or") || lookAhead.token == p->GTT(">") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("-") || lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT("<=") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT("+") || lookAhead.token == p->GTT("<>") || lookAhead.token == p->GTT("]") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT(",")) {
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -1016,10 +1010,15 @@ void Project2::simple_expr() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "+ ( - id num not";
+	std::string exp = "+ not num ( - id ";
 
-	if (lookAhead.token == p->GTT("+")) {
-		sign();
+	if (lookAhead.token == p->GTT("(")) {
+		term();
+		simple_exprLR1();
+		return;
+	}
+
+	if (lookAhead.token == p->GTT("not")) {
 		term();
 		simple_exprLR1();
 		return;
@@ -1032,25 +1031,20 @@ void Project2::simple_expr() {
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("(")) {
-		term();
-		simple_exprLR1();
-		return;
-	}
-
-	if (lookAhead.token == p->GTT("id")) {
-		term();
-		simple_exprLR1();
-		return;
-	}
-
 	if (lookAhead.token == p->GTT("num")) {
 		term();
 		simple_exprLR1();
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("not")) {
+	if (lookAhead.token == p->GTT("+")) {
+		sign();
+		term();
+		simple_exprLR1();
+		return;
+	}
+
+	if (lookAhead.token == p->GTT("id")) {
 		term();
 		simple_exprLR1();
 		return;
@@ -1063,13 +1057,9 @@ void Project2::simple_exprLR1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "< do then <> - <= ] + or = end >= , ) ; else >";
+	std::string exp = "= then >= < or > end ; - ) <= do + <> ] else , ";
 
-	if (lookAhead.token == p->GTT("<") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT("<>") || lookAhead.token == p->GTT("<=") || lookAhead.token == p->GTT("]") || lookAhead.token == p->GTT("=") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT(">=") || lookAhead.token == p->GTT(",") || lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT(">")) {
-		return;
-	}
-
-	if (lookAhead.token == p->GTT("+")) {
+	if (lookAhead.token == p->GTT("or")) {
 		addop();
 		term();
 		simple_exprLR1();
@@ -1083,10 +1073,14 @@ void Project2::simple_exprLR1() {
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("or")) {
+	if (lookAhead.token == p->GTT("+")) {
 		addop();
 		term();
 		simple_exprLR1();
+		return;
+	}
+
+	if (lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT("<=") || lookAhead.token == p->GTT("=") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT(">=") || lookAhead.token == p->GTT("<") || lookAhead.token == p->GTT("<>") || lookAhead.token == p->GTT("]") || lookAhead.token == p->GTT(">") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT(",")) {
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -1097,13 +1091,7 @@ void Project2::factor() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "( id num not";
-
-	if (lookAhead.token == p->GTT("id")) {
-		Match(p->GTT("id"), nt, "id");
-		factorLF1();
-		return;
-	}
+	std::string exp = "not id num ( ";
 
 	if (lookAhead.token == p->GTT("(")) {
 		Match(p->GTT("("), nt, "(");
@@ -1112,14 +1100,20 @@ void Project2::factor() {
 		return;
 	}
 
+	if (lookAhead.token == p->GTT("not")) {
+		Match(p->GTT("not"), nt, "not");
+		factor();
+		return;
+	}
+
 	if (lookAhead.token == p->GTT("num")) {
 		Match(p->GTT("num"), nt, "num");
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("not")) {
-		Match(p->GTT("not"), nt, "not");
-		factor();
+	if (lookAhead.token == p->GTT("id")) {
+		Match(p->GTT("id"), nt, "id");
+		factorLF1();
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -1130,16 +1124,16 @@ void Project2::factorLF1() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "< do then <> - <= mod ] + or = * end / >= [ , div and ) ; else >";
-
-	if (lookAhead.token == p->GTT("<") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT("<>") || lookAhead.token == p->GTT("-") || lookAhead.token == p->GTT("<=") || lookAhead.token == p->GTT("mod") || lookAhead.token == p->GTT("]") || lookAhead.token == p->GTT("+") || lookAhead.token == p->GTT("or") || lookAhead.token == p->GTT("=") || lookAhead.token == p->GTT("*") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT("/") || lookAhead.token == p->GTT(">=") || lookAhead.token == p->GTT(",") || lookAhead.token == p->GTT("div") || lookAhead.token == p->GTT("and") || lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT(">")) {
-		return;
-	}
+	std::string exp = "= then >= < mod or / div [ > end ; - ) <= do * + <> ] else , and ";
 
 	if (lookAhead.token == p->GTT("[")) {
 		Match(p->GTT("["), nt, "[");
 		expr();
 		Match(p->GTT("]"), nt, "]");
+		return;
+	}
+
+	if (lookAhead.token == p->GTT("=") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT(">=") || lookAhead.token == p->GTT("<") || lookAhead.token == p->GTT("mod") || lookAhead.token == p->GTT("or") || lookAhead.token == p->GTT("/") || lookAhead.token == p->GTT("div") || lookAhead.token == p->GTT(">") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("-") || lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT("<=") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT("*") || lookAhead.token == p->GTT("+") || lookAhead.token == p->GTT("<>") || lookAhead.token == p->GTT("]") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT(",") || lookAhead.token == p->GTT("and")) {
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -1150,7 +1144,7 @@ void Project2::sign() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "+ -";
+	std::string exp = "+ - ";
 
 	if (lookAhead.token == p->GTT("-")) {
 		Match(p->GTT("-"), nt, "-");
@@ -1169,7 +1163,12 @@ void Project2::addop() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "+ - or";
+	std::string exp = "+ or - ";
+
+	if (lookAhead.token == p->GTT("or")) {
+		Match(p->GTT("or"), nt, "or");
+		return;
+	}
 
 	if (lookAhead.token == p->GTT("-")) {
 		Match(p->GTT("-"), nt, "-");
@@ -1180,11 +1179,6 @@ void Project2::addop() {
 		Match(p->GTT("+"), nt, "+");
 		return;
 	}
-
-	if (lookAhead.token == p->GTT("or")) {
-		Match(p->GTT("or"), nt, "or");
-		return;
-	}
 	SynErrorTok(nt, exp);
 }
 
@@ -1193,7 +1187,7 @@ void Project2::assignop() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = ":=";
+	std::string exp = ":= ";
 
 	if (lookAhead.token == p->GTT(":=")) {
 		Match(p->GTT(":="), nt, ":=");
@@ -1207,10 +1201,10 @@ void Project2::mulop() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "* and / mod div";
+	std::string exp = "/ * mod and div ";
 
-	if (lookAhead.token == p->GTT("and")) {
-		Match(p->GTT("and"), nt, "and");
+	if (lookAhead.token == p->GTT("mod")) {
+		Match(p->GTT("mod"), nt, "mod");
 		return;
 	}
 
@@ -1229,8 +1223,8 @@ void Project2::mulop() {
 		return;
 	}
 
-	if (lookAhead.token == p->GTT("mod")) {
-		Match(p->GTT("mod"), nt, "mod");
+	if (lookAhead.token == p->GTT("and")) {
+		Match(p->GTT("and"), nt, "and");
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -1241,25 +1235,10 @@ void Project2::relop() {
 	std::string debugLEX = lookAhead.lex;
 	int debugLineNum = lookAhead.line + 1;
 	int debugCharCol = lookAhead.charNum + 1;
-	std::string exp = "< = <> >= <= >";
-
-	if (lookAhead.token == p->GTT(">=")) {
-		Match(p->GTT(">="), nt, ">=");
-		return;
-	}
-
-	if (lookAhead.token == p->GTT("<=")) {
-		Match(p->GTT("<="), nt, "<=");
-		return;
-	}
+	std::string exp = "<= <> = > >= < ";
 
 	if (lookAhead.token == p->GTT("=")) {
 		Match(p->GTT("="), nt, "=");
-		return;
-	}
-
-	if (lookAhead.token == p->GTT("<>")) {
-		Match(p->GTT("<>"), nt, "<>");
 		return;
 	}
 
@@ -1270,6 +1249,21 @@ void Project2::relop() {
 
 	if (lookAhead.token == p->GTT(">")) {
 		Match(p->GTT(">"), nt, ">");
+		return;
+	}
+
+	if (lookAhead.token == p->GTT("<=")) {
+		Match(p->GTT("<="), nt, "<=");
+		return;
+	}
+
+	if (lookAhead.token == p->GTT(">=")) {
+		Match(p->GTT(">="), nt, ">=");
+		return;
+	}
+
+	if (lookAhead.token == p->GTT("<>")) {
+		Match(p->GTT("<>"), nt, "<>");
 		return;
 	}
 	SynErrorTok(nt, exp);

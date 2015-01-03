@@ -34,58 +34,58 @@ def createParseTableEntry(nt, terms, productions, firsts_dict, follows_dict):
          print("Ambiguous parse table.  YOU WILL DIE AND I WILL KILL YOU AT:", key, len(val), val)
    return entry, expected, follows
 
+def writeParseEntry(nt, nts, terms, productions, first_dict, follows_dict):
+   outStr = "void Project2::" + nt + "() {\n" # declaration
+   outStr += "\tstd::string nt = \"" + nt + "\";\n" # make nt
+   outStr += "\tstd::string debugLEX = lookAhead.lex;\n"
+   outStr += "\tint debugLineNum = lookAhead.line+1;\n"
+   outStr += "\tint debugCharCol = lookAhead.charNum+1;\n"
+   
+   entry, expected, follows = createParseTableEntry(nt, terms, productions, first_dict, follows_dict)
+   
+   outStr += "\tstd::string exp = \"" + tupToString(expected) + "\";\n"
+   for term, prod in entry.items():
+      if prod and term not in follows:
+         outStr += writeNonEps(nt, nts, term, prod[0])
+   outStr += writeEps(nt, prod, follows)
+   
+   outStr += "\tSynErrorTok(nt, exp);\n"
+   outStr += "}\n\n" # close method
+   return outStr
+
+def writeNonEps(nt, nts, term, prod):
+   outStr = ""
+   outStr += "\n\tif("
+   outStr += "lookAhead.token == p->GTT(\"" + term + "\")) {\n" # if statements
+   for targ in prod:
+      print(targ, prod)
+      if targ in nts:
+         outStr += "\t\t" + targ + "();\n"
+      elif targ in terms:
+         outStr += "\t\tMatch(p->GTT(\"" + targ + "\") ,nt, \"" + targ + "\");\n"
+      else:
+         print(prod, "ERROR: DOOM!!!!", targ)
+   outStr += "\t\treturn;\n" # essentially a break in a case statement when using ifs
+   outStr += "\t}\n" # close if  
+   return outStr
+
+# nt and prod added for project 3 filler for now
+def writeEps(nt, prod, followsLs):
+   if not followsLs:
+      return ""
+   outStr = "\n\tif("
+   for j in range(0, len(followsLs)):
+      if j == len(followsLs) -1:
+         outStr += "lookAhead.token == p->GTT(\"" + followsLs[j] + "\")) {\n"
+         outStr += "\t\treturn;\n"
+         outStr += "\t}\n" #close if
+      else:
+         outStr += "lookAhead.token == p->GTT(\"" + followsLs[j] + "\") || "
+   return outStr
+
 
 # First of a single token   
-def writeParser(nts, productions, first_dict, follows_dict):
-   def wizardPowers(nt):
-      # Here we handle a given nonterminal's method for the parser
-      outStr = "void Project2::" + nt + "() {\n" # declaration
-      outStr += "\tstd::string nt = \"" + nt + "\";\n" # make nt
-      outStr += "\tstd::string debugLEX = lookAhead.lex;\n"
-      outStr += "\tint debugLineNum = lookAhead.line+1;\n"
-      outStr += "\tint debugCharCol = lookAhead.charNum+1;\n"
-      
-      if '' in first_dict[nt]:
-         exp = (first_dict[nt] | follows_dict[nt]) - {''}
-      else:
-         exp = first_dict[nt]
-      expout = ""
-      for x in exp:
-         expout = expout + x + " "
-      expout = expout[:-1]
-      outStr += "\tstd::string exp = \"" + expout + "\";\n" # make expected
-      
-      for prods in productions[nt]:
-         firsts = firstTokStream(prods, nts, productions, first_dict)
-         firstsLs = list(firsts)
-         for i in range(0, len(firstsLs)):
-            if '' in firsts:
-               outStr += "\n\tif("
-               if nt == 'stmt' + LEFT_FACTORING_ABREV + '1':
-                  continue # ambiguous else
-               followsLs = list(follows_dict[nt])
-               for j in range(0, len(followsLs)):
-                  if j == len(followsLs) -1:
-                     outStr += "lookAhead.token == p->GTT(\"" + followsLs[j] + "\")) {\n"
-                     outStr += "\t\treturn;\n"
-                     outStr += "\t}\n" #close if
-                  else:
-                     outStr += "lookAhead.token == p->GTT(\"" + followsLs[j] + "\") || "                  
-            else:
-            
-               checkStr = firstsLs[i]
-               outStr += "\n\tif("
-               outStr += "lookAhead.token == p->GTT(\"" + checkStr + "\")) {\n" # if statements
-               for targ in prods:
-                  if targ in nts:
-                     outStr += "\t\t" + targ + "();\n"
-                  else:
-                     outStr += "\t\tMatch(p->GTT(\"" + targ + "\") ,nt, \"" + targ + "\");\n"
-               outStr += "\t\treturn;\n" # essentially a break in a case statement when using ifs
-               outStr += "\t}\n" # close if
-      outStr += "\tSynErrorTok(nt, exp);\n"
-      outStr += "}\n\n" # close method
-      return outStr
+def writeParser(start, nts, terms, productions, first_dict, follows_dict):
 
    # Here we write the parser
    parseboil = open(d+"ParserBoilerCode.txt","r")
@@ -96,9 +96,9 @@ def writeParser(nts, productions, first_dict, follows_dict):
 
    copyFile(parseboil, pout)
    copyFile(headStart, hout)
-   
+   pout.write(startParseMethod(start))
    for nt in nts:
-      s = wizardPowers(nt)
+      s = writeParseEntry(nt, nts, terms, productions, first_dict, follows_dict)
       pout.write(s)
       hout.write("\tvoid Project2::" + nt + "();\n")
    
@@ -109,7 +109,6 @@ def writeParser(nts, productions, first_dict, follows_dict):
    headEnd.close()
    pout.close()
    hout.close()
-
  
 # Writes synch file, firsts and follows file...
 def writeMiscTextFiles(nts, firsts_dict, follows_dict): 
@@ -126,6 +125,10 @@ def writeMiscTextFiles(nts, firsts_dict, follows_dict):
    firsts.close()
    follows.close()
 
+def startParseMethod(start):
+   
+   return "void Project2::Parse()\n"+"{\n"+"\tlookAhead = p->nextToken();\n"+"\t" + start + "();\n"+"\tMatchEOF();\n"+"}\n"
+
 if __name__ == '__main__':
    reformGrammar("OriginalGrammar.txt",g+"FormattedGrammar.txt")
    start,nts,terms,productions = massageYourGrammar(g+"FormattedGrammar.txt"
@@ -134,12 +137,5 @@ if __name__ == '__main__':
    first_dict = firsts(nts, productions)
    follows_dict = follows(nts, productions, first_dict)
    
-  # writeParser(nts, productions, first_dict, follows_dict)
-  # writeMiscTextFiles(nts, first_dict, follows_dict)
-   #entry, exp, follows = createParseTableEntry("decsLR1", terms, productions, first_dict, follows_dict)
-   #print("EXP:",tupToString(exp))
-   #print("FOLLOWS:",follows)
-   #for e,res in entry.items():
-   #   if res:
-   #      print(e, "   ", prodToString('decsLR1', res[0] ))
-   #print("Done!")
+   writeParser(start, nts, terms,productions, first_dict, follows_dict)
+   writeMiscTextFiles(nts, first_dict, follows_dict)

@@ -4,3 +4,13 @@ Compilers/P2Scripts/__pycache__/MassageGrammar.cpython-34.pyc
 *.tlog
 *.log
 Compilers.v12.suo
+*.obj
+*.opensdf
+*.idb
+*.pdb
+*.ilk
+*.exe
+*.sdf
+Compilers.sdf
+*.sdf
+Compilers.sdf
