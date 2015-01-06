@@ -4,7 +4,7 @@
 #include "MiscFunc.h"
 #include "Token.h"
 
-const std::string Project2::SYNCH_PATH = "synch.txt";
+const std::string Project2::SYNCH_PATH = ".\\data\\synch.txt";
 
 Project2::Project2(Project1* p1) : lookAhead(Token()), p(p1)
 {
