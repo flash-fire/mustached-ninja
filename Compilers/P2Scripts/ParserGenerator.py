@@ -32,6 +32,7 @@ def createParseTableEntry(nt, terms, productions, firsts_dict, follows_dict):
    for key, val in entry.items():
       if val and len(val) > 1:
          print("Ambiguous parse table.  YOU WILL DIE AND I WILL KILL YOU AT:", key, len(val), val)
+
    return entry, expected, follows
 
 def writeParseEntry(nt, nts, terms, productions, first_dict, follows_dict):
@@ -42,8 +43,7 @@ def writeParseEntry(nt, nts, terms, productions, first_dict, follows_dict):
    #outStr += "\tint debugCharCol = lookAhead.charNum+1;\n"
    
    entry, expected, follows = createParseTableEntry(nt, terms, productions, first_dict, follows_dict)
-   
-   outStr += "\tstd::string exp = \"" + tupToString(expected)[-1:] + "\";\n"
+   outStr += "\tstd::string exp = \"" + tupToString(expected)[:-1] + "\";\n"
    
    temp = ""
    for term in terms:
