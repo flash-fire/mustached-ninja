@@ -1,6 +1,6 @@
 program example(input);
 var g: array[1..10] of integer;
-var a: integer;
+var a @ integer;
 procedure a(a: integer);
 var g: integer;
 procedure b(b: integer);
