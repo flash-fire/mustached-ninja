@@ -6,7 +6,7 @@
  array [ 4520.7 .. 97 ] of integer ) ; begin end ; procedure bunt ; var
  hovers : array [ 995.4 .. 627.72 ] of integer ; var Goethe : array [
  969.45 .. 613.057 ] of integer ; var magenta : real ; begin end ;
- procedure virgins ( widowers : real ; nettled : integer ) ; begin end
+ procedure virgins ( widowers % : real ; nettled : integer ) ; begin end
  ; procedure nimbus ( invariance : array [ 812.16 .. 619 ] of integer )
  ; procedure planter ; begin end ; begin end ; procedure solace ; begin
  end ; begin end ; procedure freeze ; var squealed : array [ 0 .. 9092
