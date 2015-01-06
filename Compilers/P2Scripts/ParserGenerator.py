@@ -44,6 +44,16 @@ def writeParseEntry(nt, nts, terms, productions, first_dict, follows_dict):
    entry, expected, follows = createParseTableEntry(nt, terms, productions, first_dict, follows_dict)
    
    outStr += "\tstd::string exp = \"" + tupToString(expected)[-1:] + "\";\n"
+   
+   temp = ""
+   for term in terms:
+      prod = entry[term]
+      if term and prod:
+         if prod[0]:
+            temp += "\t" + term + " -> "  + tupToString(prod[0]) + "\n"
+         else:
+            temp += "\t" + term + " -> "  + 'EPSILON' + "\n"
+   outStr2 = nt + "\n" +  temp 
    for term, prod in entry.items():
       if prod and term not in follows:
          outStr += writeNonEps(nt, nts, term, prod[0])
@@ -51,7 +61,7 @@ def writeParseEntry(nt, nts, terms, productions, first_dict, follows_dict):
    
    outStr += "\tSynErrorTok(nt, exp);\n"
    outStr += "}\n\n" # close method
-   return outStr
+   return outStr, outStr2
 
 def writeNonEps(nt, nts, term, prod):
    outStr = ""
@@ -82,20 +92,24 @@ def writeEps(nt, prod, followsLs):
          outStr += "lookAhead.token == p->GTT(\"" + followsLs[j] + "\") || "
    return outStr
 
+ 
 # First of a single token   
 def writeParser(start, nts, terms, productions, first_dict, follows_dict):
    # Here we write the parser
    parseboil = open(d+"ParserBoilerCode.txt","r")
    headStart = open(d+"ParserHeaderStart.txt","r")
    headEnd   = open(d+"ParserHeaderEnd.txt","r")
+   parseTable = open(p+"ParseTable.txt","w")
    pout = open(p+"Parser.cpp",'w')
    hout = open(p+"Parser.h",'w')
 
    copyFile(parseboil, pout)
    copyFile(headStart, hout)
    pout.write(startParseMethod(start))
+   parseTable.write("Terminal Order" + str(terms) + "\n")
    for nt in nts:
-      s = writeParseEntry(nt, nts, terms, productions, first_dict, follows_dict)
+      s,s2 = writeParseEntry(nt, nts, terms, productions, first_dict, follows_dict)
+      parseTable.write(s2)
       pout.write(s)
       hout.write("\tvoid Project2::" + nt + "();\n")
    
