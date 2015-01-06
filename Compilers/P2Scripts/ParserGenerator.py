@@ -37,9 +37,9 @@ def createParseTableEntry(nt, terms, productions, firsts_dict, follows_dict):
 def writeParseEntry(nt, nts, terms, productions, first_dict, follows_dict):
    outStr = "void Project2::" + nt + "() {\n" # declaration
    outStr += "\tstd::string nt = \"" + nt + "\";\n" # make nt
-   outStr += "\tstd::string debugLEX = lookAhead.lex;\n"
-   outStr += "\tint debugLineNum = lookAhead.line+1;\n"
-   outStr += "\tint debugCharCol = lookAhead.charNum+1;\n"
+   #outStr += "\tstd::string debugLEX = lookAhead.lex;\n" # removing debugs for now
+   #outStr += "\tint debugLineNum = lookAhead.line+1;\n"
+   #outStr += "\tint debugCharCol = lookAhead.charNum+1;\n"
    
    entry, expected, follows = createParseTableEntry(nt, terms, productions, first_dict, follows_dict)
    
@@ -58,7 +58,6 @@ def writeNonEps(nt, nts, term, prod):
    outStr += "\n\tif("
    outStr += "lookAhead.token == p->GTT(\"" + term + "\")) {\n" # if statements
    for targ in prod:
-      print(targ, prod)
       if targ in nts:
          outStr += "\t\t" + targ + "();\n"
       elif targ in terms:
@@ -83,10 +82,8 @@ def writeEps(nt, prod, followsLs):
          outStr += "lookAhead.token == p->GTT(\"" + followsLs[j] + "\") || "
    return outStr
 
-
 # First of a single token   
 def writeParser(start, nts, terms, productions, first_dict, follows_dict):
-
    # Here we write the parser
    parseboil = open(d+"ParserBoilerCode.txt","r")
    headStart = open(d+"ParserHeaderStart.txt","r")
@@ -126,7 +123,6 @@ def writeMiscTextFiles(nts, firsts_dict, follows_dict):
    follows.close()
 
 def startParseMethod(start):
-   
    return "void Project2::Parse()\n"+"{\n"+"\tlookAhead = p->nextToken();\n"+"\t" + start + "();\n"+"\tMatchEOF();\n"+"}\n"
 
 if __name__ == '__main__':
