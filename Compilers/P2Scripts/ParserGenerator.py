@@ -100,8 +100,8 @@ def writeParser(start, nts, terms, productions, first_dict, follows_dict):
    headStart = open(d+"ParserHeaderStart.txt","r")
    headEnd   = open(d+"ParserHeaderEnd.txt","r")
    parseTable = open(p+"ParseTable.txt","w")
-   pout = open(p+"Parser.cpp",'w')
-   hout = open(p+"Parser.h",'w')
+   pout = open(p+"Project2.cpp",'w')
+   hout = open(p+"Project2.h",'w')
 
    copyFile(parseboil, pout)
    copyFile(headStart, hout)
