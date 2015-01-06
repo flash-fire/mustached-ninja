@@ -83,10 +83,6 @@ void Project2::SynErrorTok(std::string nt, std::string exp)
 		<< "> \nEncountered: <" << lookAhead.lex << "> Expected one of: <"
 		<< exp << ">\n\n";
 	target.flush();
-	if (exp == "EOF")
-	{
-		return;
-	}
 	UniteSynchronization(nt);
 }
 
@@ -106,11 +102,17 @@ void Project2::UniteSynchronization(std::string nt)
 			break;
 		}
 	}
-	if (recover == false && !contains(synchSet[nt], lookAhead.gram()))
+	if (recover == false)
 	{
 		target << "Reached EOF while trying to synchronize NT <" << nt
 			<< "> \nExpecting one of following <" << synchSet[nt] << ">\n";
 		target.flush();
+	}
+	else
+	{
+		target << "Resynchronized at " << lookAhead.line << " char pos " << lookAhead.charNum
+			<< "> \nUsing: <" << lookAhead.lex << ">\n"
+			<< "for synch set <" << synchSet[nt] << "> NT <" << nt << ">\n\n";
 	}
 }
 // Lol. So inneficient. I ain't optimizing this shit unless I need too.
