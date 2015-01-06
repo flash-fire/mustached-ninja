@@ -111,8 +111,10 @@ void Project1::HandleLexing()
 			HandleCurrentLine(currentLine);
 			lineNum++;
 		}
-		tokens.push_back(Token(EOF, 0, "$", lineNum));
-		PrettyPrintToken(Token(EOF, 0, "\EOF", lineNum));
+		Token eof = Token(EOF, 0, "$", lineNum);
+		eof.charNum = 0;
+		tokens.push_back(eof);
+		PrettyPrintToken(eof);
 		//TODO: ADD TOKEN FOR EOF
 	}
 	else std::cout << "Unable to open file for source\n";

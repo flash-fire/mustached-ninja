@@ -1,17 +1,17 @@
 #include "Token.h"
 #include "MiscFunc.h"
 
-Token::Token() : token(0), attr(0), line(0), lex("")
+Token::Token() : token(0), attr(0), line(0), lex(""), charNum(0)
 { // This shouldn't be fucking necessary. But I get the weirdest compile error without it.
 }
 
 
-Token::Token(int tok, int attribute) : token(tok), attr(attribute), line(0)
+Token::Token(int tok, int attribute) : token(tok), attr(attribute), line(0), charNum(0)
 {
 
 }
 
-Token::Token(int tok, int attribute, std::string lexeme) : token(tok), attr(attribute), lex(lexeme), line(0)
+Token::Token(int tok, int attribute, std::string lexeme) : token(tok), attr(attribute), lex(lexeme), line(0), charNum(0)
 {
 
 }
