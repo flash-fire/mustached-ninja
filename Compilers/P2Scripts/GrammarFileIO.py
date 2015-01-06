@@ -4,7 +4,20 @@ def copyFile(fStart, fEnd):
    for line in fStart:
       fEnd.write(line)
 
-# write the format used for loading synch sets in my wonderful compiler
+def writeGrammarShenoiFormat(fileName, nts, productions):
+   fileHandle = open(fileName,'w')
+   fileHandle.truncate()
+   for nt in nts:
+      temp = nt + '\n'
+      for prod in productions[nt]:
+         if prod:
+            temp += "\t" + tupToString(prod) + '\n'
+         else:
+            temp += "\t" + "EPSILON\n"
+      fileHandle.write(temp)
+   fileHandle.close()
+
+# write the format used for loading synch sets in my wonderful compiler [same as first/follows without tab for list]
 def writeSynchSetFormat(fileHandle, nts, dict):
    ls = nts.copy()
    ls.sort()
@@ -21,7 +34,7 @@ def writeSynchSetFormat(fileHandle, nts, dict):
       temp = temp + '\n'
       fileHandle.write(temp)
 
-# write the format used for making shenoi happier
+# write the format used for making shenoi happier in first/follows
 def writeShenoi(fileHandle, nts, dict):
    ls = nts.copy()
    ls.sort()

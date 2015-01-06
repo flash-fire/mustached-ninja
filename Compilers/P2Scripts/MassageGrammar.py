@@ -152,14 +152,22 @@ def leftFactoring(nts,productions):
    return productions
 
 def massageYourGrammar(fileName, epsFileName, leftRecFileName, leftFactorFileName):
-   start,nts,terms,orig_prods = loadGrammar(fileName)
-   productions = remove_eps(start, orig_prods );
-   writeProductions(epsFileName, nts, productions)
+   shenoi = lambda name: name[:-4] + "Shenoi.txt"
+   def writeFiles(fileName, nts, productions):
+      writeProductions(fileName, nts, productions)
+      writeGrammarShenoiFormat(shenoi(fileName) , nts, productions)
+
+   start,nts,terms,productions = loadGrammar(fileName)
+   writeGrammarShenoiFormat(shenoi(fileName) , nts, productions)
+   productions = remove_eps(start, productions)
+   writeFiles(epsFileName, nts, productions)
 
    productions = removeLeftRecursion(start, nts, productions)
-   writeProductions(leftRecFileName, nts, productions)
+   writeFiles(leftRecFileName, nts, productions)
+   
    productions = leftFactoring(nts, productions)
-   writeProductions(leftFactorFileName, nts, productions)
+   writeFiles(leftFactorFileName, nts, productions)
+
    return start,nts,terms,productions
    
 if __name__ == '__main__':

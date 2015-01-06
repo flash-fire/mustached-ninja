@@ -1,0 +1,86 @@
+prgm
+	program id ( id ) ; decs subprgm_decs comp_stmt . 
+decs
+	EPSILON
+	decs var id : type ; 
+type
+	array [ num .. num ] of std_type 
+	std_type 
+std_type
+	real 
+	integer 
+subprgm_decs
+	subprgm_decs subprgm_dec ; 
+	EPSILON
+subprgm_dec
+	subprgm_head decs subprgm_decs comp_stmt 
+subprgm_head
+	procedure id args ; 
+args
+	( param_list ) 
+	EPSILON
+param_list
+	id : type 
+	param_list ; id : type 
+comp_stmt
+	begin opt_stmts end 
+opt_stmts
+	stmt_list 
+	EPSILON
+stmt_list
+	stmt 
+	stmt_list ; stmt 
+stmt
+	proc_stmt 
+	if expr then stmt else stmt 
+	variable assignop expr 
+	while expr do stmt 
+	comp_stmt 
+	if expr then stmt 
+variable
+	id [ expr ] 
+	id 
+proc_stmt
+	call id 
+	call id ( expr_list ) 
+expr_list
+	expr_list , expr 
+	expr 
+expr
+	simple_expr 
+	simple_expr relop simple_expr 
+term
+	term mulop factor 
+	factor 
+simple_expr
+	term 
+	simple_expr addop term 
+	sign term 
+factor
+	( expr ) 
+	id [ expr ] 
+	not factor 
+	id 
+	num 
+sign
+	- 
+	+ 
+addop
+	- 
+	+ 
+	or 
+assignop
+	:= 
+mulop
+	* 
+	/ 
+	div 
+	mod 
+	and 
+relop
+	< 
+	= 
+	>= 
+	<= 
+	> 
+	<> 
