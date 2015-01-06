@@ -96,12 +96,7 @@ void Project2::UniteSynchronization(std::string nt)
 	std::cout << "In UniteSynchronization attempting to match one of <" << synchSet[nt] << ">\n";
 	while (p->hasToken())
 	{
-		if (p->GTT(lookAhead.gram()) == p->GTT("+") && contains(synchSet[nt], "addop"))
-		{
-			recover = true;
-			break;
-		}
-		else if (!contains(synchSet[nt], lookAhead.gram()))
+		if (!contains(synchSet[nt], lookAhead.gram()))
 		{
 			lookAhead = p->nextToken();
 		}
