@@ -1,55 +1,51 @@
 prgm
-	program id ( ) ; decs comp_stmt . 
-	program id ( ) ; comp_stmt . 
-	program id ( idList ) ; subprgm_decs comp_stmt . 
-	program id ( idList ) ; decs subprgm_decs comp_stmt . 
 	program id ( idList ) ; decs comp_stmt . 
-	program id ( ) ; decs subprgm_decs comp_stmt . 
 	program id ( idList ) ; comp_stmt . 
-	program id ( ) ; subprgm_decs comp_stmt . 
+	program id ( idList ) ; decs subprgm_decs comp_stmt . 
+	program id ( idList ) ; subprgm_decs comp_stmt . 
 idList
+	id 
 	idList , id 
-	, id 
 decs
-	decs var id : type ; 
 	var id : type ; 
+	decs var id : type ; 
 type
 	std_type 
 	array [ num .. num ] of std_type 
 std_type
-	real 
 	integer 
+	real 
 subprgm_decs
-	subprgm_decs subprgm_dec ; 
 	subprgm_dec ; 
+	subprgm_decs subprgm_dec ; 
 subprgm_dec
+	subprgm_head decs subprgm_decs comp_stmt 
+	subprgm_head decs comp_stmt 
 	subprgm_head comp_stmt 
 	subprgm_head subprgm_decs comp_stmt 
-	subprgm_head decs comp_stmt 
-	subprgm_head decs subprgm_decs comp_stmt 
 subprgm_head
 	procedure id ; 
 	procedure id args ; 
 args
 	( param_list ) 
 param_list
-	param_list ; id : type 
 	id : type 
+	param_list ; id : type 
 comp_stmt
 	begin opt_stmts end 
 	begin end 
 opt_stmts
 	stmt_list 
 stmt_list
-	stmt 
 	stmt_list ; stmt 
+	stmt 
 stmt
-	variable assignop expr 
 	if expr then stmt else stmt 
-	while expr do stmt 
 	if expr then stmt 
-	proc_stmt 
+	variable assignop expr 
+	while expr do stmt 
 	comp_stmt 
+	proc_stmt 
 variable
 	id 
 	id [ expr ] 
@@ -60,40 +56,40 @@ expr_list
 	expr_list , expr 
 	expr 
 expr
-	simple_expr relop simple_expr 
 	simple_expr 
+	simple_expr relop simple_expr 
 term
-	term mulop factor 
 	factor 
+	term mulop factor 
 simple_expr
-	simple_expr addop term 
 	term 
 	sign term 
+	simple_expr addop term 
 factor
-	num 
-	( expr ) 
 	id 
-	not factor 
+	( expr ) 
 	id [ expr ] 
+	not factor 
+	num 
 sign
 	- 
 	+ 
 addop
+	or 
 	- 
 	+ 
-	or 
 assignop
 	:= 
 mulop
-	and 
 	* 
 	/ 
+	and 
 	div 
 	mod 
 relop
-	> 
+	<> 
+	>= 
 	<= 
 	= 
-	>= 
-	<> 
+	> 
 	< 

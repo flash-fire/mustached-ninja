@@ -19,9 +19,6 @@ private:
 	void Project2::prgm();
 	void Project2::prgmLF1();
 	void Project2::prgmLF1LF1();
-	void Project2::prgmLF1LF1LF1();
-	void Project2::prgmLF1LF2();
-	void Project2::prgmLF1LF2LF1();
 	void Project2::idList();
 	void Project2::idListLR1();
 	void Project2::decs();

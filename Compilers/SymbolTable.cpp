@@ -54,5 +54,5 @@ std::string SymbolTable::getID(Token tok)
 //	3) If type of t is error, we don't report error as error has already been reported
 bool SymbolTable::addType(std::string name, Type::TYPE t, std::string errorMsg)
 {
-	
+	return true;
 }

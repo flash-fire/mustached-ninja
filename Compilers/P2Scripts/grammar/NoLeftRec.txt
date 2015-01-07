@@ -1,48 +1,44 @@
 # First symbol used is start symbol
 # Format is a->b ... For epsilon, simply have empty string be b
-prgm -> program id ( ) ; decs comp_stmt . 
-prgm -> program id ( ) ; comp_stmt . 
-prgm -> program id ( idList ) ; subprgm_decs comp_stmt . 
-prgm -> program id ( idList ) ; decs subprgm_decs comp_stmt . 
 prgm -> program id ( idList ) ; decs comp_stmt . 
-prgm -> program id ( ) ; decs subprgm_decs comp_stmt . 
 prgm -> program id ( idList ) ; comp_stmt . 
-prgm -> program id ( ) ; subprgm_decs comp_stmt . 
-idList -> , id idListLR1 
+prgm -> program id ( idList ) ; decs subprgm_decs comp_stmt . 
+prgm -> program id ( idList ) ; subprgm_decs comp_stmt . 
+idList -> id idListLR1 
 idListLR1 -> , id idListLR1 
 idListLR1 -> 
 decs -> var id : type ; decsLR1 
-decsLR1 -> 
 decsLR1 -> var id : type ; decsLR1 
+decsLR1 -> 
 type -> std_type 
 type -> array [ num .. num ] of std_type 
-std_type -> real 
 std_type -> integer 
+std_type -> real 
 subprgm_decs -> subprgm_dec ; subprgm_decsLR1 
-subprgm_decsLR1 -> subprgm_dec ; subprgm_decsLR1 
 subprgm_decsLR1 -> 
+subprgm_decsLR1 -> subprgm_dec ; subprgm_decsLR1 
+subprgm_dec -> subprgm_head decs subprgm_decs comp_stmt 
+subprgm_dec -> subprgm_head decs comp_stmt 
 subprgm_dec -> subprgm_head comp_stmt 
 subprgm_dec -> subprgm_head subprgm_decs comp_stmt 
-subprgm_dec -> subprgm_head decs comp_stmt 
-subprgm_dec -> subprgm_head decs subprgm_decs comp_stmt 
 subprgm_head -> procedure id ; 
 subprgm_head -> procedure id args ; 
 args -> ( param_list ) 
 param_list -> id : type param_listLR1 
-param_listLR1 -> 
 param_listLR1 -> ; id : type param_listLR1 
+param_listLR1 -> 
 comp_stmt -> begin opt_stmts end 
 comp_stmt -> begin end 
 opt_stmts -> stmt_list 
 stmt_list -> stmt stmt_listLR1 
 stmt_listLR1 -> ; stmt stmt_listLR1 
 stmt_listLR1 -> 
-stmt -> variable assignop expr 
 stmt -> if expr then stmt else stmt 
-stmt -> while expr do stmt 
 stmt -> if expr then stmt 
-stmt -> proc_stmt 
+stmt -> variable assignop expr 
+stmt -> while expr do stmt 
 stmt -> comp_stmt 
+stmt -> proc_stmt 
 variable -> id 
 variable -> id [ expr ] 
 proc_stmt -> call id ( expr_list ) 
@@ -50,34 +46,34 @@ proc_stmt -> call id
 expr_list -> expr expr_listLR1 
 expr_listLR1 -> , expr expr_listLR1 
 expr_listLR1 -> 
-expr -> simple_expr relop simple_expr 
 expr -> simple_expr 
+expr -> simple_expr relop simple_expr 
 term -> factor termLR1 
-termLR1 -> mulop factor termLR1 
 termLR1 -> 
-simple_expr -> term simple_exprLR1 
+termLR1 -> mulop factor termLR1 
 simple_expr -> sign term simple_exprLR1 
+simple_expr -> term simple_exprLR1 
 simple_exprLR1 -> addop term simple_exprLR1 
 simple_exprLR1 -> 
-factor -> num 
-factor -> ( expr ) 
 factor -> id 
-factor -> not factor 
+factor -> ( expr ) 
 factor -> id [ expr ] 
+factor -> not factor 
+factor -> num 
 sign -> - 
 sign -> + 
+addop -> or 
 addop -> - 
 addop -> + 
-addop -> or 
 assignop -> := 
-mulop -> and 
 mulop -> * 
 mulop -> / 
+mulop -> and 
 mulop -> div 
 mulop -> mod 
-relop -> > 
+relop -> <> 
+relop -> >= 
 relop -> <= 
 relop -> = 
-relop -> >= 
-relop -> <> 
+relop -> > 
 relop -> < 

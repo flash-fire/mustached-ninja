@@ -14,7 +14,7 @@ prgm
 
 idList
 	idList , id
-	
+	id
 
 decs
 	decs var id : type ;
