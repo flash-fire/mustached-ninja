@@ -47,3 +47,12 @@ std::string SymbolTable::getID(Token tok)
 	return "";
 }
 
+// Returns true if no errors
+// Possible errors:
+//	1) symbol table already has a type for name [undeclared? I may add a method to add to symbol table WITH type]
+//	2) symbol table does not contain name
+//	3) If type of t is error, we don't report error as error has already been reported
+bool SymbolTable::addType(std::string name, Type::TYPE t, std::string errorMsg)
+{
+	
+}

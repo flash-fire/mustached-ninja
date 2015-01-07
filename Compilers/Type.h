@@ -6,7 +6,7 @@ class Type
 public:
 	enum TYPE
 	{
-		UNASSIGNED, // Initial valud
+		UNASSIGNED, // Initial value
 		NONE, // Type that is of nothing
 		BOOL, // Boolean
 		INT, // Integer

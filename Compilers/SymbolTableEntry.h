@@ -3,6 +3,7 @@
 
 #include "Token.h"
 #include <string>
+#include "Type.h"
 
 // Rudimentary entry in the symbol table.
 class SymbolTableEntry
@@ -10,7 +11,6 @@ class SymbolTableEntry
 public:
 	SymbolTableEntry();
 	SymbolTableEntry(std::string name, int token, int attr);
-	
 	SymbolTableEntry(const SymbolTableEntry& entry);
 	~SymbolTableEntry();
 
@@ -21,6 +21,7 @@ public:
 
 	std::string name;
 	Token token; // attr/id
+	Type::TYPE type;
 private:
 };
 
