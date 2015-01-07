@@ -1,5 +1,5 @@
 addop
-	or - +
+	or + -
 args
 	(
 assignop
@@ -7,27 +7,31 @@ assignop
 comp_stmt
 	begin
 comp_stmtLF1
-	call id begin while end if
+	while id call begin if end
 decs
 	var
 decsLR1
 	 var
 expr
-	num + - not ( id
+	+ - ( id not num
 exprLF1
-	 <> > <= = >= <
+	 <= < >= > = <>
 expr_list
-	num + - not ( id
+	+ - ( id not num
 expr_listLR1
 	 ,
 factor
-	num not ( id
+	( id not num
 factorLF1
 	 [
+idList
+	,
+idListLR1
+	 ,
 mulop
-	mod * and / div
+	div / * mod and
 opt_stmts
-	call id begin while if
+	id call begin if while
 param_list
 	id
 param_listLR1
@@ -35,35 +39,41 @@ param_listLR1
 prgm
 	program
 prgmLF1
-	var procedure begin
+	, )
 prgmLF1LF1
+	procedure var begin
+prgmLF1LF1LF1
+	procedure begin
+prgmLF1LF2
+	procedure var begin
+prgmLF1LF2LF1
 	procedure begin
 proc_stmt
 	call
 proc_stmtLF1
 	 (
 relop
-	<> > <= = >= <
+	<= < >= > = <>
 sign
-	- +
+	+ -
 simple_expr
-	num - not + ( id
+	+ - ( id not num
 simple_exprLR1
-	 or - +
+	 or + -
 std_type
-	real integer
+	integer real
 stmt
-	call id begin while if
+	id call begin if while
 stmtLF1
 	 else
 stmt_list
-	call id begin while if
+	id call begin if while
 stmt_listLR1
 	 ;
 subprgm_dec
 	procedure
 subprgm_decLF1
-	var procedure begin
+	procedure var begin
 subprgm_decLF1LF1
 	procedure begin
 subprgm_decs
@@ -73,13 +83,13 @@ subprgm_decsLR1
 subprgm_head
 	procedure
 subprgm_headLF1
-	; (
+	( ;
 term
-	num not ( id
+	( id not num
 termLR1
-	 * div / mod and
+	 / mod and div *
 type
-	integer array real
+	array integer real
 variable
 	id
 variableLF1

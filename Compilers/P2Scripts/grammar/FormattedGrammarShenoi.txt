@@ -1,11 +1,14 @@
 prgm
-	program id ( id ) ; decs subprgm_decs comp_stmt . 
-decs
+	program id ( idList ) ; decs subprgm_decs comp_stmt . 
+idList
 	EPSILON
+	idList , id 
+decs
 	decs var id : type ; 
+	EPSILON
 type
-	array [ num .. num ] of std_type 
 	std_type 
+	array [ num .. num ] of std_type 
 std_type
 	real 
 	integer 
@@ -20,47 +23,47 @@ args
 	( param_list ) 
 	EPSILON
 param_list
-	id : type 
 	param_list ; id : type 
+	id : type 
 comp_stmt
 	begin opt_stmts end 
 opt_stmts
 	stmt_list 
 	EPSILON
 stmt_list
-	stmt 
 	stmt_list ; stmt 
+	stmt 
 stmt
-	proc_stmt 
-	if expr then stmt else stmt 
 	variable assignop expr 
+	if expr then stmt else stmt 
 	while expr do stmt 
-	comp_stmt 
 	if expr then stmt 
+	proc_stmt 
+	comp_stmt 
 variable
-	id [ expr ] 
 	id 
+	id [ expr ] 
 proc_stmt
-	call id 
 	call id ( expr_list ) 
+	call id 
 expr_list
 	expr_list , expr 
 	expr 
 expr
-	simple_expr 
 	simple_expr relop simple_expr 
+	simple_expr 
 term
 	term mulop factor 
 	factor 
 simple_expr
-	term 
 	simple_expr addop term 
+	term 
 	sign term 
 factor
-	( expr ) 
 	id [ expr ] 
-	not factor 
+	( expr ) 
 	id 
+	not factor 
 	num 
 sign
 	- 
@@ -72,15 +75,15 @@ addop
 assignop
 	:= 
 mulop
+	and 
 	* 
 	/ 
 	div 
 	mod 
-	and 
 relop
-	< 
+	> 
+	<= 
 	= 
 	>= 
-	<= 
-	> 
 	<> 
+	< 

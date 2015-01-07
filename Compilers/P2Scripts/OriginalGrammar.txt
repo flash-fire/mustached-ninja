@@ -10,7 +10,11 @@
 # Watch out for extraneous tabs!
 # Watch out for Nonterminals that have the same name as a terminal [that specifically will cause you to become VERY unhappy I swear!]
 prgm
-	program id ( id ) ; decs subprgm_decs comp_stmt .
+	program id ( idList ) ; decs subprgm_decs comp_stmt .
+
+idList
+	idList , id
+	
 
 decs
 	decs var id : type ;

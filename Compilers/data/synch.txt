@@ -1,33 +1,37 @@
 addop
-num ( id not $
+$ ( id not num
 args
-; $
+$ ;
 assignop
-num + - ( id not $
++ - $ ( id not num
 comp_stmt
-. ; end $ else
+$ else end ; .
 comp_stmtLF1
-. ; end $ else
+$ else end ; .
 decs
-begin procedure $
+procedure $ begin
 decsLR1
-begin procedure $
+procedure $ begin
 expr
-do ; ] ) end , then $ else
+] $ else do then ) ; , end
 exprLF1
-do ; ] ) end , then $ else
+] $ else do then ) ; , end
 expr_list
 $ )
 expr_listLR1
 $ )
 factor
-<= + or > , * then < - = div $ mod else do ; and ] ) end <> >= /
+<= < ] >= else do <> mod ) - , end + and > = $ then / ; div * or
 factorLF1
-<= + or > , * then < - = div $ mod else do ; and ] ) end <> >= /
+<= < ] >= else do <> mod ) - , end + and > = $ then / ; div * or
+idList
+$ )
+idListLR1
+$ )
 mulop
-num ( id not $
+$ ( id not num
 opt_stmts
-end $
+$ end
 param_list
 $ )
 param_listLR1
@@ -38,49 +42,55 @@ prgmLF1
 $
 prgmLF1LF1
 $
+prgmLF1LF1LF1
+$
+prgmLF1LF2
+$
+prgmLF1LF2LF1
+$
 proc_stmt
-; end $ else
+$ else end ;
 proc_stmtLF1
-; end $ else
+$ else end ;
 relop
-num + - ( id not $
++ - $ ( id not num
 sign
-num ( id not $
+$ ( id not num
 simple_expr
-do ; ] <= ) > , end <> then < = >= $ else
+<= < ] >= > else do <> = $ then ) ; , end
 simple_exprLR1
-do ; ] <= ) > , end <> then < = >= $ else
+<= < ] >= > else do <> = $ then ) ; , end
 std_type
-; $ )
+$ ) ;
 stmt
-; end $ else
+$ else end ;
 stmtLF1
-; end $
+$ end ;
 stmt_list
-end $
+$ end
 stmt_listLR1
-end $
+$ end
 subprgm_dec
-; $
+$ ;
 subprgm_decLF1
-; $
+$ ;
 subprgm_decLF1LF1
-; $
+$ ;
 subprgm_decs
-begin $
+$ begin
 subprgm_decsLR1
-begin $
+$ begin
 subprgm_head
-begin procedure var $
+procedure var $ begin
 subprgm_headLF1
-begin procedure var $
+procedure var $ begin
 term
-<= + or > , then < - = $ else do ; ] ) end <> >=
+<= < ] >= else do <> ) - , end + > = $ then ; or
 termLR1
-<= + or > , then < - = $ else do ; ] ) end <> >=
+<= < ] >= else do <> ) - , end + > = $ then ; or
 type
-; $ )
+$ ) ;
 variable
-$ :=
+:= $
 variableLF1
-$ :=
+:= $

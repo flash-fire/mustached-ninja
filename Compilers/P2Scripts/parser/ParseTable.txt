@@ -1,13 +1,28 @@
 Terminal Order['(', ')', '*', '+', ',', '-', '.', '..', '/', ':', ':=', ';', '<', '<=', '<>', '=', '>', '>=', '[', ']', 'and', 'array', 'begin', 'call', 'div', 'do', 'else', 'end', 'id', 'if', 'integer', 'mod', 'not', 'num', 'of', 'or', 'procedure', 'program', 'real', 'then', 'var', 'while']
 prgm
-	program -> program id ( id ) ; prgmLF1 
+	program -> program id ( prgmLF1 
 prgmLF1
-	begin -> comp_stmt . 
-	procedure -> subprgm_decs comp_stmt . 
-	var -> decs prgmLF1LF1 
+	) -> ) ; prgmLF1LF2 
+	, -> idList ) ; prgmLF1LF1 
 prgmLF1LF1
 	begin -> comp_stmt . 
 	procedure -> subprgm_decs comp_stmt . 
+	var -> decs prgmLF1LF1LF1 
+prgmLF1LF1LF1
+	begin -> comp_stmt . 
+	procedure -> subprgm_decs comp_stmt . 
+prgmLF1LF2
+	begin -> comp_stmt . 
+	procedure -> subprgm_decs comp_stmt . 
+	var -> decs prgmLF1LF2LF1 
+prgmLF1LF2LF1
+	begin -> comp_stmt . 
+	procedure -> subprgm_decs comp_stmt . 
+idList
+	, -> , id idListLR1 
+idListLR1
+	) -> EPSILON
+	, -> , id idListLR1 
 decs
 	var -> var id : type ; decsLR1 
 decsLR1

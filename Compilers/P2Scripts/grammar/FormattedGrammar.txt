@@ -1,4 +1,6 @@
-prgm -> program id ( id ) ; decs subprgm_decs comp_stmt .
+prgm -> program id ( idList ) ; decs subprgm_decs comp_stmt .
+idList -> idList , id
+idList -> 
 decs -> decs var id : type ;
 decs -> 
 type -> std_type
