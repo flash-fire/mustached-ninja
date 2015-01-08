@@ -2,7 +2,7 @@
 #include<algorithm>
 #include<iostream>
 
-ParseNode::ParseNode(ParseNode* par, std::string nonTerminal, std::list<std::string> varNames) : parent(par), nt(nonTerminal), instanceNumber(1), varNames(varNames)
+ParseNode::ParseNode(ParseNode* par, std::string nonTerminal, std::list<std::string> varNames) : parent(par), nt(nonTerminal), instanceNumber(ParseNode::DEF_INSTANCE), varNames(varNames)
 {
 	for (auto& it : varNames) {
 		locSet(it, 0);
@@ -62,7 +62,7 @@ std::string ParseNode::getName()
 
 void ParseNode::appendChild(ParseNode* child, int debugTargInstance)
 {
-	int instanceFound = 1;
+	int instanceFound = ParseNode::DEF_INSTANCE;
 	for (auto& wrap : children)
 	{
 		if (wrap.isNode)
@@ -79,7 +79,7 @@ void ParseNode::appendChild(ParseNode* child, int debugTargInstance)
 		}
 	}
 
-	if (debugTargInstance != -1)
+	if (debugTargInstance != ParseNode::DEF_NOT_INSTANCE)
 	{
 		if (debugTargInstance != instanceFound)
 		{

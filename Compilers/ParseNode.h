@@ -11,6 +11,8 @@
 class ParseNode
 {
 public:
+	static const int DEF_INSTANCE = 1;
+	static const int DEF_NOT_INSTANCE = -1;
 	struct Wrapper
 	{
 		Wrapper(Token* tok) : val(tok), isNode(false) {};
@@ -30,7 +32,7 @@ public:
 	void setInstance(const int newInstance);
 	int getInstance();
 	std::string getName();
-	void appendChild(ParseNode* child, int debugTargInstance = -1);
+	void appendChild(ParseNode* child, int debugTargInstance = DEF_NOT_INSTANCE);
 	std::list<Wrapper> getChildren() { return children; };
 
 	static void WriteUndecoratedTree(ParseNode* node, std::ofstream* out, int level = 0);
