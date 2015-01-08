@@ -2,7 +2,7 @@
 #include<algorithm>
 #include<iostream>
 
-ParseNode::ParseNode(ParseNode* par, std::string nonTerminal, std::list<std::string> varNames) : parent(par), nt(nonTerminal), instanceNumber(0), varNames(varNames)
+ParseNode::ParseNode(ParseNode* par, std::string nonTerminal, std::list<std::string> varNames) : parent(par), nt(nonTerminal), instanceNumber(1), varNames(varNames)
 {
 	for (auto& it : varNames) {
 		locSet(it, 0);
