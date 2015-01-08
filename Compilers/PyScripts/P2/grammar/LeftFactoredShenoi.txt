@@ -1,12 +1,12 @@
 prgm
 	program id ( idList ) ; prgmLF1 
 prgmLF1
-	comp_stmt . 
 	subprgm_decs comp_stmt . 
 	decs prgmLF1LF1 
-prgmLF1LF1
 	comp_stmt . 
+prgmLF1LF1
 	subprgm_decs comp_stmt . 
+	comp_stmt . 
 idList
 	id idListLR1 
 idListLR1
@@ -15,40 +15,40 @@ idListLR1
 decs
 	var id : type ; decsLR1 
 decsLR1
-	var id : type ; decsLR1 
 	EPSILON
+	var id : type ; decsLR1 
 type
 	std_type 
 	array [ num .. num ] of std_type 
 std_type
-	integer 
 	real 
+	integer 
 subprgm_decs
 	subprgm_dec ; subprgm_decsLR1 
 subprgm_decsLR1
-	EPSILON
 	subprgm_dec ; subprgm_decsLR1 
+	EPSILON
 subprgm_dec
 	subprgm_head subprgm_decLF1 
 subprgm_decLF1
-	subprgm_decs comp_stmt 
 	comp_stmt 
+	subprgm_decs comp_stmt 
 	decs subprgm_decLF1LF1 
 subprgm_decLF1LF1
-	subprgm_decs comp_stmt 
 	comp_stmt 
+	subprgm_decs comp_stmt 
 subprgm_head
 	procedure id subprgm_headLF1 
 subprgm_headLF1
-	; 
 	args ; 
+	; 
 args
 	( param_list ) 
 param_list
 	id : type param_listLR1 
 param_listLR1
-	; id : type param_listLR1 
 	EPSILON
+	; id : type param_listLR1 
 comp_stmt
 	begin comp_stmtLF1 
 comp_stmtLF1
@@ -59,27 +59,27 @@ opt_stmts
 stmt_list
 	stmt stmt_listLR1 
 stmt_listLR1
-	; stmt stmt_listLR1 
 	EPSILON
+	; stmt stmt_listLR1 
 stmt
 	if expr then stmt stmtLF1 
-	while expr do stmt 
-	variable assignop expr 
 	comp_stmt 
 	proc_stmt 
+	variable assignop expr 
+	while expr do stmt 
 stmtLF1
 	EPSILON
 	else stmt 
 variable
 	id variableLF1 
 variableLF1
-	[ expr ] 
 	EPSILON
+	[ expr ] 
 proc_stmt
 	call id proc_stmtLF1 
 proc_stmtLF1
-	EPSILON
 	( expr_list ) 
+	EPSILON
 expr_list
 	expr expr_listLR1 
 expr_listLR1
@@ -96,19 +96,19 @@ termLR1
 	EPSILON
 	mulop factor termLR1 
 simple_expr
-	sign term simple_exprLR1 
 	term simple_exprLR1 
+	sign term simple_exprLR1 
 simple_exprLR1
-	EPSILON
 	addop term simple_exprLR1 
+	EPSILON
 factor
 	id factorLF1 
-	( expr ) 
 	not factor 
 	num 
+	( expr ) 
 factorLF1
-	[ expr ] 
 	EPSILON
+	[ expr ] 
 sign
 	- 
 	+ 
@@ -119,15 +119,15 @@ addop
 assignop
 	:= 
 mulop
-	* 
 	/ 
-	and 
-	div 
 	mod 
+	and 
+	* 
+	div 
 relop
+	= 
 	<> 
-	>= 
 	<= 
 	> 
-	= 
 	< 
+	>= 
