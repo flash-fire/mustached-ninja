@@ -2,19 +2,50 @@
 #include<algorithm>
 #include<iostream>
 
-ParseNode::ParseNode(ParseNode* par, std::string nonTerminal, std::list<std::string> varNames) : parent(par), nt(nonTerminal), instanceNumber(ParseNode::DEF_INSTANCE), varNames(varNames)
+ParseNode::ParseNode(ParseNode* par, std::string nonTerminal, std::list<std::string> varNames) : parent(par), nt(nonTerminal), varNames(varNames)
 {
+	children = std::list<Wrap>();
 	for (auto& it : varNames) {
 		locSet(it, 0);
 	}
+}
+
+ParseNode::ParseNode(const ParseNode& node) : parent(node.parent), nt(node.nt), varNames(node.varNames), children(node.children)
+{
+
 }
 
 ParseNode::~ParseNode()
 {
 }
 
-void ParseNode::WriteUndecoratedTree(ParseNode* node, std::ofstream* fileToWrite, int level)
+std::string ParseNode::name(Wrap wrap, bool isRHS)
 {
+	if (wrap.isNode)
+	{
+		if (isRHS)
+		{
+			return wrap.val.node->nt + "_" + std::to_string(DEF_INSTANCE);
+		}
+		else
+		{
+			return wrap.val.node->nt + "_" + std::to_string(wrap.instanceNum);
+		}
+	}
+	else
+	{
+		return wrap.val.tok->gram() + "_" + std::to_string(wrap.instanceNum);
+	}
+}
+
+void ParseNode::WriteUndecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int level)
+{
+	if (wrap.isNode == false)
+	{
+		return;
+	}
+	ParseNode* node = wrap.val.node;
+
 	if (node == NULL)
 	{	// We have root
 		return;
@@ -25,7 +56,7 @@ void ParseNode::WriteUndecoratedTree(ParseNode* node, std::ofstream* fileToWrite
 	{
 		out = std::string("\t", level);
 	}
-	out += node->getName() + " " + std::to_string(node->getInstance()) + "\n";
+	out += ParseNode::name(wrap) + "\n";
 	*fileToWrite << out;
 
 	for (auto& wrap : node->getChildren())
@@ -35,65 +66,91 @@ void ParseNode::WriteUndecoratedTree(ParseNode* node, std::ofstream* fileToWrite
 			ParseNode* curr = wrap.val.node;
 			if (!curr)
 			{	// null is error condition so it's okay.
-				std::cout << "[writeUndecoratedTree] Impossible condition :: isNode is supposed to be a node, but is null!!!! " << node->getName() << "\n";
+				std::cout << "[writeUndecoratedTree] Impossible condition :: isNode is supposed to be a node, but is null!!!! " << ParseNode::name(wrap) << "\n";
 			}
 			else
 			{
-				WriteUndecoratedTree(curr, fileToWrite, level + 1);
+				WriteUndecoratedTree(wrap, fileToWrite, level + 1);
 			}
 		}
 	}
 }
 
-int ParseNode::getInstance()
+void ParseNode::appendChild(ParseNode* child, int debugTargInstance)
 {
-	return instanceNumber;
-}
-
-void ParseNode::setInstance(const int newInstance)
-{
-	instanceNumber = newInstance;
-}
-
-std::string ParseNode::getName()
-{
-	return nt;
-}
-
-void ParseNode::appendChild(Wrapper child, int debugTargInstance)
-{
-	if (child.isNode)
+	int instanceFound = ParseNode::DEF_INSTANCE;
+	if (child->nt == nt)
 	{
-		int instanceFound = ParseNode::DEF_INSTANCE;
-		for (auto& wrap : children)
-		{
-			if (wrap.isNode)
-			{
-				ParseNode* curr = wrap.val.node;
-				if (!curr)
-				{	// null is error condition so it's okay.
-					std::cout << "[append child] Impossible condition :: isNode is supposed to be a node, but is null!!!! " << nt << "\n";
-				}
-				if (curr->getName() == child.val.node->getName())
-				{
-					instanceFound++;
-				}
-			}
-		}
-
-		if (debugTargInstance != ParseNode::DEF_NOT_INSTANCE)
-		{
-			if (debugTargInstance != instanceFound)
-			{
-				std::cout << "[appen child] Wrong target instance found when appending a child. This is obviously so bad that everyone will die brutally.\n"
-					<< "Iter Found: " << instanceFound << " iter desired " << debugTargInstance;
-			}
-		}
-
-		child.val.node->setInstance(instanceFound);
+		instanceFound++;
 	}
-	// Tokens don't need much love. Just saying.
-	children.push_back(child);
+	if (children.empty())
+	{
+		children.push_back(ParseNode::Wrap(child, instanceFound));
+		return;
+	}
+	for (auto it = children.begin(); it != children.end(); ++it)
+	{
+		Wrap wrap = *it;
+		if (wrap.isNode)
+		{
+			ParseNode* curr = wrap.val.node;
+			if (!curr)
+			{	// null is error condition so it's okay.
+				std::cout << "[append child] Impossible condition :: isNode is supposed to be a node, but is null!!!! " << nt << "\n";
+			}
+			if (curr->nt == child->nt)
+			{
+				instanceFound++;
+			}
+		}
+	}
+
+	if (debugTargInstance != ParseNode::DEF_NOT_INSTANCE)
+	{
+		if (debugTargInstance != instanceFound)
+		{
+			std::cout << "[appen child] Wrong target instance found when appending a child. This is obviously so bad that everyone will die brutally.\n"
+				<< "Iter Found: " << instanceFound << " iter desired " << debugTargInstance;
+		}
+	}
+
+	//child->setInstance(instanceFound);
+	children.push_back(Wrap(child, instanceFound));
+}
+
+// Because I preinitialize my variables in my nodes [to debug], I need to add the nodes first. This finds where the tokens should be in any case. YAY NONLINeAR!
+void ParseNode::appendToken(Token& tok, ParseNode& targ, int debugTargInstance)
+{
+	auto endLoc = children.begin();
+	int instance = DEF_INSTANCE;
+
+	for (auto it = children.begin(); it != children.end(); ++it) {
+		// if the current index is needed:
+		Wrap curr = *it;
+		if (curr.isNode)
+		{
+			if (curr.val.node == &targ)
+			{
+				endLoc = it;
+				break;
+			}
+		}
+		else
+		{
+			if (curr.val.tok->gram() == tok.gram())
+			{
+				instance += 1;
+			}
+		}
+	}
+
+
+	while (endLoc != children.end() && endLoc->isNode == false)
+	{
+		++endLoc;
+	} // Finds last inserted token
+
+	children.insert(endLoc, Wrap(&tok, debugTargInstance));
 }
 
 // Error occurred if returns false
@@ -155,7 +212,7 @@ int ParseNode::nonLocGet(const std::string targNT, const int instance, const std
 
 ParseNode* ParseNode::findChild(const std::string targ, const int instance)
 {
-	if (nt == targ && getInstance() == instance)
+	if (nt == targ && 0 == instance)
 	{
 		return this; // check current node first
 	}
@@ -172,15 +229,15 @@ ParseNode* ParseNode::findChild(const std::string targ, const int instance)
 				return curr;
 			}
 
-			if (curr->getName() == targ)
+			if (curr->nt == targ)
 			{
-				if (curr->getInstance() == instance)
+				if (wrap.instanceNum == instance)
 				{
 					return curr;
 				}
 				else
 				{
-					debug += "Found node with same name, but different instance. Want : " + std::to_string(instance) + " found : " + std::to_string(curr->getInstance()) + "\n";
+					debug += "Found node with same name, but different instance. Want : " + std::to_string(instance) + " found : " + std::to_string(wrap.instanceNum) + "\n";
 				}
 			}
 		}

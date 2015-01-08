@@ -4,14 +4,14 @@ idList
 	idList , id 
 	id 
 decs
-	EPSILON
 	decs var id : type ; 
+	EPSILON
 type
-	std_type 
 	array [ num .. num ] of std_type 
+	std_type 
 std_type
-	real 
 	integer 
+	real 
 subprgm_decs
 	subprgm_decs subprgm_dec ; 
 	EPSILON
@@ -20,26 +20,26 @@ subprgm_dec
 subprgm_head
 	procedure id args ; 
 args
-	EPSILON
 	( param_list ) 
+	EPSILON
 param_list
 	id : type 
 	param_list ; id : type 
 comp_stmt
 	begin opt_stmts end 
 opt_stmts
-	stmt_list 
 	EPSILON
+	stmt_list 
 stmt_list
 	stmt 
 	stmt_list ; stmt 
 stmt
-	comp_stmt 
-	while expr do stmt 
 	if expr then stmt else stmt 
 	proc_stmt 
-	if expr then stmt 
+	while expr do stmt 
 	variable assignop expr 
+	if expr then stmt 
+	comp_stmt 
 variable
 	id [ expr ] 
 	id 
@@ -47,43 +47,43 @@ proc_stmt
 	call id ( expr_list ) 
 	call id 
 expr_list
-	expr_list , expr 
 	expr 
+	expr_list , expr 
 expr
-	simple_expr relop simple_expr 
 	simple_expr 
+	simple_expr relop simple_expr 
 term
-	factor 
 	term mulop factor 
+	factor 
 simple_expr
-	sign term 
-	term 
 	simple_expr addop term 
+	term 
+	sign term 
 factor
 	id [ expr ] 
 	id 
-	( expr ) 
 	num 
+	( expr ) 
 	not factor 
 sign
 	+ 
 	- 
 addop
-	or 
 	+ 
 	- 
+	or 
 assignop
 	:= 
 mulop
-	/ 
-	mod 
-	and 
-	* 
 	div 
+	and 
+	mod 
+	/ 
+	* 
 relop
-	= 
-	<> 
-	<= 
-	> 
-	< 
 	>= 
+	<> 
+	= 
+	< 
+	> 
+	<= 

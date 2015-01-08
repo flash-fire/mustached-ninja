@@ -57,22 +57,27 @@ void Project2::MatchEOF()
 	}
 }
 
-
-void Project2::Match(int T, std::string nt, std::string exp)
+Token Project2::Match(int T, std::string nt, std::string exp)
 {
 	int C = lookAhead.token;
 	if (T == C && C != EOF)
 	{
 		std::cout << "Matched: <" << p->TokenToGrammar(T) << ">\n";
+		Token ret = lookAhead;
 		lookAhead = p->nextToken();
+		return Token(ret);
+
 	}
 	else if (T == C && C == EOF)
 	{
-		return; // end parse
+		return Token(lookAhead); // end parse
 	}
 	else
 	{
 		SynErrorTok(nt, exp);
+		Token ret = Token();
+		ret.line = lookAhead.line; // just in case i need it later.
+		return ret;
 	}
 }
 

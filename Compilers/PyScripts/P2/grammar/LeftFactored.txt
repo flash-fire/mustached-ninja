@@ -1,8 +1,8 @@
 # First symbol used is start symbol
 # Format is a->b ... For epsilon, simply have empty string be b
 prgm -> program id ( idList ) ; prgmLF1 
-prgmLF1 -> subprgm_decs comp_stmt . 
 prgmLF1 -> decs prgmLF1LF1 
+prgmLF1 -> subprgm_decs comp_stmt . 
 prgmLF1 -> comp_stmt . 
 prgmLF1LF1 -> subprgm_decs comp_stmt . 
 prgmLF1LF1 -> comp_stmt . 
@@ -12,22 +12,22 @@ idListLR1 ->
 decs -> var id : type ; decsLR1 
 decsLR1 -> 
 decsLR1 -> var id : type ; decsLR1 
-type -> std_type 
 type -> array [ num .. num ] of std_type 
-std_type -> real 
+type -> std_type 
 std_type -> integer 
+std_type -> real 
 subprgm_decs -> subprgm_dec ; subprgm_decsLR1 
 subprgm_decsLR1 -> subprgm_dec ; subprgm_decsLR1 
 subprgm_decsLR1 -> 
 subprgm_dec -> subprgm_head subprgm_decLF1 
-subprgm_decLF1 -> comp_stmt 
-subprgm_decLF1 -> subprgm_decs comp_stmt 
 subprgm_decLF1 -> decs subprgm_decLF1LF1 
-subprgm_decLF1LF1 -> comp_stmt 
+subprgm_decLF1 -> subprgm_decs comp_stmt 
+subprgm_decLF1 -> comp_stmt 
 subprgm_decLF1LF1 -> subprgm_decs comp_stmt 
+subprgm_decLF1LF1 -> comp_stmt 
 subprgm_head -> procedure id subprgm_headLF1 
-subprgm_headLF1 -> args ; 
 subprgm_headLF1 -> ; 
+subprgm_headLF1 -> args ; 
 args -> ( param_list ) 
 param_list -> id : type param_listLR1 
 param_listLR1 -> 
@@ -39,52 +39,52 @@ opt_stmts -> stmt_list
 stmt_list -> stmt stmt_listLR1 
 stmt_listLR1 -> 
 stmt_listLR1 -> ; stmt stmt_listLR1 
-stmt -> if expr then stmt stmtLF1 
 stmt -> comp_stmt 
 stmt -> proc_stmt 
-stmt -> variable assignop expr 
+stmt -> if expr then stmt stmtLF1 
 stmt -> while expr do stmt 
+stmt -> variable assignop expr 
 stmtLF1 -> 
 stmtLF1 -> else stmt 
 variable -> id variableLF1 
-variableLF1 -> 
 variableLF1 -> [ expr ] 
+variableLF1 -> 
 proc_stmt -> call id proc_stmtLF1 
 proc_stmtLF1 -> ( expr_list ) 
 proc_stmtLF1 -> 
 expr_list -> expr expr_listLR1 
-expr_listLR1 -> , expr expr_listLR1 
 expr_listLR1 -> 
+expr_listLR1 -> , expr expr_listLR1 
 expr -> simple_expr exprLF1 
 exprLF1 -> 
 exprLF1 -> relop simple_expr 
 term -> factor termLR1 
-termLR1 -> 
 termLR1 -> mulop factor termLR1 
+termLR1 -> 
 simple_expr -> term simple_exprLR1 
 simple_expr -> sign term simple_exprLR1 
 simple_exprLR1 -> addop term simple_exprLR1 
 simple_exprLR1 -> 
+factor -> ( expr ) 
+factor -> num 
 factor -> id factorLF1 
 factor -> not factor 
-factor -> num 
-factor -> ( expr ) 
-factorLF1 -> 
 factorLF1 -> [ expr ] 
-sign -> - 
+factorLF1 -> 
 sign -> + 
+sign -> - 
+addop -> + 
 addop -> or 
 addop -> - 
-addop -> + 
 assignop -> := 
-mulop -> / 
-mulop -> mod 
-mulop -> and 
-mulop -> * 
 mulop -> div 
-relop -> = 
+mulop -> and 
+mulop -> mod 
+mulop -> / 
+mulop -> * 
+relop -> >= 
 relop -> <> 
-relop -> <= 
+relop -> = 
 relop -> > 
 relop -> < 
-relop -> >= 
+relop -> <= 

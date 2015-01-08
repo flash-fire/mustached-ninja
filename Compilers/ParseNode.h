@@ -5,6 +5,7 @@
 #include <list>
 #include <map>
 #include <fstream>
+#include <unordered_map>
 
 #include "Token.h"
 
@@ -13,31 +14,35 @@ class ParseNode
 public:
 	static const int DEF_INSTANCE = 1;
 	static const int DEF_NOT_INSTANCE = -1;
-	struct Wrapper
-	{
-		Wrapper(Token* tok) : val(tok), isNode(false) {};
-		Wrapper(ParseNode* node) : val(node), isNode(true) {};
+
+	typedef struct Wrapper {
+		Wrapper(Token* tok, int instance) : val(Val(tok)), instanceNum(instance), isNode(false) {};
+		Wrapper(ParseNode* node, int instance) : val(Val(node)), instanceNum(instance), isNode(true) {};
+
 		union Val
 		{
-			Val(Token* tok) : tok(tok) {};
+			Val(Token* tok) : tok(tok) { };
 			Val(ParseNode* node) : node(node) {};
 			Token* tok;
 			ParseNode* node;
 		};
+
 		Val val;
 		bool isNode;
-	};
+		int instanceNum;
+	} Wrap;
 
 	ParseNode* getParent() { return parent; };
-	void setInstance(const int newInstance);
-	int getInstance();
-	std::string getName();
-	void appendChild(Wrapper child, int debugTargInstance = DEF_NOT_INSTANCE);
-	std::list<Wrapper> getChildren() { return children; };
+	void appendChild(ParseNode* child, int debugTargInstance = DEF_NOT_INSTANCE);
+	void appendToken(Token& child, ParseNode& targ, int debugTargInstance = DEF_NOT_INSTANCE);
 
-	static void WriteUndecoratedTree(ParseNode* node, std::ofstream* out, int level = 0);
-	
+	std::list<Wrap> getChildren() { return children; };
+
+	static void WriteUndecoratedTree(Wrap node, std::ofstream* out, int level = 0);
+	static std::string name(Wrap wrap, bool isRHS = false);
+
 	ParseNode(ParseNode* parent, std::string nt, std::list<std::string> varNames);
+	ParseNode(const ParseNode& node);
 	~ParseNode();
 
 
@@ -51,11 +56,10 @@ private:
 	ParseNode* findChild(const std::string targ, const int instance); // Finds node with said properties [child or parent]
 
 	std::string nt; // Nonterminal name
-	int instanceNumber; // Which iteration is this node in the production.  LHS ==> RHS :: LHS is instance 0.  RHS counts from there. 
 	ParseNode* parent;
 	std::list<std::string> varNames; // This keeps track of variables that can be used. Main use is for debugging purposes
 	std::map<std::string, int> vars;
-	std::list<Wrapper> children;
+	std::list<Wrap> children;
 };
 
 #endif

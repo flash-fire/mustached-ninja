@@ -1,23 +1,23 @@
 # First symbol used is start symbol
 # Format is a->b ... For epsilon, simply have empty string be b
-prgm -> program id ( idList ) ; decs comp_stmt . 
+prgm -> program id ( idList ) ; comp_stmt . 
 prgm -> program id ( idList ) ; subprgm_decs comp_stmt . 
 prgm -> program id ( idList ) ; decs subprgm_decs comp_stmt . 
-prgm -> program id ( idList ) ; comp_stmt . 
+prgm -> program id ( idList ) ; decs comp_stmt . 
 idList -> idList , id 
 idList -> id 
-decs -> var id : type ; 
 decs -> decs var id : type ; 
-type -> std_type 
+decs -> var id : type ; 
 type -> array [ num .. num ] of std_type 
-std_type -> real 
+type -> std_type 
 std_type -> integer 
-subprgm_decs -> subprgm_decs subprgm_dec ; 
+std_type -> real 
 subprgm_decs -> subprgm_dec ; 
-subprgm_dec -> subprgm_head subprgm_decs comp_stmt 
-subprgm_dec -> subprgm_head comp_stmt 
+subprgm_decs -> subprgm_decs subprgm_dec ; 
 subprgm_dec -> subprgm_head decs subprgm_decs comp_stmt 
+subprgm_dec -> subprgm_head subprgm_decs comp_stmt 
 subprgm_dec -> subprgm_head decs comp_stmt 
+subprgm_dec -> subprgm_head comp_stmt 
 subprgm_head -> procedure id args ; 
 subprgm_head -> procedure id ; 
 args -> ( param_list ) 
@@ -28,44 +28,44 @@ comp_stmt -> begin opt_stmts end
 opt_stmts -> stmt_list 
 stmt_list -> stmt 
 stmt_list -> stmt_list ; stmt 
-stmt -> comp_stmt 
-stmt -> while expr do stmt 
 stmt -> if expr then stmt else stmt 
 stmt -> proc_stmt 
-stmt -> if expr then stmt 
+stmt -> while expr do stmt 
 stmt -> variable assignop expr 
+stmt -> if expr then stmt 
+stmt -> comp_stmt 
 variable -> id [ expr ] 
 variable -> id 
 proc_stmt -> call id ( expr_list ) 
 proc_stmt -> call id 
-expr_list -> expr_list , expr 
 expr_list -> expr 
-expr -> simple_expr relop simple_expr 
+expr_list -> expr_list , expr 
 expr -> simple_expr 
-term -> factor 
+expr -> simple_expr relop simple_expr 
 term -> term mulop factor 
-simple_expr -> sign term 
-simple_expr -> term 
+term -> factor 
 simple_expr -> simple_expr addop term 
+simple_expr -> term 
+simple_expr -> sign term 
 factor -> id [ expr ] 
 factor -> id 
-factor -> ( expr ) 
 factor -> num 
+factor -> ( expr ) 
 factor -> not factor 
 sign -> + 
 sign -> - 
-addop -> or 
 addop -> + 
 addop -> - 
+addop -> or 
 assignop -> := 
-mulop -> / 
-mulop -> mod 
-mulop -> and 
-mulop -> * 
 mulop -> div 
-relop -> = 
-relop -> <> 
-relop -> <= 
-relop -> > 
-relop -> < 
+mulop -> and 
+mulop -> mod 
+mulop -> / 
+mulop -> * 
 relop -> >= 
+relop -> <> 
+relop -> = 
+relop -> < 
+relop -> > 
+relop -> <= 

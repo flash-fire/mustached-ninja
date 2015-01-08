@@ -1,28 +1,28 @@
 prgm
-	program id ( idList ) ; decs comp_stmt . 
+	program id ( idList ) ; comp_stmt . 
 	program id ( idList ) ; subprgm_decs comp_stmt . 
 	program id ( idList ) ; decs subprgm_decs comp_stmt . 
-	program id ( idList ) ; comp_stmt . 
+	program id ( idList ) ; decs comp_stmt . 
 idList
 	idList , id 
 	id 
 decs
-	var id : type ; 
 	decs var id : type ; 
+	var id : type ; 
 type
-	std_type 
 	array [ num .. num ] of std_type 
+	std_type 
 std_type
-	real 
 	integer 
+	real 
 subprgm_decs
-	subprgm_decs subprgm_dec ; 
 	subprgm_dec ; 
+	subprgm_decs subprgm_dec ; 
 subprgm_dec
-	subprgm_head subprgm_decs comp_stmt 
-	subprgm_head comp_stmt 
 	subprgm_head decs subprgm_decs comp_stmt 
+	subprgm_head subprgm_decs comp_stmt 
 	subprgm_head decs comp_stmt 
+	subprgm_head comp_stmt 
 subprgm_head
 	procedure id args ; 
 	procedure id ; 
@@ -40,12 +40,12 @@ stmt_list
 	stmt 
 	stmt_list ; stmt 
 stmt
-	comp_stmt 
-	while expr do stmt 
 	if expr then stmt else stmt 
 	proc_stmt 
-	if expr then stmt 
+	while expr do stmt 
 	variable assignop expr 
+	if expr then stmt 
+	comp_stmt 
 variable
 	id [ expr ] 
 	id 
@@ -53,43 +53,43 @@ proc_stmt
 	call id ( expr_list ) 
 	call id 
 expr_list
-	expr_list , expr 
 	expr 
+	expr_list , expr 
 expr
-	simple_expr relop simple_expr 
 	simple_expr 
+	simple_expr relop simple_expr 
 term
-	factor 
 	term mulop factor 
+	factor 
 simple_expr
-	sign term 
-	term 
 	simple_expr addop term 
+	term 
+	sign term 
 factor
 	id [ expr ] 
 	id 
-	( expr ) 
 	num 
+	( expr ) 
 	not factor 
 sign
 	+ 
 	- 
 addop
-	or 
 	+ 
 	- 
+	or 
 assignop
 	:= 
 mulop
-	/ 
-	mod 
-	and 
-	* 
 	div 
+	and 
+	mod 
+	/ 
+	* 
 relop
-	= 
-	<> 
-	<= 
-	> 
-	< 
 	>= 
+	<> 
+	= 
+	< 
+	> 
+	<= 
