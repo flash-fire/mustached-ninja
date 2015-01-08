@@ -4,6 +4,7 @@
 #include <string>
 #include <list>
 #include <map>
+#include <fstream>
 
 #include "Token.h"
 
@@ -30,14 +31,15 @@ public:
 	int getInstance();
 	std::string getName();
 	void appendChild(ParseNode* child, int debugTargInstance = -1);
+	std::list<Wrapper> getChildren() { return children; };
 
+	static void WriteUndecoratedTree(ParseNode* node, std::ofstream* out, int level = 0);
+	
 	ParseNode(ParseNode* parent, std::string nt, std::list<std::string> varNames);
 	~ParseNode();
 
 
 private:
-	ParseNode(ParseNode* parent, std::string nt, int iteration, std::list<std::string> varNames); // used in add children
-
 	bool locSet(const std::string varName,const int newVal); // Sets a variable. Creates new variable if one doesn't already exist.
 	int	locGet(const std::string varName, std::string* errorMsg); // gets a variable. Returns error message if var doesn't exist
 	

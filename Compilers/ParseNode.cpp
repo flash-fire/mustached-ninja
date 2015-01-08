@@ -9,15 +9,40 @@ ParseNode::ParseNode(ParseNode* par, std::string nonTerminal, std::list<std::str
 	}
 }
 
-ParseNode::ParseNode(ParseNode* par, std::string nt, int instanceNum, std::list<std::string> varNames) : parent(par), nt(nt), instanceNumber(instanceNum), varNames(varNames)
-{
-	for (auto& it : varNames) {
-		locSet(it, 0);
-	}
-}
-
 ParseNode::~ParseNode()
 {
+}
+
+void ParseNode::WriteUndecoratedTree(ParseNode* node, std::ofstream* fileToWrite, int level)
+{
+	if (node == NULL)
+	{	// We have root
+		return;
+	}
+
+	std::string out = "";
+	if (level > 0)
+	{
+		out = std::string("\t", level);
+	}
+	out += node->getName() + " " + std::to_string(node->getInstance()) + "\n";
+	*fileToWrite << out;
+
+	for (auto& wrap : node->getChildren())
+	{
+		if (wrap.isNode)
+		{
+			ParseNode* curr = wrap.val.node;
+			if (!curr)
+			{	// null is error condition so it's okay.
+				std::cout << "[writeUndecoratedTree] Impossible condition :: isNode is supposed to be a node, but is null!!!! " << node->getName() << "\n";
+			}
+			else
+			{
+				WriteUndecoratedTree(curr, fileToWrite, level + 1);
+			}
+		}
+	}
 }
 
 int ParseNode::getInstance()
