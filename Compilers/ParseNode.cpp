@@ -35,6 +35,38 @@ std::string ParseNode::getName()
 	return nt;
 }
 
+void ParseNode::appendChild(ParseNode* child, int debugTargInstance)
+{
+	int instanceFound = 1;
+	for (auto& wrap : children)
+	{
+		if (wrap.isNode)
+		{
+			ParseNode* curr = wrap.val.node;
+			if (!curr)
+			{	// null is error condition so it's okay.
+				std::cout << "[append child] Impossible condition :: isNode is supposed to be a node, but is null!!!! " << nt << "\n";
+			}
+			if (curr->getName() == child->getName())
+			{
+				instanceFound++;
+			}
+		}
+	}
+
+	if (debugTargInstance != -1)
+	{
+		if (debugTargInstance != instanceFound)
+		{
+			std::cout << "[appen child] Wrong target instance found when appending a child. This is obviously so bad that everyone will die brutally.\n"
+				<< "Iter Found: " << instanceFound << " iter desired " << debugTargInstance;
+		}
+	}
+
+	child->setInstance(instanceFound);
+	children.push_back(Wrapper(child));
+}
+
 // Error occurred if returns false
 bool ParseNode::locSet(const std::string varName, const int newVal)
 {
@@ -107,7 +139,7 @@ ParseNode* ParseNode::findChild(const std::string targ, const int instance)
 			ParseNode* curr = wrap.val.node;
 			if (!curr)
 			{	// null is error condition so it's okay.
-				std::cout << "Impossible condition :: isNode is supposed to be a node, but is null!!!! " << nt << "\n";
+				std::cout << "[FildChild] Impossible condition :: isNode is supposed to be a node, but is null!!!! " << nt << "\n";
 				return curr;
 			}
 

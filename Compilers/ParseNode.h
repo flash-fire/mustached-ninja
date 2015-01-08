@@ -29,7 +29,7 @@ public:
 	void setInstance(const int newInstance);
 	int getInstance();
 	std::string getName();
-	void appendChild(const ParseNode* child);
+	void appendChild(ParseNode* child, int debugTargInstance = -1);
 
 	ParseNode(ParseNode* parent, std::string nt, std::list<std::string> varNames);
 	~ParseNode();
