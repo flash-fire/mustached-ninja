@@ -1,8 +1,8 @@
 prgm
-	program id ( idList ) ; comp_stmt . 
-	program id ( idList ) ; subprgm_decs comp_stmt . 
 	program id ( idList ) ; decs subprgm_decs comp_stmt . 
 	program id ( idList ) ; decs comp_stmt . 
+	program id ( idList ) ; comp_stmt . 
+	program id ( idList ) ; subprgm_decs comp_stmt . 
 idList
 	id idListLR1 
 idListLR1
@@ -14,8 +14,8 @@ decsLR1
 	EPSILON
 	var id : type ; decsLR1 
 type
-	array [ num .. num ] of std_type 
 	std_type 
+	array [ num .. num ] of std_type 
 std_type
 	integer 
 	real 
@@ -25,13 +25,13 @@ subprgm_decsLR1
 	subprgm_dec ; subprgm_decsLR1 
 	EPSILON
 subprgm_dec
-	subprgm_head decs subprgm_decs comp_stmt 
 	subprgm_head subprgm_decs comp_stmt 
 	subprgm_head decs comp_stmt 
+	subprgm_head decs subprgm_decs comp_stmt 
 	subprgm_head comp_stmt 
 subprgm_head
-	procedure id args ; 
 	procedure id ; 
+	procedure id args ; 
 args
 	( param_list ) 
 param_list
@@ -47,65 +47,65 @@ opt_stmts
 stmt_list
 	stmt stmt_listLR1 
 stmt_listLR1
-	EPSILON
 	; stmt stmt_listLR1 
+	EPSILON
 stmt
 	if expr then stmt else stmt 
-	proc_stmt 
-	while expr do stmt 
-	variable assignop expr 
-	if expr then stmt 
 	comp_stmt 
+	if expr then stmt 
+	while expr do stmt 
+	proc_stmt 
+	variable assignop expr 
 variable
 	id [ expr ] 
 	id 
 proc_stmt
-	call id ( expr_list ) 
 	call id 
+	call id ( expr_list ) 
 expr_list
 	expr expr_listLR1 
 expr_listLR1
 	EPSILON
 	, expr expr_listLR1 
 expr
-	simple_expr 
 	simple_expr relop simple_expr 
+	simple_expr 
 term
 	factor termLR1 
 termLR1
-	mulop factor termLR1 
 	EPSILON
+	mulop factor termLR1 
 simple_expr
-	term simple_exprLR1 
 	sign term simple_exprLR1 
+	term simple_exprLR1 
 simple_exprLR1
 	addop term simple_exprLR1 
 	EPSILON
 factor
 	id [ expr ] 
-	id 
-	num 
 	( expr ) 
 	not factor 
+	id 
+	num 
 sign
-	+ 
 	- 
+	+ 
 addop
-	+ 
-	- 
 	or 
+	- 
+	+ 
 assignop
 	:= 
 mulop
+	* 
 	div 
 	and 
 	mod 
 	/ 
-	* 
 relop
+	<= 
+	< 
+	= 
 	>= 
 	<> 
-	= 
-	< 
 	> 
-	<= 

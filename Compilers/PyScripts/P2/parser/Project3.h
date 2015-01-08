@@ -1,6 +1,7 @@
 #ifndef __PROJECT2_H_INCLUDED__
 #define __PROJECT2_H_INCLUDED__
 #include "Project1.h"
+#include "ParseNode.h"
 
 class Project2 {
 
@@ -9,7 +10,7 @@ public:
 	~Project2();
 	void LoadSynch();
 	void Parse();
-	void Match(int tok, std::string nt, std::string exp);
+	Token Match(int tok, std::string nt, std::string exp);
 	void MatchEOF();
 	void SynErrorTok(std::string nt, std::string exp);
 	void UniteSynchronization(std::string nt);

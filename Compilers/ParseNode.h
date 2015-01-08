@@ -34,7 +34,7 @@ public:
 
 	ParseNode* getParent() { return parent; };
 	void appendChild(ParseNode* child, int debugTargInstance = DEF_NOT_INSTANCE);
-	void appendToken(Token& child, ParseNode& targ, int debugTargInstance = DEF_NOT_INSTANCE);
+	void appendToken(Token& child, ParseNode* targ, int debugTargInstance = DEF_NOT_INSTANCE);
 
 	std::list<Wrap> getChildren() { return children; };
 
@@ -53,7 +53,7 @@ private:
 	// Please note that nonLocSet also does local sets; however, I for debugging purposes try to avoid using nonLocSet unless necessary
 	bool nonLocSet(const std::string targNT, const int instance, const std::string var, const int val, std::string* errorMsg); // Non local setting can only occur with either parent, or with siblings.
 	int nonLocGet(const std::string targNT, const int instance, const std::string var, std::string* errorMsg); // Non local getting can only occur with either parent, or with siblings.
-	ParseNode* findChild(const std::string targ, const int instance); // Finds node with said properties [child or parent]
+	ParseNode* findChild(const std::string targ, const int instance, std::string* errorMsg); // Finds node with said properties [child or parent]
 
 	std::string nt; // Nonterminal name
 	ParseNode* parent;

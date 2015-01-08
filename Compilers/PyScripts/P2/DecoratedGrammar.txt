@@ -1,32 +1,22 @@
 prgm
-	program id ( prgmLF1 
+	program id ( idList ) ; prgmLF1 
 prgmLF1
-	) ; prgmLF1LF2 
-	IDList ) ; prgmLF1LF1 
+	subprgm_decs comp_stmt . 
+	decs prgmLF1LF1 
+	comp_stmt . 
 prgmLF1LF1
-	decs prgmLF1LF1LF1 
-	comp_stmt . 
 	subprgm_decs comp_stmt . 
-prgmLF1LF1LF1
 	comp_stmt . 
-	subprgm_decs comp_stmt . 
-prgmLF1LF2
-	decs prgmLF1LF2LF1 
-	comp_stmt . 
-	subprgm_decs comp_stmt . 
-prgmLF1LF2LF1
-	comp_stmt . 
-	subprgm_decs comp_stmt . 
-IDList
-	id , IDListLF1 
-IDListLF1
-	IDList 
+idList
+	id idListLR1 
+idListLR1
+	, id idListLR1 
 	EPSILON
 decs
 	var id : type ; decsLR1 
 decsLR1
-	var id : type ; decsLR1 
 	EPSILON
+	var id : type ; decsLR1 
 type
 	std_type 
 	array [ num .. num ] of std_type 
@@ -73,8 +63,8 @@ stmt_listLR1
 	EPSILON
 stmt
 	if expr then stmt stmtLF1 
-	while expr do stmt 
 	comp_stmt 
+	while expr do stmt 
 	variable assignop expr 
 	proc_stmt 
 stmtLF1
@@ -88,34 +78,34 @@ variableLF1
 proc_stmt
 	call id proc_stmtLF1 
 proc_stmtLF1
-	( expr_list ) 
 	EPSILON
+	( expr_list ) 
 expr_list
 	expr expr_listLR1 
 expr_listLR1
-	EPSILON
 	, expr expr_listLR1 
+	EPSILON
 expr
 	simple_expr exprLF1 
 exprLF1
-	EPSILON
 	relop simple_expr 
+	EPSILON
 term
 	factor termLR1 
 termLR1
-	mulop factor termLR1 
 	EPSILON
+	mulop factor termLR1 
 simple_expr
-	term simple_exprLR1 
 	sign term simple_exprLR1 
+	term simple_exprLR1 
 simple_exprLR1
 	EPSILON
 	addop term simple_exprLR1 
 factor
-	( expr ) 
+	not factor 
 	id factorLF1 
 	num 
-	not factor 
+	( expr ) 
 factorLF1
 	EPSILON
 	[ expr ] 
@@ -130,14 +120,14 @@ assignop
 	:= 
 mulop
 	/ 
-	mod 
 	and 
+	mod 
 	div 
 	* 
 relop
 	<= 
-	>= 
-	< 
 	<> 
+	< 
 	= 
 	> 
+	>= 

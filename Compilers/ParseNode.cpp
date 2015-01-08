@@ -21,20 +21,24 @@ ParseNode::~ParseNode()
 
 std::string ParseNode::name(Wrap wrap, bool isRHS)
 {
+	std::string str = "";
 	if (wrap.isNode)
 	{
 		if (isRHS)
 		{
-			return wrap.val.node->nt + "_" + std::to_string(DEF_INSTANCE);
+			str += wrap.val.node->nt + "_" + std::to_string(DEF_INSTANCE);
+			return str;
 		}
 		else
 		{
-			return wrap.val.node->nt + "_" + std::to_string(wrap.instanceNum);
+			str += wrap.val.node->nt + "_" + std::to_string(wrap.instanceNum);
+			return str;
 		}
 	}
 	else
 	{
-		return wrap.val.tok->gram() + "_" + std::to_string(wrap.instanceNum);
+		str += wrap.val.tok->gram() + "_" + std::to_string(wrap.instanceNum);
+		return str;
 	}
 }
 
@@ -45,33 +49,20 @@ void ParseNode::WriteUndecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int 
 		return;
 	}
 	ParseNode* node = wrap.val.node;
-
-	if (node == NULL)
-	{	// We have root
-		return;
-	}
-
 	std::string out = "";
 	if (level > 0)
 	{
-		out = std::string("\t", level);
+		out = std::string(level, ' '); // switching level with ' ' is hilariously beepy
+		//out = std::string(' ', level);
 	}
 	out += ParseNode::name(wrap) + "\n";
 	*fileToWrite << out;
-
+	//std::cout << out;
 	for (auto& wrap : node->getChildren())
 	{
 		if (wrap.isNode)
 		{
-			ParseNode* curr = wrap.val.node;
-			if (!curr)
-			{	// null is error condition so it's okay.
-				std::cout << "[writeUndecoratedTree] Impossible condition :: isNode is supposed to be a node, but is null!!!! " << ParseNode::name(wrap) << "\n";
-			}
-			else
-			{
-				WriteUndecoratedTree(wrap, fileToWrite, level + 1);
-			}
+			WriteUndecoratedTree(wrap, fileToWrite, level + 1);
 		}
 	}
 }
@@ -94,10 +85,6 @@ void ParseNode::appendChild(ParseNode* child, int debugTargInstance)
 		if (wrap.isNode)
 		{
 			ParseNode* curr = wrap.val.node;
-			if (!curr)
-			{	// null is error condition so it's okay.
-				std::cout << "[append child] Impossible condition :: isNode is supposed to be a node, but is null!!!! " << nt << "\n";
-			}
 			if (curr->nt == child->nt)
 			{
 				instanceFound++;
@@ -119,9 +106,9 @@ void ParseNode::appendChild(ParseNode* child, int debugTargInstance)
 }
 
 // Because I preinitialize my variables in my nodes [to debug], I need to add the nodes first. This finds where the tokens should be in any case. YAY NONLINeAR!
-void ParseNode::appendToken(Token& tok, ParseNode& targ, int debugTargInstance)
+void ParseNode::appendToken(Token& tok, ParseNode* targ, int debugTargInstance)
 {
-	auto endLoc = children.begin();
+	/*auto endLoc = children.begin();
 	int instance = DEF_INSTANCE;
 
 	for (auto it = children.begin(); it != children.end(); ++it) {
@@ -129,7 +116,7 @@ void ParseNode::appendToken(Token& tok, ParseNode& targ, int debugTargInstance)
 		Wrap curr = *it;
 		if (curr.isNode)
 		{
-			if (curr.val.node == &targ)
+			if (curr.val.node == targ)
 			{
 				endLoc = it;
 				break;
@@ -150,7 +137,7 @@ void ParseNode::appendToken(Token& tok, ParseNode& targ, int debugTargInstance)
 		++endLoc;
 	} // Finds last inserted token
 
-	children.insert(endLoc, Wrap(&tok, debugTargInstance));
+	children.insert(endLoc, Wrap(&tok, debugTargInstance)); */
 }
 
 // Error occurred if returns false
@@ -184,33 +171,25 @@ int	ParseNode::locGet(const std::string varName, std::string* errorMsg)
 // Non local setting can only occur with either parent, or with siblings.
 bool ParseNode::nonLocSet(const std::string targNT, const int instance, const std::string var, const int val, std::string* errorMsg)
 {
-	ParseNode* targ = findChild(targNT, instance);
-	if (targ) // not nullzies
+	ParseNode* targ = findChild(targNT, instance, errorMsg);
+	if (*errorMsg != "")
 	{
-		return targ->locSet(var, val);
-	}
-	else
-	{
-		*errorMsg = "[nonLocSET] Cannot find variable " + var + " in " + targNT + " or in parents/siblings. In other words :( .\n";
 		return false;
 	}
+	return targ->locSet(var, val);
 }
 
 int ParseNode::nonLocGet(const std::string targNT, const int instance, const std::string var, std::string* errorMsg)
 {
-	ParseNode* targ = findChild(targNT, instance);
-	if (targ) // not nullzies
+	ParseNode* targ = findChild(targNT, instance, errorMsg);
+	if (*errorMsg != "")
 	{
-		return targ->locGet(var, errorMsg);
+		return false;
 	}
-	else
-	{
-		*errorMsg = "[nonLocGET] Cannot find variable " + var + " in " + targNT + " or in parents/siblings. In other words :(\n";
-		return 0;
-	}
+	return targ->locGet(var, errorMsg);
 }
 
-ParseNode* ParseNode::findChild(const std::string targ, const int instance)
+ParseNode* ParseNode::findChild(const std::string targ, const int instance, std::string* errorMsg)
 {
 	if (nt == targ && 0 == instance)
 	{
@@ -223,12 +202,6 @@ ParseNode* ParseNode::findChild(const std::string targ, const int instance)
 		if (wrap.isNode)
 		{
 			ParseNode* curr = wrap.val.node;
-			if (!curr)
-			{	// null is error condition so it's okay.
-				std::cout << "[FildChild] Impossible condition :: isNode is supposed to be a node, but is null!!!! " << nt << "\n";
-				return curr;
-			}
-
 			if (curr->nt == targ)
 			{
 				if (wrap.instanceNum == instance)
@@ -242,7 +215,7 @@ ParseNode* ParseNode::findChild(const std::string targ, const int instance)
 			}
 		}
 	}
-	std::cout << "IN findChild and we have sad news about the finding of our target node.";
-	std::cout << debug;
+	debug += "IN findChild and we have sad news about the finding of our target node.\n";
+	*errorMsg += debug;
 	return NULL;
 }

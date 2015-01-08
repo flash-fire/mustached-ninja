@@ -1,8 +1,9 @@
 #include "Project2.h"
 #include "Project1.h"
-#include<iostream>
+#include <iostream>
 #include "MiscFunc.h"
 #include "Token.h"
+#include "ParseNode.h"
 
 const std::string Project2::SYNCH_PATH = ".\\data\\synch.txt";
 

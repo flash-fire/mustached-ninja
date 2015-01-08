@@ -1,35 +1,35 @@
 addop
-	( not num id
+	( id num not
 args
 	;
 assignop
-	- id + ( not num
+	+ - ( id num not
 comp_stmt
-	else . end ;
+	. end ; else
 comp_stmtLF1
-	else . end ;
+	else end ; .
 decs
 	begin procedure
 decsLR1
 	begin procedure
 expr
-	else , then ; ] ) do end
+	end do ] ) , then ; else
 exprLF1
-	else , then ; ] ) do end
+	end do ] ) , then ; else
 expr_list
 	)
 expr_listLR1
 	)
 factor
-	/ and else >= , * ; = > < <> <= do end - mod + then div or ] )
+	and do - ] ; = < * <= div + or end >= ) / , then mod else <> >
 factorLF1
-	/ and else >= , * ; = > < <> <= do end - mod + then div or ] )
+	and do - ] ; = < * <= div + or end >= ) / , then mod else <> >
 idList
 	)
 idListLR1
 	)
 mulop
-	( not num id
+	( id num not
 opt_stmts
 	end
 param_list
@@ -43,21 +43,21 @@ prgmLF1
 prgmLF1LF1
 	$
 proc_stmt
-	else end ;
+	end ; else
 proc_stmtLF1
-	else end ;
+	end ; else
 relop
-	- id + ( not num
+	+ - ( id num not
 sign
-	( not num id
+	( id num not
 simple_expr
-	else >= , ; = > < <> <= do end then ] )
+	do ] ; = < <= end >= ) , then else <> >
 simple_exprLR1
-	else >= , then ; = ] > < <> ) <= do end
+	end do >= ] ) , then ; = < else <> > <=
 std_type
 	) ;
 stmt
-	else end ;
+	end ; else
 stmtLF1
 	end ;
 stmt_list
@@ -75,13 +75,13 @@ subprgm_decs
 subprgm_decsLR1
 	begin
 subprgm_head
-	var begin procedure
+	begin var procedure
 subprgm_headLF1
-	var begin procedure
+	begin var procedure
 term
-	else >= , ; = > < <> <= do end - + then or ] )
+	do - ] ; = < <= + or end >= ) , then else <> >
 termLR1
-	else >= , ; = > < <> <= do end - + then or ] )
+	do - ] ; = < <= + or end >= ) , then else <> >
 type
 	) ;
 variable

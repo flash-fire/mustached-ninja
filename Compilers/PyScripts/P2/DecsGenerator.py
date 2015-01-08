@@ -94,7 +94,7 @@ def writeNonEps(nt, nts, term, prod):
    for i in range(0,len(prod)):
       targ = prod[i]
       if targ in nts:
-         outStr += "\t\tParseNode* " + names[i] + " = &ParseNode(" + PARSE_NODE_NAME + ",\"" + targ + "\", std::list<std::string>());\n"
+         outStr += "\t\tParseNode* " + names[i] + " = new ParseNode(" + PARSE_NODE_NAME + ",\"" + targ + "\", std::list<std::string>());\n"
          outStr += "\t\t" + PARSE_NODE_NAME + "->appendChild(" + names[i] + ");\n"
    
    # Token stuff
@@ -104,7 +104,9 @@ def writeNonEps(nt, nts, term, prod):
          outStr += "\t\tref = " + names[i] + ";\n"
          outStr += "\t\t" + targ + "(" + names[i] + ");\n"
       elif targ in terms:
-         outStr += "\t\t" + PARSE_NODE_NAME + "->appendToken(&Match(p->GTT(\"" + targ + "\") ,nt, \"" + targ + "\"), ref);\n"
+#         outStr += "\t\tToken WTF" + str(i) + " = " +  "Match(p->GTT(\"" + targ + "\") ,nt, \"" + targ + "\");\n";
+#         outStr += "\t\t" + PARSE_NODE_NAME + ".appendToken( WTF" + str(i) + ", ref);\n"
+         outStr += PARSE_NODE_NAME + "->appendToken(Match(p->GTT(\"" + targ + "\") ,nt, \"" + targ + "\"), ref);\n"
       else:
          print(prod, "ERROR: DOOM!!!!", targ)
    outStr += "\t\treturn;\n" # essentially a break in a case statement when using ifs
@@ -170,7 +172,16 @@ def writeMiscTextFiles(nts, firsts_dict, follows_dict):
    follows.close()
 
 def startParseMethod(start):
-   return "void Project2::Parse()\n"+"{\n"+"\tParseNode* root = &ParseNode(NULL, \"" + start + "\", std::list<std::string>());\n" + "\tlookAhead = p->nextToken();\n"+"\t" + start + "(root);\n"+"\tMatchEOF();\n"+"}\n"
+   outstr =  "void Project2::Parse()\n"
+   outstr  += "{\n"
+   outstr += "\tParseNode* root = new ParseNode(NULL, \"" + start + "\", std::list<std::string>());\n" 
+   outstr += "\tlookAhead = p->nextToken();\n"+"\t" + start + "(root);\n"
+   outstr += "\tMatchEOF();\n"
+   outstr += "\tstd::ofstream file;\n"
+   outstr += "\tfile.open(\"Tree.txt\", std::ios::out | std::ios::trunc);\n"
+   outstr += "\tParseNode::WriteUndecoratedTree(ParseNode::Wrap(root, 0), &file);\n"
+   outstr += "}\n\n"
+   return outstr
 
 if __name__ == '__main__':
    reformGrammar("OriginalGrammar.txt",g+"FormattedGrammar.txt")

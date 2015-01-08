@@ -17,7 +17,7 @@ public:
 
 	std::map<std::string, std::string> synchSet;
 private:
-	void Project2::prgm(ParseNode& par);
+	void Project2::prgm(ParseNode* par);
 	void Project2::prgmLF1(ParseNode* par);
 	void Project2::prgmLF1LF1(ParseNode* par);
 	void Project2::idList(ParseNode* par);
