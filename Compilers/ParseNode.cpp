@@ -60,36 +60,40 @@ std::string ParseNode::getName()
 	return nt;
 }
 
-void ParseNode::appendChild(ParseNode* child, int debugTargInstance)
+void ParseNode::appendChild(Wrapper child, int debugTargInstance)
 {
-	int instanceFound = ParseNode::DEF_INSTANCE;
-	for (auto& wrap : children)
+	if (child.isNode)
 	{
-		if (wrap.isNode)
+		int instanceFound = ParseNode::DEF_INSTANCE;
+		for (auto& wrap : children)
 		{
-			ParseNode* curr = wrap.val.node;
-			if (!curr)
-			{	// null is error condition so it's okay.
-				std::cout << "[append child] Impossible condition :: isNode is supposed to be a node, but is null!!!! " << nt << "\n";
-			}
-			if (curr->getName() == child->getName())
+			if (wrap.isNode)
 			{
-				instanceFound++;
+				ParseNode* curr = wrap.val.node;
+				if (!curr)
+				{	// null is error condition so it's okay.
+					std::cout << "[append child] Impossible condition :: isNode is supposed to be a node, but is null!!!! " << nt << "\n";
+				}
+				if (curr->getName() == child.val.node->getName())
+				{
+					instanceFound++;
+				}
 			}
 		}
-	}
 
-	if (debugTargInstance != ParseNode::DEF_NOT_INSTANCE)
-	{
-		if (debugTargInstance != instanceFound)
+		if (debugTargInstance != ParseNode::DEF_NOT_INSTANCE)
 		{
-			std::cout << "[appen child] Wrong target instance found when appending a child. This is obviously so bad that everyone will die brutally.\n"
-				<< "Iter Found: " << instanceFound << " iter desired " << debugTargInstance;
+			if (debugTargInstance != instanceFound)
+			{
+				std::cout << "[appen child] Wrong target instance found when appending a child. This is obviously so bad that everyone will die brutally.\n"
+					<< "Iter Found: " << instanceFound << " iter desired " << debugTargInstance;
+			}
 		}
-	}
 
-	child->setInstance(instanceFound);
-	children.push_back(Wrapper(child));
+		child.val.node->setInstance(instanceFound);
+	}
+	// Tokens don't need much love. Just saying.
+	children.push_back(child);
 }
 
 // Error occurred if returns false

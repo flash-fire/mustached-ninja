@@ -32,7 +32,7 @@ public:
 	void setInstance(const int newInstance);
 	int getInstance();
 	std::string getName();
-	void appendChild(ParseNode* child, int debugTargInstance = DEF_NOT_INSTANCE);
+	void appendChild(Wrapper child, int debugTargInstance = DEF_NOT_INSTANCE);
 	std::list<Wrapper> getChildren() { return children; };
 
 	static void WriteUndecoratedTree(ParseNode* node, std::ofstream* out, int level = 0);
