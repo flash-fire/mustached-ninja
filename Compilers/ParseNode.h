@@ -34,7 +34,7 @@ public:
 
 	ParseNode* getParent() { return parent; };
 	void appendChild(ParseNode* child, int debugTargInstance = DEF_NOT_INSTANCE);
-	void appendToken(Token& child, ParseNode* targ, int debugTargInstance = DEF_NOT_INSTANCE);
+	void appendToken(Token* child, ParseNode* targ, int debugTargInstance = DEF_NOT_INSTANCE);
 
 	std::list<Wrap> getChildren() { return children; };
 

@@ -44,11 +44,6 @@ std::string ParseNode::name(Wrap wrap, bool isRHS)
 
 void ParseNode::WriteUndecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int level)
 {
-	if (wrap.isNode == false)
-	{
-		return;
-	}
-	ParseNode* node = wrap.val.node;
 	std::string out = "";
 	if (level > 0)
 	{
@@ -58,9 +53,11 @@ void ParseNode::WriteUndecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int 
 	out += ParseNode::name(wrap) + "\n";
 	*fileToWrite << out;
 	//std::cout << out;
-	for (auto& wrap : node->getChildren())
+
+	if (wrap.isNode)
 	{
-		if (wrap.isNode)
+		ParseNode* node = wrap.val.node;
+		for (auto& wrap : node->getChildren())
 		{
 			WriteUndecoratedTree(wrap, fileToWrite, level + 1);
 		}
@@ -106,9 +103,9 @@ void ParseNode::appendChild(ParseNode* child, int debugTargInstance)
 }
 
 // Because I preinitialize my variables in my nodes [to debug], I need to add the nodes first. This finds where the tokens should be in any case. YAY NONLINeAR!
-void ParseNode::appendToken(Token& tok, ParseNode* targ, int debugTargInstance)
+void ParseNode::appendToken(Token* tok, ParseNode* targ, int debugTargInstance)
 {
-	/*auto endLoc = children.begin();
+	auto endLoc = children.begin();
 	int instance = DEF_INSTANCE;
 
 	for (auto it = children.begin(); it != children.end(); ++it) {
@@ -124,7 +121,7 @@ void ParseNode::appendToken(Token& tok, ParseNode* targ, int debugTargInstance)
 		}
 		else
 		{
-			if (curr.val.tok->gram() == tok.gram())
+			if (curr.val.tok->gram() == tok->gram())
 			{
 				instance += 1;
 			}
@@ -137,7 +134,7 @@ void ParseNode::appendToken(Token& tok, ParseNode* targ, int debugTargInstance)
 		++endLoc;
 	} // Finds last inserted token
 
-	children.insert(endLoc, Wrap(&tok, debugTargInstance)); */
+	children.insert(endLoc, Wrap(tok, debugTargInstance)); 
 }
 
 // Error occurred if returns false

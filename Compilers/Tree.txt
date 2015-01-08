@@ -1,164 +1,312 @@
 prgm_0
+ program_-1
+ id_-1
+ (_-1
+ )_-1
+ ;_-1
  idList_1
+  id_-1
   idListLR1_1
+   ,_-1
+   id_-1
    idListLR1_2
  prgmLF1_1
   decs_1
+   var_-1
+   id_-1
+   :_-1
+   ;_-1
    type_1
     std_type_1
+     integer_-1
    decsLR1_1
+    var_-1
+    id_-1
+    :_-1
+    ;_-1
     type_1
      std_type_1
+      real_-1
     decsLR1_2
+     var_-1
+     id_-1
+     :_-1
+     ;_-1
      type_1
+      array_-1
+      [_-1
+      num_-1
+      .._-1
+      num_-1
+      ]_-1
+      of_-1
       std_type_1
+       integer_-1
      decsLR1_2
   prgmLF1LF1_1
    subprgm_decs_1
+    ;_-1
     subprgm_dec_1
      subprgm_head_1
+      procedure_-1
+      id_-1
       subprgm_headLF1_1
+       ;_-1
        args_1
+        (_-1
+        )_-1
         param_list_1
+         id_-1
+         :_-1
          type_1
           std_type_1
+           integer_-1
          param_listLR1_1
+          ;_-1
+          id_-1
+          :_-1
           type_1
            std_type_1
+            real_-1
           param_listLR1_2
+           ;_-1
+           id_-1
+           :_-1
            type_1
+            array_-1
+            [_-1
+            num_-1
+            .._-1
+            num_-1
+            ]_-1
+            of_-1
             std_type_1
+             integer_-1
            param_listLR1_2
+            ;_-1
+            id_-1
+            :_-1
             type_1
              std_type_1
+              real_-1
             param_listLR1_2
      subprgm_decLF1_1
       decs_1
+       var_-1
+       id_-1
+       :_-1
+       ;_-1
        type_1
         std_type_1
+         integer_-1
        decsLR1_1
       subprgm_decLF1LF1_1
        comp_stmt_1
+        begin_-1
         comp_stmtLF1_1
+         end_-1
          opt_stmts_1
           stmt_list_1
            stmt_1
             variable_1
+             id_-1
              variableLF1_1
             assignop_1
+             assignop_-1
             expr_1
              simple_expr_1
               term_1
                factor_1
+                num_-1
                termLR1_1
               simple_exprLR1_1
              exprLF1_1
            stmt_listLR1_1
+            ;_-1
             stmt_1
              variable_1
+              id_-1
               variableLF1_1
+               [_-1
+               ]_-1
                expr_1
                 simple_expr_1
                  term_1
                   factor_1
+                   id_-1
                    factorLF1_1
                   termLR1_1
                  simple_exprLR1_1
                 exprLF1_1
              assignop_1
+              assignop_-1
              expr_1
               simple_expr_1
                term_1
                 factor_1
+                 num_-1
                 termLR1_1
                simple_exprLR1_1
               exprLF1_1
             stmt_listLR1_2
+             ;_-1
              stmt_1
               variable_1
+               id_-1
                variableLF1_1
+                [_-1
+                ]_-1
                 expr_1
                  simple_expr_1
                   term_1
                    factor_1
+                    num_-1
                    termLR1_1
                   simple_exprLR1_1
                  exprLF1_1
               assignop_1
+               assignop_-1
               expr_1
                simple_expr_1
                 term_1
                  factor_1
+                  num_-1
                  termLR1_1
                 simple_exprLR1_1
                exprLF1_1
              stmt_listLR1_2
     subprgm_decsLR1_1
+     ;_-1
      subprgm_dec_1
       subprgm_head_1
+       procedure_-1
+       id_-1
        subprgm_headLF1_1
+        ;_-1
         args_1
+         (_-1
+         )_-1
          param_list_1
+          id_-1
+          :_-1
           type_1
            std_type_1
+            integer_-1
           param_listLR1_1
+           ;_-1
+           id_-1
+           :_-1
            type_1
             std_type_1
+             integer_-1
            param_listLR1_2
       subprgm_decLF1_1
        decs_1
+        var_-1
+        id_-1
+        :_-1
+        ;_-1
         type_1
          std_type_1
+          real_-1
         decsLR1_1
        subprgm_decLF1LF1_1
         subprgm_decs_1
+         ;_-1
          subprgm_dec_1
           subprgm_head_1
+           procedure_-1
+           id_-1
            subprgm_headLF1_1
+            ;_-1
             args_1
+             (_-1
+             )_-1
              param_list_1
+              id_-1
+              :_-1
               type_1
                std_type_1
+                integer_-1
               param_listLR1_1
+               ;_-1
+               id_-1
+               :_-1
                type_1
                 std_type_1
+                 real_-1
                param_listLR1_2
           subprgm_decLF1_1
            decs_1
+            var_-1
+            id_-1
+            :_-1
+            ;_-1
             type_1
              std_type_1
+              integer_-1
             decsLR1_1
            subprgm_decLF1LF1_1
             subprgm_decs_1
+             ;_-1
              subprgm_dec_1
               subprgm_head_1
+               procedure_-1
+               id_-1
                subprgm_headLF1_1
+                ;_-1
                 args_1
+                 (_-1
+                 )_-1
                  param_list_1
+                  id_-1
+                  :_-1
                   type_1
                    std_type_1
+                    integer_-1
                   param_listLR1_1
+                   ;_-1
+                   id_-1
+                   :_-1
                    type_1
+                    array_-1
+                    [_-1
+                    num_-1
+                    .._-1
+                    num_-1
+                    ]_-1
+                    of_-1
                     std_type_1
+                     real_-1
                    param_listLR1_2
               subprgm_decLF1_1
                decs_1
+                var_-1
+                id_-1
+                :_-1
+                ;_-1
                 type_1
                  std_type_1
+                  integer_-1
                 decsLR1_1
                subprgm_decLF1LF1_1
                 comp_stmt_1
+                 begin_-1
                  comp_stmtLF1_1
+                  end_-1
                   opt_stmts_1
                    stmt_list_1
                     stmt_1
                      variable_1
+                      id_-1
                       variableLF1_1
                      assignop_1
+                      assignop_-1
                      expr_1
                       simple_expr_1
                        term_1
                         factor_1
+                         id_-1
                          factorLF1_1
                         termLR1_1
                        simple_exprLR1_1
@@ -166,35 +314,47 @@ prgm_0
                     stmt_listLR1_1
              subprgm_decsLR1_1
             comp_stmt_1
+             begin_-1
              comp_stmtLF1_1
+              end_-1
               opt_stmts_1
                stmt_list_1
                 stmt_1
                  variable_1
+                  id_-1
                   variableLF1_1
                  assignop_1
+                  assignop_-1
                  expr_1
                   simple_expr_1
                    term_1
                     factor_1
+                     id_-1
                      factorLF1_1
                     termLR1_1
                    simple_exprLR1_1
                   exprLF1_1
                 stmt_listLR1_1
+                 ;_-1
                  stmt_1
                   variable_1
+                   id_-1
                    variableLF1_1
                   assignop_1
+                   assignop_-1
                   expr_1
                    simple_expr_1
                     term_1
                      factor_1
+                      id_-1
                       factorLF1_1
+                       [_-1
+                       ]_-1
                        expr_1
                         simple_expr_1
                          term_1
                           factor_1
+                           id_-1
                            factorLF1_1
                           termLR1_1
                          simple_exprLR1_1
@@ -205,63 +365,85 @@ prgm_0
                  stmt_listLR1_2
          subprgm_decsLR1_1
         comp_stmt_1
+         begin_-1
          comp_stmtLF1_1
+          end_-1
           opt_stmts_1
            stmt_list_1
             stmt_1
              proc_stmt_1
+              call_-1
+              id_-1
               proc_stmtLF1_1
+               (_-1
+               )_-1
                expr_list_1
                 expr_1
                  simple_expr_1
                   term_1
                    factor_1
+                    id_-1
                     factorLF1_1
                    termLR1_1
                   simple_exprLR1_1
                  exprLF1_1
                 expr_listLR1_1
+                 ,_-1
                  expr_1
                   simple_expr_1
                    term_1
                     factor_1
+                     id_-1
                      factorLF1_1
                     termLR1_1
                    simple_exprLR1_1
                   exprLF1_1
                  expr_listLR1_2
+                  ,_-1
                   expr_1
                    simple_expr_1
                     term_1
                      factor_1
+                      id_-1
                       factorLF1_1
                      termLR1_1
                     simple_exprLR1_1
                    exprLF1_1
                   expr_listLR1_2
+                   ,_-1
                    expr_1
                     simple_expr_1
                      term_1
                       factor_1
+                       id_-1
                        factorLF1_1
                       termLR1_1
                      simple_exprLR1_1
                     exprLF1_1
                    expr_listLR1_2
             stmt_listLR1_1
+             ;_-1
              stmt_1
               proc_stmt_1
+               call_-1
+               id_-1
                proc_stmtLF1_1
+                (_-1
+                )_-1
                 expr_list_1
                  expr_1
                   simple_expr_1
                    term_1
                     factor_1
+                     id_-1
                      factorLF1_1
+                      [_-1
+                      ]_-1
                       expr_1
                        simple_expr_1
                         term_1
                          factor_1
+                          num_-1
                          termLR1_1
                         simple_exprLR1_1
                        exprLF1_1
@@ -269,134 +451,182 @@ prgm_0
                    simple_exprLR1_1
                   exprLF1_1
                  expr_listLR1_1
+                  ,_-1
                   expr_1
                    simple_expr_1
                     term_1
                      factor_1
+                      id_-1
                       factorLF1_1
                      termLR1_1
                     simple_exprLR1_1
                    exprLF1_1
                   expr_listLR1_2
              stmt_listLR1_2
+              ;_-1
               stmt_1
                variable_1
+                id_-1
                 variableLF1_1
                assignop_1
+                assignop_-1
                expr_1
                 simple_expr_1
                  term_1
                   factor_1
+                   id_-1
                    factorLF1_1
                   termLR1_1
                  simple_exprLR1_1
                   addop_1
+                   +_-1
                   term_1
                    factor_1
+                    num_-1
                    termLR1_1
                   simple_exprLR1_2
                 exprLF1_1
               stmt_listLR1_2
+               ;_-1
                stmt_1
                 variable_1
+                 id_-1
                  variableLF1_1
                 assignop_1
+                 assignop_-1
                 expr_1
                  simple_expr_1
                   term_1
                    factor_1
+                    (_-1
+                    )_-1
                     expr_1
                      simple_expr_1
                       term_1
                        factor_1
+                        id_-1
                         factorLF1_1
                        termLR1_1
                         mulop_1
+                         mulop_-1
                         factor_1
+                         id_-1
                          factorLF1_1
                         termLR1_2
                       simple_exprLR1_1
                      exprLF1_1
                    termLR1_1
                     mulop_1
+                     mulop_-1
                     factor_1
+                     id_-1
                      factorLF1_1
                     termLR1_2
                   simple_exprLR1_1
                  exprLF1_1
                stmt_listLR1_2
+                ;_-1
                 stmt_1
+                 while_-1
+                 do_-1
                  expr_1
                   simple_expr_1
                    term_1
                     factor_1
+                     (_-1
+                     )_-1
                      expr_1
                       simple_expr_1
                        term_1
                         factor_1
+                         (_-1
+                         )_-1
                          expr_1
                           simple_expr_1
                            term_1
                             factor_1
+                             id_-1
                              factorLF1_1
                             termLR1_1
                            simple_exprLR1_1
                           exprLF1_1
                            relop_1
+                            relop_-1
                            simple_expr_1
                             term_1
                              factor_1
+                              num_-1
                              termLR1_1
                             simple_exprLR1_1
                         termLR1_1
                          mulop_1
+                          mulop_-1
                          factor_1
+                          (_-1
+                          )_-1
                           expr_1
                            simple_expr_1
                             term_1
                              factor_1
+                              (_-1
+                              )_-1
                               expr_1
                                simple_expr_1
                                 term_1
                                  factor_1
+                                  id_-1
                                   factorLF1_1
                                  termLR1_1
                                 simple_exprLR1_1
                                exprLF1_1
                                 relop_1
+                                 relop_-1
                                 simple_expr_1
                                  term_1
                                   factor_1
+                                   id_-1
                                    factorLF1_1
                                   termLR1_1
                                  simple_exprLR1_1
                              termLR1_1
                             simple_exprLR1_1
                              addop_1
+                              addop_-1
                              term_1
                               factor_1
+                               (_-1
+                               )_-1
                                expr_1
                                 simple_expr_1
                                  term_1
                                   factor_1
+                                   not_-1
                                    factor_2
+                                    (_-1
+                                    )_-1
                                     expr_1
                                      simple_expr_1
                                       term_1
                                        factor_1
+                                        id_-1
                                         factorLF1_1
                                        termLR1_1
                                       simple_exprLR1_1
                                      exprLF1_1
                                       relop_1
+                                       relop_-1
                                       simple_expr_1
                                        term_1
                                         factor_1
+                                         id_-1
                                          factorLF1_1
+                                          [_-1
+                                          ]_-1
                                           expr_1
                                            simple_expr_1
                                             term_1
                                              factor_1
+                                              id_-1
                                               factorLF1_1
                                              termLR1_1
                                             simple_exprLR1_1
@@ -417,22 +647,30 @@ prgm_0
                   exprLF1_1
                  stmt_2
                   comp_stmt_1
+                   begin_-1
                    comp_stmtLF1_1
+                    end_-1
                     opt_stmts_1
                      stmt_list_1
                       stmt_1
                        variable_1
+                        id_-1
                         variableLF1_1
                        assignop_1
+                        assignop_-1
                        expr_1
                         simple_expr_1
                          term_1
                           factor_1
+                           id_-1
                            factorLF1_1
+                            [_-1
+                            ]_-1
                             expr_1
                              simple_expr_1
                               term_1
                                factor_1
+                                id_-1
                                 factorLF1_1
                                termLR1_1
                               simple_exprLR1_1
@@ -440,31 +678,44 @@ prgm_0
                           termLR1_1
                          simple_exprLR1_1
                           addop_1
+                           +_-1
                           term_1
                            factor_1
+                            num_-1
                            termLR1_1
                           simple_exprLR1_2
                         exprLF1_1
                       stmt_listLR1_1
                 stmt_listLR1_2
      subprgm_decsLR1_2
+   ._-1
    comp_stmt_1
+    begin_-1
     comp_stmtLF1_1
+     end_-1
      opt_stmts_1
       stmt_list_1
        stmt_1
         proc_stmt_1
+         call_-1
+         id_-1
          proc_stmtLF1_1
+          (_-1
+          )_-1
           expr_list_1
            expr_1
             simple_expr_1
              term_1
               factor_1
+               id_-1
                factorLF1_1
+                [_-1
+                ]_-1
                 expr_1
                  simple_expr_1
                   term_1
                    factor_1
+                    num_-1
                    termLR1_1
                   simple_exprLR1_1
                  exprLF1_1
@@ -472,15 +723,20 @@ prgm_0
              simple_exprLR1_1
             exprLF1_1
            expr_listLR1_1
+            ,_-1
             expr_1
              simple_expr_1
               term_1
                factor_1
+                id_-1
                 factorLF1_1
+                 [_-1
+                 ]_-1
                  expr_1
                   simple_expr_1
                    term_1
                     factor_1
+                     num_-1
                     termLR1_1
                    simple_exprLR1_1
                   exprLF1_1
@@ -489,19 +745,28 @@ prgm_0
              exprLF1_1
             expr_listLR1_2
        stmt_listLR1_1
+        ;_-1
         stmt_1
          proc_stmt_1
+          call_-1
+          id_-1
           proc_stmtLF1_1
+           (_-1
+           )_-1
            expr_list_1
             expr_1
              simple_expr_1
               term_1
                factor_1
+                id_-1
                 factorLF1_1
+                 [_-1
+                 ]_-1
                  expr_1
                   simple_expr_1
                    term_1
                     factor_1
+                     num_-1
                     termLR1_1
                    simple_exprLR1_1
                   exprLF1_1
@@ -509,32 +774,42 @@ prgm_0
               simple_exprLR1_1
              exprLF1_1
             expr_listLR1_1
+             ,_-1
              expr_1
               simple_expr_1
                term_1
                 factor_1
+                 num_-1
                 termLR1_1
                simple_exprLR1_1
               exprLF1_1
              expr_listLR1_2
         stmt_listLR1_2
+         ;_-1
          stmt_1
+          if_-1
+          then_-1
           expr_1
            simple_expr_1
             term_1
              factor_1
+              (_-1
+              )_-1
               expr_1
                simple_expr_1
                 term_1
                  factor_1
+                  id_-1
                   factorLF1_1
                  termLR1_1
                 simple_exprLR1_1
                exprLF1_1
                 relop_1
+                 relop_-1
                 simple_expr_1
                  term_1
                   factor_1
+                   num_-1
                   termLR1_1
                  simple_exprLR1_1
              termLR1_1
@@ -542,51 +817,68 @@ prgm_0
            exprLF1_1
           stmt_2
            variable_1
+            id_-1
             variableLF1_1
            assignop_1
+            assignop_-1
            expr_1
             simple_expr_1
              term_1
               factor_1
+               num_-1
               termLR1_1
              simple_exprLR1_1
             exprLF1_1
           stmtLF1_1
+           else_-1
            stmt_1
             variable_1
+             id_-1
              variableLF1_1
             assignop_1
+             assignop_-1
             expr_1
              simple_expr_1
               term_1
                factor_1
+                id_-1
                 factorLF1_1
                termLR1_1
               simple_exprLR1_1
                addop_1
+                +_-1
                term_1
                 factor_1
+                 num_-1
                 termLR1_1
                simple_exprLR1_2
              exprLF1_1
          stmt_listLR1_2
+          ;_-1
           stmt_1
+           if_-1
+           then_-1
            expr_1
             simple_expr_1
              term_1
               factor_1
+               (_-1
+               )_-1
                expr_1
                 simple_expr_1
                  term_1
                   factor_1
+                   id_-1
                    factorLF1_1
                   termLR1_1
                  simple_exprLR1_1
                 exprLF1_1
                  relop_1
+                  relop_-1
                  simple_expr_1
                   term_1
                    factor_1
+                    num_-1
                    termLR1_1
                   simple_exprLR1_1
               termLR1_1
@@ -594,17 +886,23 @@ prgm_0
             exprLF1_1
            stmt_2
             variable_1
+             id_-1
              variableLF1_1
             assignop_1
+             assignop_-1
             expr_1
              simple_expr_1
               term_1
                factor_1
+                id_-1
                 factorLF1_1
+                 [_-1
+                 ]_-1
                  expr_1
                   simple_expr_1
                    term_1
                     factor_1
+                     id_-1
                      factorLF1_1
                     termLR1_1
                    simple_exprLR1_1
