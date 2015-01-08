@@ -6,6 +6,7 @@ class Type
 public:
 	enum TYPE
 	{
+		ERROR = 0,
 		UNASSIGNED, // Initial value
 		NONE, // Type that is of nothing
 		BOOL, // Boolean
@@ -22,6 +23,8 @@ public:
 
 	static bool isArrayType(TYPE t);
 	static bool isSame(Type t1, Type t2);
+	static int typeToInt(TYPE t);
+	static TYPE intToType(int t);
 	TYPE type;
 };
 #endif
