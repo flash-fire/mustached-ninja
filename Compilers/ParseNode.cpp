@@ -98,6 +98,7 @@ ParseNode* ParseNode::findChild(const std::string targ, const int instance)
 	{
 		return this; // check current node first
 	}
+	std::string debug = "";
 
 	for (auto& wrap : children)
 	{
@@ -110,12 +111,20 @@ ParseNode* ParseNode::findChild(const std::string targ, const int instance)
 				return curr;
 			}
 
-			if (curr->getName() == targ && curr->getInstance() == instance)
+			if (curr->getName() == targ)
 			{
-				return curr;
+				if (curr->getInstance() == instance)
+				{
+					return curr;
+				}
+				else
+				{
+					debug += "Found node with same name, but different instance. Want : " + std::to_string(instance) + " found : " + std::to_string(curr->getInstance()) + "\n";
+				}
 			}
 		}
 	}
-
+	std::cout << "IN findChild and we have sad news about the finding of our target node.";
+	std::cout << debug;
 	return NULL;
 }
