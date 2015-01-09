@@ -26,8 +26,7 @@ std::string ParseNode::name(Wrap wrap, bool isRHS)
 	{
 		if (isRHS)
 		{
-			str += wrap.val.node->nt + "_" + std::to_string(DEF_INSTANCE);
-			return str;
+			return wrap.val.node->nt + "_" + std::to_string(DEF_INSTANCE);
 		}
 		else
 		{
@@ -47,10 +46,17 @@ void ParseNode::WriteUndecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int 
 	std::string out = "";
 	if (level > 0)
 	{
-		out = std::string(level, ' '); // switching level with ' ' is hilariously beepy
+		out = std::string(level*2, ' '); // switching level with ' ' is hilariously beepy
 		//out = std::string(' ', level);
 	}
-	out += ParseNode::name(wrap) + "\n";
+	if (wrap.isNode)
+	{
+		out += "<" + ParseNode::name(wrap) + ">\n";
+	}
+	else
+	{
+		out += ParseNode::name(wrap) + "\n";
+	}
 	*fileToWrite << out;
 	//std::cout << out;
 
@@ -105,7 +111,7 @@ void ParseNode::appendChild(ParseNode* child, int debugTargInstance)
 // Because I preinitialize my variables in my nodes [to debug], I need to add the nodes first. This finds where the tokens should be in any case. YAY NONLINeAR!
 void ParseNode::appendToken(Token* tok, ParseNode* targ, int debugTargInstance)
 {
-	auto endLoc = children.begin();
+	auto endLoc = children.begin(); // If target node isn't found, we are in current node -- add to beginning. Simple enough
 	int instance = DEF_INSTANCE;
 
 	for (auto it = children.begin(); it != children.end(); ++it) {
@@ -113,9 +119,15 @@ void ParseNode::appendToken(Token* tok, ParseNode* targ, int debugTargInstance)
 		Wrap curr = *it;
 		if (curr.isNode)
 		{
+			ParseNode* temp = curr.val.node;
+
 			if (curr.val.node == targ)
 			{
 				endLoc = it;
+				if (endLoc != children.end())
+				{
+					endLoc++;
+				}
 				break;
 			}
 		}
@@ -128,7 +140,9 @@ void ParseNode::appendToken(Token* tok, ParseNode* targ, int debugTargInstance)
 		}
 	}
 
-
+	
+	// This makes sure the token is insert right before the last node entered.
+	// Since tokens come in order, you can think of this as fixing the offset of the token w/r2 the target node.
 	while (endLoc != children.end() && endLoc->isNode == false)
 	{
 		++endLoc;
@@ -188,7 +202,7 @@ int ParseNode::nonLocGet(const std::string targNT, const int instance, const std
 
 ParseNode* ParseNode::findChild(const std::string targ, const int instance, std::string* errorMsg)
 {
-	if (nt == targ && 0 == instance)
+	if (nt == targ && 1 == instance)
 	{
 		return this; // check current node first
 	}
