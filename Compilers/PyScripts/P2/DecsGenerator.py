@@ -179,7 +179,10 @@ def startParseMethod(start):
    outstr += "\tMatchEOF();\n"
    outstr += "\tstd::ofstream file;\n"
    outstr += "\tfile.open(\"Tree.txt\", std::ios::out | std::ios::trunc);\n"
-   outstr += "\tParseNode::WriteUndecoratedTree(ParseNode::Wrap(root, 0), &file);\n"
+   outstr += "\tParseNode::WriteUndecoratedTree(ParseNode::Wrap(root, ParseNode::DEF_INSTANCE), &file);\n"
+   outstr += "\tstd::ofstream decFile;\n"
+   outstr += "\tdecFile.open(\"DecTree.txt\", std::ios::out | std::ios::trunc);\n"
+   outstr += "\tParseNode::WriteDecoratedTree(ParseNode::Wrap(root, ParseNode::DEF_INSTANCE), &decFile);\n"
    outstr += "}\n\n"
    return outstr
 

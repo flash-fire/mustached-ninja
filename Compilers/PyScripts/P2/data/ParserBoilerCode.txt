@@ -4,6 +4,7 @@
 #include "MiscFunc.h"
 #include "Token.h"
 #include "ParseNode.h"
+#include "Type.h"
 
 const std::string Project2::SYNCH_PATH = ".\\data\\synch.txt";
 
