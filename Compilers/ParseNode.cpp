@@ -212,7 +212,7 @@ bool ParseNode::locSet(const std::string varName, const int newVal)
 	return true;
 }
 // gets a variable. Returns error message if var doesn't exist
-int	ParseNode::locGet(const std::string varName, std::string* errorMsg)
+int	ParseNode::locGet(const std::string varName)
 {
 	if (vars.count(varName) != 0)
 	{
@@ -220,63 +220,52 @@ int	ParseNode::locGet(const std::string varName, std::string* errorMsg)
 	}
 	else
 	{
-		*errorMsg = "Cannot find variable " + varName + " in ";
+		std::string errorMsg = "Cannot find variable " + varName + " in ";
 		for (auto iter = vars.begin(); iter != vars.end(); ++iter) {
-			*errorMsg = *errorMsg + (" " + iter->first);
+			errorMsg += (" " + iter->first);
 		}
-		*errorMsg = *errorMsg + "\n";
+		errorMsg += errorMsg + "\n";
+		std::cout << errorMsg;
 		return 0;
 	}
 }
 
 // Non local setting can only occur with either parent, or with siblings.
-bool ParseNode::nonLocSet(const std::string targNT, const int instance, const std::string var, const int val, std::string* errorMsg)
+bool ParseNode::nonLocSet(const std::string targNT, const std::string var, const int val, std::string* errorMsg)
 {
-	ParseNode* targ = findChild(targNT, instance, errorMsg);
+	Wrap targ = find(targNT, errorMsg);
 	if (*errorMsg != "")
 	{
 		return false;
 	}
-	return targ->locSet(var, val);
+	return targ.isNode & targ.val.node->locSet(var, val);
 }
 
-int ParseNode::nonLocGet(const std::string targNT, const int instance, const std::string var, std::string* errorMsg)
+int ParseNode::nonLocGet(const std::string targNT, const std::string var, std::string* errorMsg)
 {
-	ParseNode* targ = findChild(targNT, instance, errorMsg);
+	Wrap targ = find(targNT, errorMsg);
 	if (*errorMsg != "")
 	{
 		return false;
 	}
-	return targ->locGet(var, errorMsg);
+	return targ.isNode && targ.val.node->locGet(var);
 }
 
-ParseNode* ParseNode::findChild(const std::string targ, const int instance, std::string* errorMsg)
+ParseNode::Wrapper ParseNode::find(const std::string targ, std::string* errorMsg)
 {
-	if (nt == targ && 1 == instance)
+	if (ParseNode::name(Wrap(this, DEF_INSTANCE)) == targ)
 	{
-		return this; // check current node first
+		return Wrapper(this, DEF_INSTANCE);
 	}
-	std::string debug = "";
 
 	for (auto& wrap : children)
 	{
-		if (wrap.isNode)
+		if (ParseNode::name(wrap) == targ)
 		{
-			ParseNode* curr = wrap.val.node;
-			if (curr->nt == targ)
-			{
-				if (wrap.instanceNum == instance)
-				{
-					return curr;
-				}
-				else
-				{
-					debug += "Found node with same name, but different instance. Want : " + std::to_string(instance) + " found : " + std::to_string(wrap.instanceNum) + "\n";
-				}
-			}
+			return wrap;
 		}
 	}
-	debug += "IN findChild and we have sad news about the finding of our target node.\n";
-	*errorMsg += debug;
-	return NULL;
+
+	*errorMsg += "IN findChild and we have sad news about the finding of our target node.\n";
+	return Wrapper(this, DEF_INSTANCE);
 }

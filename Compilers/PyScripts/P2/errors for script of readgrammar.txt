@@ -1,0 +1,18 @@
+1) def method forgot :
+2, 3) dicts had [] instead of {}
+4) forgot : for handleSkip()
+5) filename shenanigans
+6) stupid scoping thing with handleSkip
+7) had typo from old handleSkip -- had a : when none belonged
+8) used wrong nonterminal set when printing dict
+
+Nothing prints.
+   Check vars for print out. Nothing
+   Check begin of loop for fail
+      Fail occurs
+   Check file for non emptyness
+
+9) had if line rather than if not line
+10) Forgot parameters in another handleSkip
+11) forgot to strip nt before using it
+12) Idk what's wrong, but everything BUT code is working.

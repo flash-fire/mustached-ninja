@@ -45,7 +45,7 @@ public:
 	static std::string name(Wrap wrap, bool isRHS = false);
 
 	bool locSet(const std::string varName, const int newVal); // Sets a variable. Creates new variable if one doesn't already exist.
-	int	locGet(const std::string varName, std::string* errorMsg); // gets a variable. Returns error message if var doesn't exist
+	int	locGet(const std::string varName); // gets a variable. Returns error message if var doesn't exist
 
 	ParseNode(ParseNode* parent, std::string nt, std::vector<std::string> varNames);
 	ParseNode(const ParseNode& node);
@@ -54,9 +54,9 @@ public:
 
 private:	
 	// Please note that nonLocSet also does local sets; however, I for debugging purposes try to avoid using nonLocSet unless necessary
-	bool nonLocSet(const std::string targNT, const int instance, const std::string var, const int val, std::string* errorMsg); // Non local setting can only occur with either parent, or with siblings.
-	int nonLocGet(const std::string targNT, const int instance, const std::string var, std::string* errorMsg); // Non local getting can only occur with either parent, or with siblings.
-	ParseNode* findChild(const std::string targ, const int instance, std::string* errorMsg); // Finds node with said properties [child or parent]
+	bool nonLocSet(const std::string targ, const std::string var, const int val, std::string* errorMsg); // Non local setting can only occur with either parent, or with siblings.
+	int nonLocGet(const std::string targ, const std::string var, std::string* errorMsg); // Non local getting can only occur with either parent, or with siblings.
+	Wrapper find(const std::string targ, std::string* errorMsg); 	// Finds Wrap with that name. Good for retrieving tokens.
 
 	std::string nt; // Nonterminal name
 	ParseNode* parent;

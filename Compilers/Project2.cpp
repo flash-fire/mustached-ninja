@@ -335,13 +335,8 @@ void Project2::type(ParseNode* parent) {
 		parent->appendChild(std_type_1);
 		ref = std_type_1;
 		std_type(std_type_1);
-		std::string err = "";
-		parent->locSet("width", std_type_1->locGet("width", &err));
-		parent->locSet("t", std_type_1->locGet("t", &err));
-		if (err != "")
-		{
-			std::cout << err;
-		}
+		parent->locSet("width", std_type_1->locGet("width"));
+		parent->locSet("t", std_type_1->locGet("t"));
 		return;
 	}
 
@@ -351,8 +346,8 @@ void Project2::type(ParseNode* parent) {
 		ref = std_type_1;
 		std_type(std_type_1);
 		std::string err = "";
-		parent->locSet("width", std_type_1->locGet("width", &err));
-		parent->locSet("t", std_type_1->locGet("t", &err));
+		parent->locSet("width", std_type_1->locGet("width"));
+		parent->locSet("t", std_type_1->locGet("t"));
 		if (err != "")
 		{
 			std::cout << err;
@@ -373,12 +368,7 @@ void Project2::type(ParseNode* parent) {
 		ref = std_type_1;
 		std_type(std_type_1);
 
-		std::string err = "";
-		parent->locSet("t", Type::promoteToArray(Type::intToType(std_type_1->locGet("t", &err))));
-		if (err != "")
-		{
-			std::cout << err;
-		}
+		parent->locSet("t", Type::promoteToArray(Type::intToType(std_type_1->locGet("t"))));
 		return;
 	}
 	SynErrorTok(nt, exp);

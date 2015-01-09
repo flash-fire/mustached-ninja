@@ -1,136 +1,133 @@
-prgm_1:
+prgm_1
 	<<begin>> program_1 id_1 (_1 idList_1 )_1 ;_1 prgmLF1_1 <<end>> 
-prgmLF1_1:
-	<<begin>> comp_stmt_1 ._1 <<end>> 
+prgmLF1_1
 	<<begin>> subprgm_decs_1 comp_stmt_1 ._1 <<end>> 
+	<<begin>> comp_stmt_1 ._1 <<end>> 
 	<<begin>> decs_1 prgmLF1LF1_1 <<end>> 
-prgmLF1LF1_1:
-	<<begin>> comp_stmt_1 ._1 <<end>> 
+prgmLF1LF1_1
 	<<begin>> subprgm_decs_1 comp_stmt_1 ._1 <<end>> 
-idList_1:
+	<<begin>> comp_stmt_1 ._1 <<end>> 
+idList_1
 	<<begin>> id_1 idListLR1_1 <<end>> 
-idListLR1_1:
-	<<begin>> <<end>> 
+idListLR1_1
+	<<begin>> EPSILON <<end>> 
 	<<begin>> ,_1 id_1 idListLR1_2 <<end>> 
-decs_1:
+decs_1
 	<<begin>> var_1 id_1 :_1 type_1 ;_1 decsLR1_1 <<end>> 
-decsLR1_1:
-	<<begin>> <<end>> 
+decsLR1_1
+	<<begin>> EPSILON <<end>> 
 	<<begin>> var_1 id_1 :_1 type_1 ;_1 decsLR1_2 <<end>> 
-type_1:
-	<<begin>> std_type_1 <<end>> 
+type_1
 	<<begin>> array_1 [_1 num_1 .._1 num_2 ]_1 of_1 std_type_1 <<end>> 
-std_type_1:
-	<<vars>> t width
+	<<begin>> std_type_1 <<end>> 
+std_type_1
+	<<begin>> integer_1 <<end>> 
 	<<begin>> real_1 <<end>> 
-	<<begin>> integer_1 <<end>>
-subprgm_decs_1:
+subprgm_decs_1
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_1 <<end>> 
-subprgm_decsLR1_1:
-	<<begin>> <<end>> 
+subprgm_decsLR1_1
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_2 <<end>> 
-subprgm_dec_1:
+	<<begin>> EPSILON <<end>> 
+subprgm_dec_1
 	<<begin>> subprgm_head_1 subprgm_decLF1_1 <<end>> 
-subprgm_decLF1_1:
+subprgm_decLF1_1
+	<<begin>> comp_stmt_1 <<end>> 
 	<<begin>> decs_1 subprgm_decLF1LF1_1 <<end>> 
+	<<begin>> subprgm_decs_1 comp_stmt_1 <<end>> 
+subprgm_decLF1LF1_1
 	<<begin>> comp_stmt_1 <<end>> 
 	<<begin>> subprgm_decs_1 comp_stmt_1 <<end>> 
-subprgm_decLF1LF1_1:
-	<<begin>> comp_stmt_1 <<end>> 
-	<<begin>> subprgm_decs_1 comp_stmt_1 <<end>> 
-subprgm_head_1:
+subprgm_head_1
 	<<begin>> procedure_1 id_1 subprgm_headLF1_1 <<end>> 
-subprgm_headLF1_1:
-	<<begin>> args_1 ;_1 <<end>> 
+subprgm_headLF1_1
 	<<begin>> ;_1 <<end>> 
-args_1:
+	<<begin>> args_1 ;_1 <<end>> 
+args_1
 	<<begin>> (_1 param_list_1 )_1 <<end>> 
-param_list_1:
+param_list_1
 	<<begin>> id_1 :_1 type_1 param_listLR1_1 <<end>> 
-param_listLR1_1:
-	<<begin>> <<end>> 
+param_listLR1_1
+	<<begin>> EPSILON <<end>> 
 	<<begin>> ;_1 id_1 :_1 type_1 param_listLR1_2 <<end>> 
-comp_stmt_1:
+comp_stmt_1
 	<<begin>> begin_1 comp_stmtLF1_1 <<end>> 
-comp_stmtLF1_1:
+comp_stmtLF1_1
 	<<begin>> end_1 <<end>> 
 	<<begin>> opt_stmts_1 end_1 <<end>> 
-opt_stmts_1:
+opt_stmts_1
 	<<begin>> stmt_list_1 <<end>> 
-stmt_list_1:
+stmt_list_1
 	<<begin>> stmt_1 stmt_listLR1_1 <<end>> 
-stmt_listLR1_1:
-	<<begin>> <<end>> 
+stmt_listLR1_1
+	<<begin>> EPSILON <<end>> 
 	<<begin>> ;_1 stmt_1 stmt_listLR1_2 <<end>> 
-stmt_1:
+stmt_1
 	<<begin>> variable_1 assignop_1 expr_1 <<end>> 
-	<<begin>> proc_stmt_1 <<end>> 
-	<<begin>> comp_stmt_1 <<end>> 
 	<<begin>> while_1 expr_1 do_1 stmt_2 <<end>> 
+	<<begin>> comp_stmt_1 <<end>> 
+	<<begin>> proc_stmt_1 <<end>> 
 	<<begin>> if_1 expr_1 then_1 stmt_2 stmtLF1_1 <<end>> 
-stmtLF1_1:
+stmtLF1_1
 	<<begin>> else_1 stmt_1 <<end>> 
-	<<begin>> <<end>> 
-variable_1:
+	<<begin>> EPSILON <<end>> 
+variable_1
 	<<begin>> id_1 variableLF1_1 <<end>> 
-variableLF1_1:
+variableLF1_1
 	<<begin>> [_1 expr_1 ]_1 <<end>> 
-	<<begin>> <<end>> 
-proc_stmt_1:
+	<<begin>> EPSILON <<end>> 
+proc_stmt_1
 	<<begin>> call_1 id_1 proc_stmtLF1_1 <<end>> 
-proc_stmtLF1_1:
-	<<begin>> <<end>> 
+proc_stmtLF1_1
+	<<begin>> EPSILON <<end>> 
 	<<begin>> (_1 expr_list_1 )_1 <<end>> 
-expr_list_1:
+expr_list_1
 	<<begin>> expr_1 expr_listLR1_1 <<end>> 
-expr_listLR1_1:
+expr_listLR1_1
+	<<begin>> EPSILON <<end>> 
 	<<begin>> ,_1 expr_1 expr_listLR1_2 <<end>> 
-	<<begin>> <<end>> 
-expr_1:
+expr_1
 	<<begin>> simple_expr_1 exprLF1_1 <<end>> 
-exprLF1_1:
+exprLF1_1
+	<<begin>> EPSILON <<end>> 
 	<<begin>> relop_1 simple_expr_1 <<end>> 
-	<<begin>> <<end>> 
-term_1:
+term_1
 	<<begin>> factor_1 termLR1_1 <<end>> 
-termLR1_1:
-	<<begin>> <<end>> 
+termLR1_1
+	<<begin>> EPSILON <<end>> 
 	<<begin>> mulop_1 factor_1 termLR1_2 <<end>> 
-simple_expr_1:
+simple_expr_1
 	<<begin>> sign_1 term_1 simple_exprLR1_1 <<end>> 
 	<<begin>> term_1 simple_exprLR1_1 <<end>> 
-simple_exprLR1_1:
-	<<begin>> <<end>> 
+simple_exprLR1_1
 	<<begin>> addop_1 term_1 simple_exprLR1_2 <<end>> 
-factor_1:
-	<<begin>> id_1 factorLF1_1 <<end>> 
+	<<begin>> EPSILON <<end>> 
+factor_1
 	<<begin>> num_1 <<end>> 
 	<<begin>> (_1 expr_1 )_1 <<end>> 
+	<<begin>> id_1 factorLF1_1 <<end>> 
 	<<begin>> not_1 factor_2 <<end>> 
-factorLF1_1:
+factorLF1_1
 	<<begin>> [_1 expr_1 ]_1 <<end>> 
-	<<begin>> <<end>> 
-sign_1:
-	<<begin>> -_1 <<end>> 
+	<<begin>> EPSILON <<end>> 
+sign_1
 	<<begin>> +_1 <<end>> 
-addop_1:
 	<<begin>> -_1 <<end>> 
-	<<begin>> +_1 <<end>> 
+addop_1
 	<<begin>> or_1 <<end>> 
-assignop_1:
+	<<begin>> +_1 <<end>> 
+	<<begin>> -_1 <<end>> 
+assignop_1
 	<<begin>> :=_1 <<end>> 
-mulop_1:
-	<<begin>> and_1 <<end>> 
-	<<begin>> mod_1 <<end>> 
-	<<begin>> /_1 <<end>> 
+mulop_1
 	<<begin>> *_1 <<end>> 
 	<<begin>> div_1 <<end>> 
-relop_1:
-	<<begin>> >_1 <<end>> 
-      >_1
-         CODE CODE CODE
-	<<begin>> >=_1 <<end>> 
-	<<begin>> <_1 <<end>> 
-	<<begin>> <=_1 <<end>> 
+	<<begin>> /_1 <<end>> 
+	<<begin>> and_1 <<end>> 
+	<<begin>> mod_1 <<end>> 
+relop_1
 	<<begin>> =_1 <<end>> 
+	<<begin>> >_1 <<end>> 
+	<<begin>> <_1 <<end>> 
+	<<begin>> >=_1 <<end>> 
 	<<begin>> <>_1 <<end>> 
+	<<begin>> <=_1 <<end>> 
