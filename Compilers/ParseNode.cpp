@@ -134,7 +134,7 @@ void ParseNode::appendToken(Token* tok, ParseNode* targ, int debugTargInstance)
 		++endLoc;
 	} // Finds last inserted token
 
-	children.insert(endLoc, Wrap(tok, debugTargInstance)); 
+	children.insert(endLoc, Wrap(tok, instance));
 }
 
 // Error occurred if returns false
