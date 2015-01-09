@@ -2,6 +2,7 @@
 #define __PROJECT2_H_INCLUDED__
 #include "Project1.h"
 #include "ParseNode.h"
+#include "Type.h"
 
 class Project2 {
 
@@ -12,6 +13,7 @@ public:
 	void Parse();
 	Token* Match(int tok, std::string nt, std::string exp);
 	void MatchEOF();
+	void Project2::TypeErrorTok(std::string nt, Type::TYPE exp, Type::TYPE rec, Token tok);
 	void SynErrorTok(std::string nt, std::string exp);
 	void UniteSynchronization(std::string nt);
 

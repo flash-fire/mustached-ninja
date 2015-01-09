@@ -7,6 +7,7 @@ public:
 	enum TYPE
 	{
 		ERROR = 0,
+		OLD_ERROR,
 		UNASSIGNED, // Initial value
 		NONE, // Type that is of nothing
 		BOOL, // Boolean
@@ -26,6 +27,7 @@ public:
 	static int typeToInt(TYPE t);
 	static TYPE promoteToArray(TYPE t);
 	static TYPE intToType(int t);
+	static std::string typeToString(TYPE t);
 	TYPE type;
 };
 #endif

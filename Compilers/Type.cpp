@@ -54,3 +54,27 @@ Type::TYPE Type::promoteToArray(TYPE t)
 	}
 	return Type::ERROR;
 }
+
+std::string Type::typeToString(TYPE t)
+{
+	switch (t){
+	case INT:
+		return "INT";
+	case REAL:
+		return "REAL";
+	case AINT:
+		return "ARRAY INT";
+	case AREAL:
+		return "ARRAY REAL";
+	case BOOL:
+		return "BOOLEAN";
+	case UNASSIGNED:
+		return "UNASSIGNED";
+	case ERROR:
+		return "ERROR";
+	case OLD_ERROR:
+		return "ERROR*";
+	default:
+		return "ERROR?";
+	}
+}

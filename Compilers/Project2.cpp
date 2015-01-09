@@ -96,6 +96,13 @@ void Project2::SynErrorTok(std::string nt, std::string exp)
 	UniteSynchronization(nt);
 }
 
+void Project2::TypeErrorTok(std::string nt, Type::TYPE exp, Type::TYPE rec, Token tok)
+{
+	target << "TYPERR found at line: " << tok.line << " char pos " << lookAhead.charNum
+		<< " NonTerminal: <" << nt << "> \nEncountered: <" << Type::typeToString(rec) << "> Expected <"
+		<< Type::typeToString(exp) << ">\n\n";
+}
+
 void Project2::UniteSynchronization(std::string nt)
 {
 	bool recover = false;
