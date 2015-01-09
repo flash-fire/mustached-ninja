@@ -53,16 +53,18 @@ def writeParseEntry(nt):
    
    entry, expected, follows = createParseTableEntry(nt)
    outStr += "\tstd::string exp = \"" + tupToString(expected)[:-1] + "\";\n"
-   outStr += "\tParseNode* ref = " + PARSE_NODE_NAME + ";"
-   temp = ""
-   for term in terms:
+   outStr += "\tParseNode* ref = " + defName(nt) + ";"
+   
+   temp = "" #temp handles writing the parse table entry for shenoi to see that you wrote your parse table correctly
+   for term in terms: 
       prod = entry[term]
       if term and prod:
          if prod[0]:
             temp += "\t" + term + " -> "  + tupToString(prod[0]) + "\n"
          else:
             temp += "\t" + term + " -> "  + 'EPSILON' + "\n"
-   outStr2 = nt + "\n" +  temp 
+   outStr2 = nt + "\n" +  temp
+   
    for term, prod in entry.items():
       if prod and term not in follows:
          outStr += writeNonEps(nt, nts, term, prod[0])
@@ -98,8 +100,8 @@ def writeNonEps(nt, nts, term, prod):
    for i in range(0,len(prod)):
       targ = prod[i]
       if targ in nts:
-         outStr += "\t\tParseNode* " + names[i] + " = new ParseNode(" + PARSE_NODE_NAME + ",\"" + targ + "\", std::vector<std::string>());\n"
-         outStr += "\t\t" + PARSE_NODE_NAME + "->appendChild(" + names[i] + ");\n"
+         outStr += "\t\tParseNode* " + names[i] + " = new ParseNode(" + defName(nt) + ",\"" + targ + "\", std::vector<std::string>());\n"
+         outStr += "\t\t" + defName(nt) + "->appendChild(" + names[i] + ");\n"
    
    # Token stuff
    for i in range(0,len(prod)):
@@ -108,7 +110,7 @@ def writeNonEps(nt, nts, term, prod):
          outStr += "\t\tref = " + names[i] + ";\n"
          outStr += "\t\t" + targ + "(" + names[i] + ");\n"
       elif targ in terms:
-         outStr += PARSE_NODE_NAME + "->appendToken(Match(p->GTT(\"" + targ + "\") ,nt, \"" + targ + "\"), ref);\n"
+         outStr += "\t\t" + defName(nt) + "->appendToken(Match(p->GTT(\"" + targ + "\") ,nt, \"" + targ + "\"), ref);\n"
       else:
          print(prod, "ERROR: DOOM!!!!", targ)
    outStr += "\t\treturn;\n" # essentially a break in a case statement when using ifs
@@ -198,4 +200,5 @@ follows_dict = follows(nts, productions, first_dict)
 ntsPrime = [defName(nt) for nt in nts]
 varsDict, codeDict = loadDecGrammar("DecoratedGrammar.txt", ntsPrime) # vars dict NT ==> SET(NT) ; # codeDict (nt', prod') ==> (nt', code)
 writeParser()
+print("Project 2 and 3 generated successfully!")
 #writeMiscTextFiles(nts, first_dict, follows_dict)

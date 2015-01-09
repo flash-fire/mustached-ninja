@@ -72,7 +72,7 @@ def loadDecGrammar(filename, nts):
                   print("\t\t\t" + lineStrip[0:9] + " found another production")
                   break;
                elif lineStrip[:-1] in nts:
-                  print("\t\t\t" + lineStrip[:-1], " is in ", nts)
+                  print("\t\t\t" + lineStrip[:-1], " is in nts")
                   break
                else:
                   print("\t\t\tCODE~~: " + lineStrip)
