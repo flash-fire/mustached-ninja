@@ -71,3 +71,4 @@ bool Token::isValid()
 {
 	return attr != 0 || token != 0;
 }
+

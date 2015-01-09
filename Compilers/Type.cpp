@@ -41,3 +41,16 @@ Type::TYPE Type::intToType(int t)
 	}
 	return (TYPE)t;
 }
+
+Type::TYPE Type::promoteToArray(TYPE t)
+{
+	if (t == REAL)
+	{
+		return Type::AREAL;
+	}
+	if (t == INT)
+	{
+		return Type::AINT;
+	}
+	return Type::ERROR;
+}

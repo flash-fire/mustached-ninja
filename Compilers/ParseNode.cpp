@@ -88,11 +88,11 @@ void ParseNode::WriteDecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int le
 		out += tab + "<" + ParseNode::name(wrap) + ">\n";
 		if (node->varNames.empty() == false)
 		{
-			out += tab + ' ' + "<<VARS>>\n";
+			out += tab + "  " + "<<VARS>>\n";
 			for (std::string var : node->varNames)
 			{
 				std::string err = "";
-				out += tab + "  " + "<<" + var + ">> : " + std::to_string(node->locGet(var, &err)) + "\n";
+				out += tab + "   " + "<<" + var + ">> : " + std::to_string(node->locGet(var, &err)) + "\n";
 				if (err != "")
 				{
 					std::cout << err;
@@ -200,6 +200,12 @@ bool ParseNode::locSet(const std::string varName, const int newVal)
 {
 	if (std::find(std::begin(varNames), std::end(varNames), varName) == std::end(varNames))
 	{
+		std::string err = "Cannot find variable " + varName + " in <<";
+		for (auto iter = vars.begin(); iter != vars.end(); ++iter) {
+			err += (" " + iter->first);
+		}
+		err += ">> for nt : <" + nt + ">.\n";
+		std::cout << err;
 		return false;
 	}
 	vars[varName] = newVal;

@@ -24,6 +24,7 @@ public:
 	static bool isArrayType(TYPE t);
 	static bool isSame(Type t1, Type t2);
 	static int typeToInt(TYPE t);
+	static TYPE promoteToArray(TYPE t);
 	static TYPE intToType(int t);
 	TYPE type;
 };

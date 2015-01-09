@@ -10,6 +10,9 @@ const std::string Project2::SYNCH_PATH = ".\\data\\synch.txt";
 
 Project2::Project2(Project1* p1) : lookAhead(Token()), p(p1)
 {
+	std_typev = std::list<std::string>();
+	std_typev.push_back("t");
+	std_typev.push_back("width");
 	synch.open(SYNCH_PATH);
 	target.open(Project1::TARGET_PATH, std::ios::app);
 	LoadSynch();
@@ -64,7 +67,7 @@ Token* Project2::Match(int T, std::string nt, std::string exp)
 	int C = lookAhead.token;
 	if (T == C && C != EOF)
 	{
-		std::cout << "Matched: <" << p->TokenToGrammar(T) << ">\n";
+		//std::cout << "Matched: <" << p->TokenToGrammar(T) << ">\n";
 		Token ret = lookAhead;
 		lookAhead = p->nextToken();
 		return new Token(ret);
@@ -273,7 +276,7 @@ void Project2::decs(ParseNode* parent) {
 	std::string exp = "var";
 	ParseNode* ref = parent;
 	if (lookAhead.token == p->GTT("var")) {
-		ParseNode* type_1 = new ParseNode(parent, "type", std::list<std::string>());
+		ParseNode* type_1 = new ParseNode(parent, "type", std_typev);
 		parent->appendChild(type_1);
 		ParseNode* decsLR1_1 = new ParseNode(parent, "decsLR1", std::list<std::string>());
 		parent->appendChild(decsLR1_1);
@@ -295,7 +298,7 @@ void Project2::decsLR1(ParseNode* parent) {
 	std::string exp = "begin procedure var";
 	ParseNode* ref = parent;
 	if (lookAhead.token == p->GTT("var")) {
-		ParseNode* type_1 = new ParseNode(parent, "type", std::list<std::string>());
+		ParseNode* type_1 = new ParseNode(parent, "type", std_typev);
 		parent->appendChild(type_1);
 		ParseNode* decsLR1_2 = new ParseNode(parent, "decsLR1", std::list<std::string>());
 		parent->appendChild(decsLR1_2);
@@ -321,23 +324,37 @@ void Project2::type(ParseNode* parent) {
 	std::string exp = "integer array real";
 	ParseNode* ref = parent;
 	if (lookAhead.token == p->GTT("real")) {
-		ParseNode* std_type_1 = new ParseNode(parent, "std_type", std::list<std::string>());
+		ParseNode* std_type_1 = new ParseNode(parent, "std_type", std_typev);
 		parent->appendChild(std_type_1);
 		ref = std_type_1;
 		std_type(std_type_1);
+		std::string err = "";
+		parent->locSet("width", std_type_1->locGet("width", &err));
+		parent->locSet("t", std_type_1->locGet("t", &err));
+		if (err != "")
+		{
+			std::cout << err;
+		}
 		return;
 	}
 
 	if (lookAhead.token == p->GTT("integer")) {
-		ParseNode* std_type_1 = new ParseNode(parent, "std_type", std::list<std::string>());
+		ParseNode* std_type_1 = new ParseNode(parent, "std_type", std_typev);
 		parent->appendChild(std_type_1);
 		ref = std_type_1;
 		std_type(std_type_1);
+		std::string err = "";
+		parent->locSet("width", std_type_1->locGet("width", &err));
+		parent->locSet("t", std_type_1->locGet("t", &err));
+		if (err != "")
+		{
+			std::cout << err;
+		}
 		return;
 	}
 
 	if (lookAhead.token == p->GTT("array")) {
-		ParseNode* std_type_1 = new ParseNode(parent, "std_type", std::list<std::string>());
+		ParseNode* std_type_1 = new ParseNode(parent, "std_type", std_typev);
 		parent->appendChild(std_type_1);
 		parent->appendToken(Match(p->GTT("array"), nt, "array"), ref);
 		parent->appendToken(Match(p->GTT("["), nt, "["), ref);
@@ -348,6 +365,13 @@ void Project2::type(ParseNode* parent) {
 		parent->appendToken(Match(p->GTT("of"), nt, "of"), ref);
 		ref = std_type_1;
 		std_type(std_type_1);
+
+		std::string err = "";
+		parent->locSet("t", Type::promoteToArray(Type::intToType(std_type_1->locGet("t", &err))));
+		if (err != "")
+		{
+			std::cout << err;
+		}
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -359,11 +383,15 @@ void Project2::std_type(ParseNode* parent) {
 	ParseNode* ref = parent;
 	if (lookAhead.token == p->GTT("real")) {
 		parent->appendToken(Match(p->GTT("real"), nt, "real"), ref);
+		parent->locSet("width", 8);
+		parent->locSet("t", Type::typeToInt(Type::REAL));
 		return;
 	}
 
 	if (lookAhead.token == p->GTT("integer")) {
 		parent->appendToken(Match(p->GTT("integer"), nt, "integer"), ref);
+		parent->locSet("width", 4);
+		parent->locSet("t", Type::typeToInt(Type::INT));
 		return;
 	}
 	SynErrorTok(nt, exp);
@@ -550,7 +578,7 @@ void Project2::param_list(ParseNode* parent) {
 	std::string exp = "id";
 	ParseNode* ref = parent;
 	if (lookAhead.token == p->GTT("id")) {
-		ParseNode* type_1 = new ParseNode(parent, "type", std::list<std::string>());
+		ParseNode* type_1 = new ParseNode(parent, "type", std_typev);
 		parent->appendChild(type_1);
 		ParseNode* param_listLR1_1 = new ParseNode(parent, "param_listLR1", std::list<std::string>());
 		parent->appendChild(param_listLR1_1);
@@ -570,7 +598,7 @@ void Project2::param_listLR1(ParseNode* parent) {
 	std::string exp = ") ;";
 	ParseNode* ref = parent;
 	if (lookAhead.token == p->GTT(";")) {
-		ParseNode* type_1 = new ParseNode(parent, "type", std::list<std::string>());
+		ParseNode* type_1 = new ParseNode(parent, "type", std_typev);
 		parent->appendChild(type_1);
 		ParseNode* param_listLR1_2 = new ParseNode(parent, "param_listLR1", std::list<std::string>());
 		parent->appendChild(param_listLR1_2);

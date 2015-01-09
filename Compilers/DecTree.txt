@@ -16,7 +16,13 @@
       id_1
       :_1
       <type_1>
+        <<VARS>>
+         <<t>> : 4
+         <<width>> : 4
         <std_type_1>
+          <<VARS>>
+           <<t>> : 4
+           <<width>> : 4
           integer_1
       ;_1
       <decsLR1_1>
@@ -24,7 +30,13 @@
         id_1
         :_1
         <type_1>
+          <<VARS>>
+           <<t>> : 5
+           <<width>> : 8
           <std_type_1>
+            <<VARS>>
+             <<t>> : 5
+             <<width>> : 8
             real_1
         ;_1
         <decsLR1_2>
@@ -32,6 +44,9 @@
           id_1
           :_1
           <type_1>
+            <<VARS>>
+             <<t>> : 6
+             <<width>> : 0
             array_1
             [_1
             num_1
@@ -40,6 +55,9 @@
             ]_1
             of_1
             <std_type_1>
+              <<VARS>>
+               <<t>> : 4
+               <<width>> : 4
               integer_1
           ;_1
           <decsLR1_2>
@@ -56,20 +74,35 @@
                   id_1
                   :_1
                   <type_1>
+                    <<VARS>>
+                     <<t>> : 4
+                     <<width>> : 4
                     <std_type_1>
+                      <<VARS>>
+                       <<t>> : 4
+                       <<width>> : 4
                       integer_1
                   <param_listLR1_1>
                     ;_1
                     id_1
                     :_1
                     <type_1>
+                      <<VARS>>
+                       <<t>> : 5
+                       <<width>> : 8
                       <std_type_1>
+                        <<VARS>>
+                         <<t>> : 5
+                         <<width>> : 8
                         real_1
                     <param_listLR1_2>
                       ;_1
                       id_1
                       :_1
                       <type_1>
+                        <<VARS>>
+                         <<t>> : 6
+                         <<width>> : 0
                         array_1
                         [_1
                         num_1
@@ -78,13 +111,22 @@
                         ]_1
                         of_1
                         <std_type_1>
+                          <<VARS>>
+                           <<t>> : 4
+                           <<width>> : 4
                           integer_1
                       <param_listLR1_2>
                         ;_1
                         id_1
                         :_1
                         <type_1>
+                          <<VARS>>
+                           <<t>> : 5
+                           <<width>> : 8
                           <std_type_1>
+                            <<VARS>>
+                             <<t>> : 5
+                             <<width>> : 8
                             real_1
                         <param_listLR1_2>
                 )_1
@@ -95,7 +137,13 @@
               id_1
               :_1
               <type_1>
+                <<VARS>>
+                 <<t>> : 4
+                 <<width>> : 4
                 <std_type_1>
+                  <<VARS>>
+                   <<t>> : 4
+                   <<width>> : 4
                   integer_1
               ;_1
               <decsLR1_1>
@@ -187,14 +235,26 @@
                     id_1
                     :_1
                     <type_1>
+                      <<VARS>>
+                       <<t>> : 4
+                       <<width>> : 4
                       <std_type_1>
+                        <<VARS>>
+                         <<t>> : 4
+                         <<width>> : 4
                         integer_1
                     <param_listLR1_1>
                       ;_1
                       id_1
                       :_1
                       <type_1>
+                        <<VARS>>
+                         <<t>> : 4
+                         <<width>> : 4
                         <std_type_1>
+                          <<VARS>>
+                           <<t>> : 4
+                           <<width>> : 4
                           integer_1
                       <param_listLR1_2>
                   )_1
@@ -205,7 +265,13 @@
                 id_1
                 :_1
                 <type_1>
+                  <<VARS>>
+                   <<t>> : 5
+                   <<width>> : 8
                   <std_type_1>
+                    <<VARS>>
+                     <<t>> : 5
+                     <<width>> : 8
                     real_1
                 ;_1
                 <decsLR1_1>
@@ -222,14 +288,26 @@
                             id_1
                             :_1
                             <type_1>
+                              <<VARS>>
+                               <<t>> : 4
+                               <<width>> : 4
                               <std_type_1>
+                                <<VARS>>
+                                 <<t>> : 4
+                                 <<width>> : 4
                                 integer_1
                             <param_listLR1_1>
                               ;_1
                               id_1
                               :_1
                               <type_1>
+                                <<VARS>>
+                                 <<t>> : 5
+                                 <<width>> : 8
                                 <std_type_1>
+                                  <<VARS>>
+                                   <<t>> : 5
+                                   <<width>> : 8
                                   real_1
                               <param_listLR1_2>
                           )_1
@@ -240,7 +318,13 @@
                         id_1
                         :_1
                         <type_1>
+                          <<VARS>>
+                           <<t>> : 4
+                           <<width>> : 4
                           <std_type_1>
+                            <<VARS>>
+                             <<t>> : 4
+                             <<width>> : 4
                             integer_1
                         ;_1
                         <decsLR1_1>
@@ -257,13 +341,22 @@
                                     id_1
                                     :_1
                                     <type_1>
+                                      <<VARS>>
+                                       <<t>> : 4
+                                       <<width>> : 4
                                       <std_type_1>
+                                        <<VARS>>
+                                         <<t>> : 4
+                                         <<width>> : 4
                                         integer_1
                                     <param_listLR1_1>
                                       ;_1
                                       id_1
                                       :_1
                                       <type_1>
+                                        <<VARS>>
+                                         <<t>> : 7
+                                         <<width>> : 0
                                         array_1
                                         [_1
                                         num_1
@@ -272,6 +365,9 @@
                                         ]_1
                                         of_1
                                         <std_type_1>
+                                          <<VARS>>
+                                           <<t>> : 5
+                                           <<width>> : 8
                                           real_1
                                       <param_listLR1_2>
                                   )_1
@@ -282,7 +378,13 @@
                                 id_1
                                 :_1
                                 <type_1>
+                                  <<VARS>>
+                                   <<t>> : 4
+                                   <<width>> : 4
                                   <std_type_1>
+                                    <<VARS>>
+                                     <<t>> : 4
+                                     <<width>> : 4
                                     integer_1
                                 ;_1
                                 <decsLR1_1>
