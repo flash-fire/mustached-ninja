@@ -10,12 +10,12 @@ prgmLF1LF1_1:
 idList_1:
 	<<begin>> id_1 idListLR1_1 <<end>> 
 idListLR1_1:
-	<<begin>> <<end>> 
+	<<begin>> EPSILON <<end>> 
 	<<begin>> ,_1 id_1 idListLR1_2 <<end>> 
 decs_1:
 	<<begin>> var_1 id_1 :_1 type_1 ;_1 decsLR1_1 <<end>> 
 decsLR1_1:
-	<<begin>> <<end>> 
+	<<begin>> EPSILON <<end>> 
 	<<begin>> var_1 id_1 :_1 type_1 ;_1 decsLR1_2 <<end>> 
 type_1:
 	<<begin>> std_type_1 <<end>> 
@@ -33,7 +33,7 @@ std_type_1:
 subprgm_decs_1:
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_1 <<end>> 
 subprgm_decsLR1_1:
-	<<begin>> <<end>> 
+	<<begin>> EPSILON <<end>> 
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_2 <<end>> 
 subprgm_dec_1:
 	<<begin>> subprgm_head_1 subprgm_decLF1_1 <<end>> 
@@ -54,7 +54,7 @@ args_1:
 param_list_1:
 	<<begin>> id_1 :_1 type_1 param_listLR1_1 <<end>> 
 param_listLR1_1:
-	<<begin>> <<end>> 
+	<<begin>> EPSILON <<end>> 
 	<<begin>> ;_1 id_1 :_1 type_1 param_listLR1_2 <<end>> 
 comp_stmt_1:
 	<<begin>> begin_1 comp_stmtLF1_1 <<end>> 
@@ -66,7 +66,7 @@ opt_stmts_1:
 stmt_list_1:
 	<<begin>> stmt_1 stmt_listLR1_1 <<end>> 
 stmt_listLR1_1:
-	<<begin>> <<end>> 
+	<<begin>> EPSILON <<end>> 
 	<<begin>> ;_1 stmt_1 stmt_listLR1_2 <<end>> 
 stmt_1:
 	<<begin>> variable_1 assignop_1 expr_1 <<end>> 
@@ -76,37 +76,37 @@ stmt_1:
 	<<begin>> if_1 expr_1 then_1 stmt_2 stmtLF1_1 <<end>> 
 stmtLF1_1:
 	<<begin>> else_1 stmt_1 <<end>> 
-	<<begin>> <<end>> 
+	<<begin>> EPSILON <<end>> 
 variable_1:
 	<<begin>> id_1 variableLF1_1 <<end>> 
 variableLF1_1:
 	<<begin>> [_1 expr_1 ]_1 <<end>> 
-	<<begin>> <<end>> 
+	<<begin>> EPSILON <<end>> 
 proc_stmt_1:
 	<<begin>> call_1 id_1 proc_stmtLF1_1 <<end>> 
 proc_stmtLF1_1:
-	<<begin>> <<end>> 
+	<<begin>> EPSILON <<end>> 
 	<<begin>> (_1 expr_list_1 )_1 <<end>> 
 expr_list_1:
 	<<begin>> expr_1 expr_listLR1_1 <<end>> 
 expr_listLR1_1:
 	<<begin>> ,_1 expr_1 expr_listLR1_2 <<end>> 
-	<<begin>> <<end>> 
+	<<begin>> EPSILON <<end>> 
 expr_1:
 	<<begin>> simple_expr_1 exprLF1_1 <<end>> 
 exprLF1_1:
 	<<begin>> relop_1 simple_expr_1 <<end>> 
-	<<begin>> <<end>> 
+	<<begin>> EPSILON <<end>> 
 term_1:
 	<<begin>> factor_1 termLR1_1 <<end>> 
 termLR1_1:
-	<<begin>> <<end>> 
+	<<begin>> EPSILON <<end>> 
 	<<begin>> mulop_1 factor_1 termLR1_2 <<end>> 
 simple_expr_1:
 	<<begin>> sign_1 term_1 simple_exprLR1_1 <<end>> 
 	<<begin>> term_1 simple_exprLR1_1 <<end>> 
 simple_exprLR1_1:
-	<<begin>> <<end>> 
+	<<begin>> EPSILON <<end>> 
 	<<begin>> addop_1 term_1 simple_exprLR1_2 <<end>> 
 factor_1:
 	<<begin>> id_1 factorLF1_1 <<end>> 
@@ -115,7 +115,7 @@ factor_1:
 	<<begin>> not_1 factor_2 <<end>> 
 factorLF1_1:
 	<<begin>> [_1 expr_1 ]_1 <<end>> 
-	<<begin>> <<end>> 
+	<<begin>> EPSILON <<end>> 
 sign_1:
 	<<begin>> -_1 <<end>> 
 	<<begin>> +_1 <<end>> 
