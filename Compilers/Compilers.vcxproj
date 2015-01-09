@@ -13,22 +13,26 @@
   <ItemGroup>
     <ClInclude Include="CErrors.h" />
     <ClInclude Include="MiscFunc.h" />
+    <ClInclude Include="ParseNode.h" />
     <ClInclude Include="Project1.h" />
     <ClInclude Include="Project2.h" />
     <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="SymbolTableEntry.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Trie.h" />
+    <ClInclude Include="Type.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CErrors.cpp" />
     <ClCompile Include="MiscFunc.cpp" />
+    <ClCompile Include="ParseNode.cpp" />
     <ClCompile Include="Project1.cpp" />
     <ClCompile Include="Project2.cpp" />
     <ClCompile Include="SymbolTable.cpp" />
     <ClCompile Include="SymbolTableEntry.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="Trie.cpp" />
+    <ClCompile Include="Type.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resource Text Files\Operators.txt" />

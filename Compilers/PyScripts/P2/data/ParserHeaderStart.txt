@@ -10,7 +10,7 @@ public:
 	~Project2();
 	void LoadSynch();
 	void Parse();
-	Token Match(int tok, std::string nt, std::string exp);
+	Token* Match(int tok, std::string nt, std::string exp);
 	void MatchEOF();
 	void SynErrorTok(std::string nt, std::string exp);
 	void UniteSynchronization(std::string nt);
