@@ -1,4 +1,4 @@
-from MakeInstance import *
+from MakeInstance import defName
    
 # Loads the grammar from the file and returns it. Heck yeah!
 def loadDecGrammar(filename, nts):
@@ -21,7 +21,7 @@ def loadDecGrammar(filename, nts):
    while True:
       line = handleSkip(f, line)
       if not line:
-         print("Good fail")
+         print("Decorated Grammar Read Successfully!\n\n")
          break
       line = line.strip()
       nt = line[:-1] # we found nonterminal

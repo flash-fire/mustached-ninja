@@ -92,7 +92,7 @@ void ParseNode::WriteDecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int le
 			for (std::string var : node->varNames)
 			{
 				std::string err = "";
-				out += tab + "   " + "<<" + var + ">> : " + std::to_string(node->locGet(var, &err)) + "\n";
+				out += tab + "   " + "<<" + var + ">> : " + std::to_string(node->locGet(var)) + "\n";
 				if (err != "")
 				{
 					std::cout << err;

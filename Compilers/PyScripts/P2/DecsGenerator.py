@@ -1,12 +1,14 @@
 from MassageGrammar import *
 from FirstFollows import *
+from ReadDecoratedGrammar import loadDecGrammar
+from MakeInstance import defName
 
 # Path to where stuff is :D
 p = "parser/"
 d = "data/"
 g = "grammar/"
 INSTANCE_SEPARATOR = '_'
-PARSE_NODE_NAME = 'parent'
+#PARSE_NODE_NAME = ''
 
 
 # This generates the data necessary for a parse table entry
@@ -14,7 +16,7 @@ PARSE_NODE_NAME = 'parent'
 # The output is the entry [which contains what SHOULD have only one val for each terminal key]
 # The expected [the set of expected tokens-- used when an error occurs to tell the user what they should have typed
 # And the follows, which is used later to make synchronization sets [for error handling]
-def createParseTableEntry(nt, terms, productions, firsts_dict, follows_dict):
+def createParseTableEntry(nt):
    entry = {term:[] for term in terms}
    expected = set()
    follows = []
@@ -45,11 +47,11 @@ def createParseTableEntry(nt, terms, productions, firsts_dict, follows_dict):
 
    
 # Writes the parse() method in the cpp class.
-def writeParseEntry(nt, nts, terms, productions, first_dict, follows_dict):
-   outStr = "void Project2::" + nt + "(ParseNode* " + PARSE_NODE_NAME + " ) {\n" # declaration
+def writeParseEntry(nt):
+   outStr = "void Project2::" + nt + "(ParseNode* " + defName(nt) + " ) {\n" # declaration
    outStr += "\tstd::string nt = \"" + nt + "\";\n" # make nt
    
-   entry, expected, follows = createParseTableEntry(nt, terms, productions, first_dict, follows_dict)
+   entry, expected, follows = createParseTableEntry(nt)
    outStr += "\tstd::string exp = \"" + tupToString(expected)[:-1] + "\";\n"
    outStr += "\tParseNode* ref = " + PARSE_NODE_NAME + ";"
    temp = ""
@@ -106,8 +108,6 @@ def writeNonEps(nt, nts, term, prod):
          outStr += "\t\tref = " + names[i] + ";\n"
          outStr += "\t\t" + targ + "(" + names[i] + ");\n"
       elif targ in terms:
-#         outStr += "\t\tToken WTF" + str(i) + " = " +  "Match(p->GTT(\"" + targ + "\") ,nt, \"" + targ + "\");\n";
-#         outStr += "\t\t" + PARSE_NODE_NAME + ".appendToken( WTF" + str(i) + ", ref);\n"
          outStr += PARSE_NODE_NAME + "->appendToken(Match(p->GTT(\"" + targ + "\") ,nt, \"" + targ + "\"), ref);\n"
       else:
          print(prod, "ERROR: DOOM!!!!", targ)
@@ -131,7 +131,7 @@ def writeEps(nt, prod, followsLs):
 
  
 # First of a single token   
-def writeParser(start, nts, terms, productions, first_dict, follows_dict):
+def writeParser():
    # Here we write the parser
    parseboil = open(d+"ParserBoilerCode.txt","r")
    headStart = open(d+"ParserHeaderStart.txt","r")
@@ -145,7 +145,7 @@ def writeParser(start, nts, terms, productions, first_dict, follows_dict):
    pout.write(startParseMethod(start))
    parseTable.write("Terminal Order" + str(terms) + "\n")
    for nt in nts:
-      s,s2 = writeParseEntry(nt, nts, terms, productions, first_dict, follows_dict)
+      s,s2 = writeParseEntry(nt)
       parseTable.write(s2)
       pout.write(s)
       hout.write("\tvoid Project2::" + nt + "(ParseNode* par);\n")
@@ -159,7 +159,7 @@ def writeParser(start, nts, terms, productions, first_dict, follows_dict):
    hout.close()
  
 # Writes synch file, firsts and follows file...
-def writeMiscTextFiles(nts, firsts_dict, follows_dict): 
+def writeMiscTextFiles(): 
    synch     = open(p+"synch.txt","w") # Writes synchset
    firsts    = open(p+"firsts.txt","w")
    follows   = open(p+"follows.txt","w")
@@ -176,7 +176,7 @@ def writeMiscTextFiles(nts, firsts_dict, follows_dict):
 def startParseMethod(start):
    outstr =  "void Project2::Parse()\n"
    outstr  += "{\n"
-   outstr += "\tParseNode* root = new ParseNode(NULL, \"" + start + "\", std::list<std::string>());\n" 
+   outstr += "\tParseNode* root = new ParseNode(NULL, \"" + start + "\", std::vector<std::string>());\n" 
    outstr += "\tlookAhead = p->nextToken();\n"+"\t" + start + "(root);\n"
    outstr += "\tMatchEOF();\n"
    outstr += "\tstd::ofstream file;\n"
@@ -188,13 +188,14 @@ def startParseMethod(start):
    outstr += "}\n\n"
    return outstr
 
-if __name__ == '__main__':
-   reformGrammar("OriginalGrammar.txt",g+"FormattedGrammar.txt")
-   start,nts,terms,productions = massageYourGrammar(g+"FormattedGrammar.txt"
-   , g+"NoEpsilons.txt", g+"NoLeftRec.txt", g+"LeftFactored.txt", False)
-   
-   first_dict = firsts(nts, productions)
-   follows_dict = follows(nts, productions, first_dict)
-   
-   writeParser(start, nts, terms,productions, first_dict, follows_dict)
-   #writeMiscTextFiles(nts, first_dict, follows_dict)
+
+reformGrammar("OriginalGrammar.txt",g+"FormattedGrammar.txt")
+start,nts,terms,productions = massageYourGrammar(g+"FormattedGrammar.txt"
+, g+"NoEpsilons.txt", g+"NoLeftRec.txt", g+"LeftFactored.txt", False)
+
+first_dict = firsts(nts, productions)
+follows_dict = follows(nts, productions, first_dict)
+ntsPrime = [defName(nt) for nt in nts]
+varsDict, codeDict = loadDecGrammar("DecoratedGrammar.txt", ntsPrime) # vars dict NT ==> SET(NT) ; # codeDict (nt', prod') ==> (nt', code)
+writeParser()
+#writeMiscTextFiles(nts, first_dict, follows_dict)
