@@ -34,5 +34,5 @@ if __name__ == '__main__':
    , g+"NoEpsilons.txt", g+"NoLeftRec.txt", g+"LeftFactored.txt", False)
    renamed = renameGrammar(productions,nts,terms)
    ntsPrime = [defName(nt) for nt in nts]
-   writeGrammarShenoiFormat("InstancifiedGrammarShenoi.txt" , ntsPrime, renamed)
+   writeGrammarShenoiFormat("grammar/InstancifiedGrammarShenoi.txt" , ntsPrime, renamed, True)
    

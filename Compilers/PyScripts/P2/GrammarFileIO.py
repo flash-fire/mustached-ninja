@@ -4,11 +4,14 @@ def copyFile(fStart, fEnd):
    for line in fStart:
       fEnd.write(line)
 
-def writeGrammarShenoiFormat(fileName, nts, productions):
+def writeGrammarShenoiFormat(fileName, nts, productions, needsColon = False):
    fileHandle = open(fileName,'w')
    fileHandle.truncate()
    for nt in nts:
-      temp = nt + '\n'
+      temp = nt
+      if needsColon:
+         temp += ':'
+      temp += '\n'
       for prod in productions[nt]:
          if prod:
             temp += "\t" + tupToString(prod) + '\n'
