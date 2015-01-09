@@ -70,6 +70,50 @@ void ParseNode::WriteUndecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int 
 	}
 }
 
+void ParseNode::WriteDecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int level)
+{
+	std::string out = "";
+	std::string tab = "";
+	if (level > 0)
+	{
+		tab = std::string(level * 2, ' '); // switching level with ' ' is hilariously beepy
+		//out = std::string(' ', level);
+	}
+
+
+
+	if (wrap.isNode)
+	{
+		ParseNode* node = wrap.val.node;
+		out += tab + "<" + ParseNode::name(wrap) + ">\n";
+		if (node->varNames.empty() == false)
+		{
+			out += tab + ' ' + "<<VARS>>\n";
+			for (std::string var : node->varNames)
+			{
+				std::string err = "";
+				out += tab + "  " + "<<" + var + ">> : " + std::to_string(node->locGet(var, &err)) + "\n";
+				if (err != "")
+				{
+					std::cout << err;
+				}
+			}
+		}
+		*fileToWrite << out;
+
+		for (auto& wrap : node->getChildren())
+		{
+			WriteDecoratedTree(wrap, fileToWrite, level + 1);
+		}
+	}
+	else
+	{
+		out += tab + ParseNode::name(wrap) + "\n";
+		*fileToWrite << out;
+	}
+}
+
+
 void ParseNode::appendChild(ParseNode* child, int debugTargInstance)
 {
 	int instanceFound = ParseNode::DEF_INSTANCE;

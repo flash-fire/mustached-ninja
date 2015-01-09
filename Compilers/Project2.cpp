@@ -134,8 +134,11 @@ void Project2::Parse()
 	prgm(root);
 	MatchEOF();
 	std::ofstream file;
+	std::ofstream treeDecFile;
 	file.open("Tree.txt", std::ios::out | std::ios::trunc);
+	treeDecFile.open("DecTree.txt", std::ios::out | std::ios::trunc);
 	ParseNode::WriteUndecoratedTree(ParseNode::Wrap(root, ParseNode::DEF_INSTANCE), &file);
+	ParseNode::WriteDecoratedTree(ParseNode::Wrap(root, ParseNode::DEF_INSTANCE), &treeDecFile);
 }
 
 void Project2::prgm(ParseNode* parent) {

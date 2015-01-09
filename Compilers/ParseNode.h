@@ -39,6 +39,8 @@ public:
 	std::list<Wrap> getChildren() { return children; };
 
 	static void WriteUndecoratedTree(Wrap node, std::ofstream* out, int level = 0);
+	static void WriteDecoratedTree(Wrap node, std::ofstream* out, int level = 0);
+
 	static std::string name(Wrap wrap, bool isRHS = false);
 
 	ParseNode(ParseNode* parent, std::string nt, std::list<std::string> varNames);
