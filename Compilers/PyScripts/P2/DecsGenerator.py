@@ -86,15 +86,15 @@ def writeNonEps(nt, nts, term, prod):
    
    names = prodToNames(nt, nts, prod)
    
-#		ParseNode* type_1 = &ParseNode(curr, "type", std::list<std::string>());
-#		ParseNode* decsLR1_2 = &ParseNode(curr, "decsLR1", std::list<std::string>());
+#		ParseNode* type_1 = &ParseNode(curr, "type", std::vector<std::string>());
+#		ParseNode* decsLR1_2 = &ParseNode(curr, "decsLR1", std::vector<std::string>());
 #		curr->appendChild(type_1);
 #		curr->appendChild(decsLR1_2);
    # initialize variables
    for i in range(0,len(prod)):
       targ = prod[i]
       if targ in nts:
-         outStr += "\t\tParseNode* " + names[i] + " = new ParseNode(" + PARSE_NODE_NAME + ",\"" + targ + "\", std::list<std::string>());\n"
+         outStr += "\t\tParseNode* " + names[i] + " = new ParseNode(" + PARSE_NODE_NAME + ",\"" + targ + "\", std::vector<std::string>());\n"
          outStr += "\t\t" + PARSE_NODE_NAME + "->appendChild(" + names[i] + ");\n"
    
    # Token stuff

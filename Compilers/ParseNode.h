@@ -6,6 +6,7 @@
 #include <map>
 #include <fstream>
 #include <unordered_map>
+#include <vector>
 
 #include "Token.h"
 
@@ -46,7 +47,7 @@ public:
 	bool locSet(const std::string varName, const int newVal); // Sets a variable. Creates new variable if one doesn't already exist.
 	int	locGet(const std::string varName, std::string* errorMsg); // gets a variable. Returns error message if var doesn't exist
 
-	ParseNode(ParseNode* parent, std::string nt, std::list<std::string> varNames);
+	ParseNode(ParseNode* parent, std::string nt, std::vector<std::string> varNames);
 	ParseNode(const ParseNode& node);
 	~ParseNode();
 
@@ -59,7 +60,7 @@ private:
 
 	std::string nt; // Nonterminal name
 	ParseNode* parent;
-	std::list<std::string> varNames; // This keeps track of variables that can be used. Main use is for debugging purposes
+	std::vector<std::string> varNames; // This keeps track of variables that can be used. Main use is for debugging purposes
 	std::map<std::string, int> vars;
 	std::list<Wrap> children;
 };

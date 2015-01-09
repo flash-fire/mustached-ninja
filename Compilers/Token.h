@@ -16,6 +16,8 @@ public:
 	static bool isValid(const Token& t);
 	bool isValid();
 	std::string gram();
+	bool isInt();
+	int val();
 
 	friend std::ostream &operator<<(std::ostream& out, const Token &tok)
 	{

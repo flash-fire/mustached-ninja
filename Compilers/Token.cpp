@@ -72,3 +72,16 @@ bool Token::isValid()
 	return attr != 0 || token != 0;
 }
 
+bool Token::isInt()
+{
+	return token == NUM && attr == 0;
+}
+
+int Token::val()
+{
+	if (isInt())
+	{
+		return std::stoi(lex);
+	}
+	return 9001; // arbitrary number chosen to designate an error. Never will be used so I don't really care.
+}

@@ -1,6 +1,7 @@
 #ifndef __TYPE_H_INCLUDED__
 #define __TYPE_H_INCLUDED__
 
+#include <string>
 class Type
 {
 public:

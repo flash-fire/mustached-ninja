@@ -68,7 +68,7 @@ private:
 	Project1* p;
 	std::ofstream target;
 
-	std::list<std::string> std_typev;
+	std::vector<std::string> std_typev;
 
 	static const std::string Project2::SYNCH_PATH;
 	std::ifstream synch;
