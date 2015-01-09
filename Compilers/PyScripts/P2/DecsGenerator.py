@@ -8,6 +8,12 @@ g = "grammar/"
 INSTANCE_SEPARATOR = '_'
 PARSE_NODE_NAME = 'parent'
 
+
+# This generates the data necessary for a parse table entry
+# In other words, think of this as generating a row in the parse table
+# The output is the entry [which contains what SHOULD have only one val for each terminal key]
+# The expected [the set of expected tokens-- used when an error occurs to tell the user what they should have typed
+# And the follows, which is used later to make synchronization sets [for error handling]
 def createParseTableEntry(nt, terms, productions, firsts_dict, follows_dict):
    entry = {term:[] for term in terms}
    expected = set()
@@ -37,12 +43,11 @@ def createParseTableEntry(nt, terms, productions, firsts_dict, follows_dict):
 
    return entry, expected, follows
 
+   
+# Writes the parse() method in the cpp class.
 def writeParseEntry(nt, nts, terms, productions, first_dict, follows_dict):
    outStr = "void Project2::" + nt + "(ParseNode* " + PARSE_NODE_NAME + " ) {\n" # declaration
    outStr += "\tstd::string nt = \"" + nt + "\";\n" # make nt
-   #outStr += "\tstd::string debugLEX = lookAhead.lex;\n" # removing debugs for now
-   #outStr += "\tint debugLineNum = lookAhead.line+1;\n"
-   #outStr += "\tint debugCharCol = lookAhead.charNum+1;\n"
    
    entry, expected, follows = createParseTableEntry(nt, terms, productions, first_dict, follows_dict)
    outStr += "\tstd::string exp = \"" + tupToString(expected)[:-1] + "\";\n"
@@ -78,6 +83,7 @@ def prodToNames(nt, nts, prod):
          ret.append(targ)
    return ret
 
+# Handles the case where the terminal's production is not epsilon.
 def writeNonEps(nt, nts, term, prod):
    outStr = ""
    outStr += "\n\tif("
@@ -86,10 +92,6 @@ def writeNonEps(nt, nts, term, prod):
    
    names = prodToNames(nt, nts, prod)
    
-#		ParseNode* type_1 = &ParseNode(curr, "type", std::vector<std::string>());
-#		ParseNode* decsLR1_2 = &ParseNode(curr, "decsLR1", std::vector<std::string>());
-#		curr->appendChild(type_1);
-#		curr->appendChild(decsLR1_2);
    # initialize variables
    for i in range(0,len(prod)):
       targ = prod[i]
@@ -113,7 +115,7 @@ def writeNonEps(nt, nts, term, prod):
    outStr += "\t}\n" # close if  
    return outStr
 
-# nt and prod added for project 3 filler for now
+# Handles the epsilon case for the parse writing method
 def writeEps(nt, prod, followsLs):
    if not followsLs:
       return ""
