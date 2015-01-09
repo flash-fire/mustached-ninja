@@ -55,34 +55,40 @@ def loadDecGrammar(filename, nts):
          # handles code
          lineStrip = line.strip()
          print("\tPROD", prod)
-         print("\tB4Loop",lineStrip)
          # handle nonterminals for the code and productions
          while lineStrip in prod:
             targ = lineStrip
             line = f.readline()
             line = handleSkip(f, line)
             lineStrip = line.strip()
-            print("\t\tTarget : ", targ) 
-            if lineStrip in prod:
-               print("\t\tFound that ", lineStrip, " is in ", prod)
-               if (nt, prod) in codeDict:
-                  codeDict[(nt, prod)] |= {(targ, code)}
+            while not lineStrip[0:9] == "<<begin>>" and not lineStrip[-1] in nts:
+               if lineStrip in prod:
+                  if (nt, prod) in codeDict:
+                     codeDict[(nt, prod)] |= {(targ, code)}
+                  else:
+                     codeDict[(nt, prod)] = {(targ, code)}
+                  continue
+               elif lineStrip[0:9] == "<<begin>>":
+                  print("\t\t\t" + lineStrip[0:9] + " found another production")
+                  break;
+               elif lineStrip[:-1] in nts:
+                  print("\t\t\t" + lineStrip[:-1], " is in ", nts)
+                  break
                else:
-                  codeDict[(nt, prod)] = {(targ, code)}
-               continue
-            elif lineStrip[0:9] == "<<begin>>":
-               print("\t\t\t" + lineStrip[0:9] + " found another production")
-               break;
-            elif lineStrip[:-1] in nts:
-               print("\t\t\t" + lineStrip[:-1], " is in ", nts)
-               break
+                  print("\t\t\tCODE~~: " + lineStrip)
+                  code += line
+               line = f.readline()
+               line = handleSkip(f, line)
+               lineStrip = line.strip()
+            
+            if (nt, prod) in codeDict:
+               codeDict[(nt, prod)] |= {(targ, code)}
             else:
-               print("\t\t\tCODE~~: " + lineStrip)
-               code += line + "\n"
+               codeDict[(nt, prod)] = {(targ, code)}
       #line = f.readline()
    f.close()
    return varsDict, codeDict
-   
+
 if __name__ == '__main__':
    g = 'grammar/'
    start,nts,terms,productions = massageYourGrammar(g+"FormattedGrammar.txt"
@@ -98,4 +104,13 @@ if __name__ == '__main__':
    for nt in ntsPrime:
       if varsDict[nt]:
          print(nt, varsDict[nt])
+
+   print("\n\n\n" + "PRINTING CODE DICT")
+   for key, val in codeDict.items():
+      if val:
+         print ("NT: ", key[0])
+         print ("\tPROD: ", key[1])
+         for code in val:
+            print ("\tCODE_LOC: ", code[0])
+            print ("\tCODE: ", code[1])
    #print(codeDict)

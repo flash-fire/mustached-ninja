@@ -23,7 +23,13 @@ type_1:
 std_type_1:
 	<<vars>> t width
 	<<begin>> real_1 <<end>> 
+		<<end>>
+			parent->locSet("width", 8);
+			parent->locSet("t", Type::typeToInt(Type::REAL));
 	<<begin>> integer_1 <<end>>
+		<<end>>
+			parent->locSet("width", 4);
+			parent->locSet("t", Type::typeToInt(Type::INT))
 subprgm_decs_1:
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_1 <<end>> 
 subprgm_decsLR1_1:
@@ -127,8 +133,6 @@ mulop_1:
 	<<begin>> div_1 <<end>> 
 relop_1:
 	<<begin>> >_1 <<end>> 
-      >_1
-         CODE CODE CODE
 	<<begin>> >=_1 <<end>> 
 	<<begin>> <_1 <<end>> 
 	<<begin>> <=_1 <<end>> 
