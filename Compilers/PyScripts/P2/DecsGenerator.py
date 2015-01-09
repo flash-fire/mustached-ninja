@@ -189,10 +189,10 @@ def startParseMethod(start):
 if __name__ == '__main__':
    reformGrammar("OriginalGrammar.txt",g+"FormattedGrammar.txt")
    start,nts,terms,productions = massageYourGrammar(g+"FormattedGrammar.txt"
-   , g+"NoEpsilons.txt", g+"NoLeftRec.txt", g+"LeftFactored.txt")
+   , g+"NoEpsilons.txt", g+"NoLeftRec.txt", g+"LeftFactored.txt", False)
    
    first_dict = firsts(nts, productions)
    follows_dict = follows(nts, productions, first_dict)
    
    writeParser(start, nts, terms,productions, first_dict, follows_dict)
-   writeMiscTextFiles(nts, first_dict, follows_dict)
+   #writeMiscTextFiles(nts, first_dict, follows_dict)

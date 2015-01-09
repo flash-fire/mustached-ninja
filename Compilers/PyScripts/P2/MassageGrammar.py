@@ -151,14 +151,16 @@ def leftFactoring(nts,productions):
       fixLeft(nt,productions)
    return productions
 
-def massageYourGrammar(fileName, epsFileName, leftRecFileName, leftFactorFileName):
+def massageYourGrammar(fileName, epsFileName, leftRecFileName, leftFactorFileName, writeThings):
    shenoi = lambda name: name[:-4] + "Shenoi.txt"
    def writeFiles(fileName, nts, productions):
-      writeProductions(fileName, nts, productions)
-      writeGrammarShenoiFormat(shenoi(fileName) , nts, productions)
+      if writeThings:
+         writeProductions(fileName, nts, productions)
+         writeGrammarShenoiFormat(shenoi(fileName) , nts, productions)
 
    start,nts,terms,productions = loadGrammar(fileName)
-   writeGrammarShenoiFormat(shenoi(fileName) , nts, productions)
+   if writeThings:
+      writeGrammarShenoiFormat(shenoi(fileName) , nts, productions)
    productions = remove_eps(start, productions)
    writeFiles(epsFileName, nts, productions)
 
@@ -174,5 +176,5 @@ if __name__ == '__main__':
    g="grammar/"
    reformGrammar("OriginalGrammar.txt",g+"FormattedGrammar.txt")
    massageYourGrammar(g+"FormattedGrammar.txt"
-   , g+"NoEpsilons.txt", g+"NoLeftRec.txt", g+"LeftFactored.txt")  #printProds(productions, nts)
+   , g+"NoEpsilons.txt", g+"NoLeftRec.txt", g+"LeftFactored.txt", True)  #printProds(productions, nts)
    print("Done!")
