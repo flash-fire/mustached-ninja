@@ -1,7 +1,7 @@
 from MassageGrammar import *
 from FirstFollows import *
-from ReadDecoratedGrammar import loadDecGrammar
-from MakeInstance import defName
+from ReadDecoratedGrammar import loadDecGrammar,printDecGrammar
+from MakeInstance import *
 
 # Path to where stuff is :D
 p = "parser/"
@@ -27,23 +27,27 @@ def createParseTableEntry(nt):
          if '' in firsts:
             followsSet = follows_dict[nt]
             if nt == 'stmt' + LEFT_FACTORING_ABREV + '1':
-               followsSet -={'else'}
+               followsSet -= {'else'} # ambiguous else
             expected |= followsSet
             follows = list(followsSet)
             for term in follows:
-               ent = entry[term] + [prod]
-               entry[term] = ent
-               continue # ambiguous else
+               entry[term] += [prod]
+               continue
          else:
             term = firstsLs[i]
             expected |= {term}
-            ent = entry[term] + [prod]
-            entry[term] = ent
+            entry[term] += [prod]
    for key, val in entry.items():
       if val and len(val) > 1:
          print("Ambiguous parse table.  YOU WILL DIE AND I WILL KILL YOU AT:", key, len(val), val)
 
-   return entry, expected, follows
+# I used list in case of ambiguity. IF there is ambiguity, the first one is chosen, and user is informed of ambiguity to allow parser to continue being built         
+   entry2 = {term:() for term in terms}
+   for term in terms:
+      if entry[term]:
+         entry2[term] = entry[term][0]
+   
+   return entry2, expected, follows
 
    
 # Writes the parse() method in the cpp class.
@@ -59,7 +63,7 @@ def writeParseEntry(nt):
    for term in terms: 
       prod = entry[term]
       if term and prod:
-         if prod[0]:
+         if prod:
             temp += "\t" + term + " -> "  + tupToString(prod[0]) + "\n"
          else:
             temp += "\t" + term + " -> "  + 'EPSILON' + "\n"
@@ -67,15 +71,16 @@ def writeParseEntry(nt):
    
    for term, prod in entry.items():
       if prod and term not in follows:
-         outStr += writeNonEps(nt, nts, term, prod[0])
-   outStr += writeEps(nt, prod, follows)
+         outStr += writeNonEps(nt, prod, term, renameProd(nt, prod, nts, terms))
+   
+   outStr += writeEps(nt, epsProd(), follows)
    
    outStr += "\tSynErrorTok(nt, exp);\n"
    outStr += "}\n\n" # close method
    return outStr, outStr2
 
 # Generates names for instances of a NT in a production. Not the most efficient, but should be fast enough probably hopefully maybe.
-def prodToNames(nt, nts, prod):
+def prodToNames(nt, prod):
    counts = {nonterm:0 for nonterm in nts}
    counts[nt] = 1
    ret = []
@@ -88,21 +93,29 @@ def prodToNames(nt, nts, prod):
    return ret
 
 # Handles the case where the terminal's production is not epsilon.
-def writeNonEps(nt, nts, term, prod):
+def writeNonEps(nt, prod, term, renamedProd):
    outStr = ""
+   dName = defName(nt)
    outStr += "\n\tif("
 
    outStr += "lookAhead.token == p->GTT(\"" + term + "\")) {\n" # if statements
    
-   names = prodToNames(nt, nts, prod)
+   names = prodToNames(nt, prod)
    
    # initialize variables
    for i in range(0,len(prod)):
       targ = prod[i]
       if targ in nts:
-         outStr += "\t\tParseNode* " + names[i] + " = new ParseNode(" + defName(nt) + ",\"" + targ + "\", std::vector<std::string>());\n"
-         outStr += "\t\t" + defName(nt) + "->appendChild(" + names[i] + ");\n"
+         outStr += "\t\tParseNode* " + names[i] + " = new ParseNode(" + dName + ",\"" + targ + "\", std::vector<std::string>());\n"
+         outStr += "\t\t" + dName + "->appendChild(" + names[i] + ");\n"
    
+   codes = dict()
+   
+   if (dName, renamedProd) in codeDict:
+      codes = {nt:code for (nt,code) in codeDict[(dName, renamedProd)]}
+      
+   if "<<begin>>" in codes:
+      outStr += codes["<<begin>>"]
    # Token stuff
    for i in range(0,len(prod)):
       targ = prod[i]
@@ -110,9 +123,14 @@ def writeNonEps(nt, nts, term, prod):
          outStr += "\t\tref = " + names[i] + ";\n"
          outStr += "\t\t" + targ + "(" + names[i] + ");\n"
       elif targ in terms:
-         outStr += "\t\t" + defName(nt) + "->appendToken(Match(p->GTT(\"" + targ + "\") ,nt, \"" + targ + "\"), ref);\n"
+         outStr += "\t\t" + dName + "->appendToken(Match(p->GTT(\"" + targ + "\") ,nt, \"" + targ + "\"), ref);\n"
       else:
          print(prod, "ERROR: DOOM!!!!", targ)
+      if renamedProd[i+1] in codes: # begin is first element. So increase element count by one to find actual
+         outStr += "\t\t" + codes[renamedProd[i+1]].strip()
+   
+   if "<<end>>" in codes:
+      outStr += codes["<<end>>"]
    outStr += "\t\treturn;\n" # essentially a break in a case statement when using ifs
    outStr += "\t}\n" # close if  
    return outStr
@@ -121,10 +139,15 @@ def writeNonEps(nt, nts, term, prod):
 def writeEps(nt, prod, followsLs):
    if not followsLs:
       return ""
+   insName = defName(nt)
    outStr = "\n\tif("
    for j in range(0, len(followsLs)):
       if j == len(followsLs) -1:
          outStr += "lookAhead.token == p->GTT(\"" + followsLs[j] + "\")) {\n"
+         # all code in epsilons can't really be ordered before or after matching epsilons.. So I just print them in order.
+         if (insName, prod) in codeDict and codeDict[(defName(nt),prod)]:
+            for (nt, code) in codeDict[(insName, prod)]:
+               outStr += code
          outStr += "\t\treturn;\n"
          outStr += "\t}\n" #close if
       else:
@@ -198,7 +221,9 @@ start,nts,terms,productions = massageYourGrammar(g+"FormattedGrammar.txt"
 first_dict = firsts(nts, productions)
 follows_dict = follows(nts, productions, first_dict)
 ntsPrime = [defName(nt) for nt in nts]
+
 varsDict, codeDict = loadDecGrammar("DecoratedGrammar.txt", ntsPrime) # vars dict NT ==> SET(NT) ; # codeDict (nt', prod') ==> (nt', code)
+#printDecGrammar(varsDict, codeDict, ntsPrime)
 writeParser()
 print("Project 2 and 3 generated successfully!")
 #writeMiscTextFiles(nts, first_dict, follows_dict)

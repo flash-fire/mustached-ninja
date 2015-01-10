@@ -7,27 +7,31 @@ def defName(nt, count = 1):
    return nt + INSTANCE_SEPARATOR + str(count)
  
 def renameGrammar(prods, nts, terms):
-   def renameProd(nt, prod):
-      counts = {nonterm:0 for nonterm in nts + terms}
-      counts[nt] = 1
-      ret = ("<<begin>>",)
-      if not prod:
-         ret += ("EPSILON",)
-      for targ in prod:
-         counts[targ] += 1
-         name = defName(targ, counts[targ])
-         if targ in nts:
-            ret += ("" + name + "",)
-         elif name:
-            ret += (name,)
-      ret +=  ("<<end>>",)
-      return ret
    retDic = {defName(nt):set() for nt in nts}
    for nt in nts:
       for prod in prods[nt]:
-         retDic[defName(nt)] |= {renameProd(nt, prod)}
+         retDic[defName(nt)] |= {renameProd(nt, prod, nts, terms)}
    return retDic
+
+def epsProd():
+   return ("<<begin>>", "EPSILON", "<<end>>")
    
+def renameProd(nt, prod, nts, terms):
+   counts = {nonterm:0 for nonterm in nts + terms}
+   counts[nt] = 1
+   ret = ("<<begin>>",)
+   if not prod:
+      ret += ("EPSILON",)
+   for targ in prod:
+      counts[targ] += 1
+      name = defName(targ, counts[targ])
+      if targ in nts:
+         ret += ("" + name + "",)
+      elif name:
+         ret += (name,)
+   ret +=  ("<<end>>",)
+   return ret
+
 if __name__ == '__main__':
    g = 'grammar/'
    start,nts,terms,productions = massageYourGrammar(g+"FormattedGrammar.txt"

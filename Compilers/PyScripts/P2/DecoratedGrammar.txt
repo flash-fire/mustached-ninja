@@ -18,18 +18,22 @@ decsLR1_1:
 	<<begin>> EPSILON <<end>> 
 	<<begin>> var_1 id_1 :_1 type_1 ;_1 decsLR1_2 <<end>> 
 type_1:
-	<<begin>> std_type_1 <<end>> 
+	<<vars>> t width
+	<<begin>> std_type_1 <<end>>
+		<<end>>
+			type_1->locSet("t", std_type_1->locGet("t"));
+			type_1->locSet("width", std_type_1->locGet("width"));
 	<<begin>> array_1 [_1 num_1 .._1 num_2 ]_1 of_1 std_type_1 <<end>> 
 std_type_1:
 	<<vars>> t width
 	<<begin>> real_1 <<end>> 
 		<<end>>
-			parent->locSet("width", 8);
-			parent->locSet("t", Type::typeToInt(Type::REAL));
+			std_type_1->locSet("width", 8);
+			std_type_1->locSet("t", Type::typeToInt(Type::REAL));
 	<<begin>> integer_1 <<end>>
 		<<end>>
-			parent->locSet("width", 4);
-			parent->locSet("t", Type::typeToInt(Type::INT))
+			std_type_1->locSet("width", 4);
+			std_type_1->locSet("t", Type::typeToInt(Type::INT));
 subprgm_decs_1:
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_1 <<end>> 
 subprgm_decsLR1_1:
