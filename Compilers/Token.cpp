@@ -79,7 +79,7 @@ bool Token::isInt()
 
 bool Token::isReal()
 {
-	return token == NUM && attr == 1;
+	return token == NUM && ( attr == 1 || attr == 2);
 }
 
 int Token::val()
