@@ -45,22 +45,68 @@
           :_1
           <type_1>
             <<VARS>>
-             <<t>> : 7
-             <<width>> : 4
+             <<t>> : 0
+             <<width>> : 0
             array_1
             [_1
             num_1
             .._1
-            num_2
-            ]_1
-            of_1
             <std_type_1>
               <<VARS>>
-               <<t>> : 5
-               <<width>> : 4
-              integer_1
+               <<t>> : 0
+               <<width>> : 0
           ;_1
           <decsLR1_2>
+            var_1
+            id_1
+            :_1
+            <type_1>
+              <<VARS>>
+               <<t>> : 0
+               <<width>> : 0
+              array_1
+              [_1
+              num_1
+              .._1
+              num_2
+              ]_1
+              of_1
+              <std_type_1>
+                <<VARS>>
+                 <<t>> : 5
+                 <<width>> : 4
+                integer_1
+            ;_1
+            <decsLR1_2>
+              var_1
+              id_1
+              :_1
+              <type_1>
+                <<VARS>>
+                 <<t>> : 0
+                 <<width>> : 0
+                array_1
+                [_1
+                num_1
+                .._1
+                num_2
+                ]_1
+                of_1
+                <std_type_1>
+                  <<VARS>>
+                   <<t>> : 0
+                   <<width>> : 0
+              ;_1
+              <decsLR1_2>
+                var_1
+                id_1
+                :_1
+                <type_1>
+                  <<VARS>>
+                   <<t>> : 0
+                   <<width>> : 0
+                ;_1
+                <decsLR1_2>
     <prgmLF1LF1_1>
       <subprgm_decs_1>
         <subprgm_dec_1>
