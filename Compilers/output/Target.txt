@@ -50,7 +50,7 @@
 49          if (b > 4.2) then a := c[a]
 50        end.
 SYNERR at line: 3 char pos 29 NonTerminal: <type> 
-Encountered: <-> Expected one of: <real array integer>
+Encountered: <-> Expected one of: <real integer array>
 
 Resynchronized at 3 char pos 43> 
 Using: <;>
@@ -66,7 +66,7 @@ Using: <;>
 for synch set <; $ )> NT <std_type>
 
 SYNERR at line: 6 char pos 10 NonTerminal: <type> 
-Encountered: <error> Expected one of: <real array integer>
+Encountered: <error> Expected one of: <real integer array>
 
 Resynchronized at 6 char pos 15> 
 Using: <;>

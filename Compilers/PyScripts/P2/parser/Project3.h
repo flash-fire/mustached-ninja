@@ -11,7 +11,7 @@ public:
 	~Project2();
 	void LoadSynch();
 	void Parse();
-	Token* Match(int tok, std::string nt, std::string exp);
+	bool Match(int tok, std::string nt, std::string exp, Token** ret);
 	void MatchEOF();
 	void SynErrorTok(std::string nt, std::string exp);
 	void TypeErrorTok(std::string nt, Type::TYPE exp, Type::TYPE rec, Token tok);
@@ -30,8 +30,8 @@ private:
 			{ "idListLR1_1", { std::vector<std::string>()}},
 			{ "decs_1", { std::vector<std::string>()}},
 			{ "decsLR1_1", { std::vector<std::string>()}},
-			{ "type_1", { "width", "t"} },
-			{ "std_type_1", { "width", "t"} },
+			{ "type_1", { "t", "width"} },
+			{ "std_type_1", { "t", "width"} },
 			{ "subprgm_decs_1", { std::vector<std::string>()}},
 			{ "subprgm_decsLR1_1", { std::vector<std::string>()}},
 			{ "subprgm_dec_1", { std::vector<std::string>()}},

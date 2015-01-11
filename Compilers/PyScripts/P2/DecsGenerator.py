@@ -57,8 +57,10 @@ def writeParseEntry(nt):
    
    entry, expected, follows = createParseTableEntry(nt)
    outStr += "\tstd::string exp = \"" + tupToString(expected)[:-1] + "\";\n"
-   outStr += "\tParseNode* ref = " + defName(nt) + ";"
-   
+   outStr += "\tParseNode* ref = " + defName(nt) + ";\n"
+   outStr += "\tToken* currTok = &Token();\n"
+   outStr += "\tbool hasParseErr = false;\n"
+   outStr += "\tbool* addrErr = &hasParseErr;\n"
    temp = "" #temp handles writing the parse table entry for shenoi to see that you wrote your parse table correctly
    for term in terms: 
       prod = entry[term]
@@ -74,6 +76,7 @@ def writeParseEntry(nt):
          outStr += writeNonEps(nt, prod, term, renameProd(nt, prod, nts, terms))
    
    outStr += writeEps(nt, epsProd(), follows)
+   outStr += "\t" + nt + "Error:\n"
    outStr += errorsDict[defName(nt)] + "\n"
    outStr += "\tSynErrorTok(nt, exp);\n"
    outStr += "}\n\n" # close method
@@ -123,7 +126,9 @@ def writeNonEps(nt, prod, term, renamedProd):
          outStr += "\t\tref = " + names[i] + ";\n"
          outStr += "\t\t" + targ + "(" + names[i] + ");\n"
       elif targ in terms:
-         outStr += "\t\t" + dName + "->appendToken(Match(p->GTT(\"" + targ + "\") ,nt, \"" + targ + "\"), ref);\n"
+         #outStr += "\t\t" + dName + "->appendToken(Match(p->GTT(\"" + targ + "\") ,nt, \"" + targ + "\"), ref);\n"
+         outStr += "\t\t if (!Match(p->GTT(\"" + targ + "\") ,nt, exp, &currTok)) goto " + nt + "Error;\n"
+         outStr += "\t\t" + dName + "->appendToken( currTok, ref);\n"
       else:
          print(prod, "ERROR: DOOM!!!!", targ)
       if renamedProd[i+1] in codes: # begin is first element. So increase element count by one to find actual

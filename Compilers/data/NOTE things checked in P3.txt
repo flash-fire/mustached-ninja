@@ -8,3 +8,5 @@ Things that will be caught in my compiler:
 		Check the types of both arguments and confirm to be int
 		Check if the first argument is less than second argument
 		Check the std_type of the array
+
+APPARENTLY... This compiler doesn't allow for the definition of negative integers for type integer. That's what it said on Grammar so OKAY.

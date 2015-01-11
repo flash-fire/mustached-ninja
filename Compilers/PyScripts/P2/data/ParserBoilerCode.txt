@@ -61,28 +61,25 @@ void Project2::MatchEOF()
 		SynErrorTok("EOF", "EOF"); // The lex matches what we want to match when we're matching an individual token.
 	}
 }
-
-Token* Project2::Match(int T, std::string nt, std::string exp)
+bool Project2::Match(int T, std::string nt, std::string exp, Token** retTok)
 {
 	int C = lookAhead.token;
+	Token* ret = new Token(lookAhead); // might cause a memory leak. Don't care.
+	*retTok = ret; // This is the point in which I say lol I can't believe this worked but I also believe it. First legit use of double pointers!
 	if (T == C && C != EOF)
 	{
 		//std::cout << "Matched: <" << p->TokenToGrammar(T) << ">\n";
-		Token ret = lookAhead;
 		lookAhead = p->nextToken();
-		return new Token(ret);
-
+		return true;
 	}
 	else if (T == C && C == EOF)
 	{
-		return new Token(lookAhead); // end parse
+		std::cout << "Matched EOF! YAY!";
+		return true;
 	}
 	else
 	{
-		SynErrorTok(nt, exp);
-		Token ret = Token();
-		ret.line = lookAhead.line; // just in case i need it later.
-		return new Token(ret);
+		return false;
 	}
 }
 
