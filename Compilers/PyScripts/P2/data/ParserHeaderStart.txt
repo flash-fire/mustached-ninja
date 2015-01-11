@@ -11,7 +11,7 @@ public:
 	~Project2();
 	void LoadSynch();
 	void Parse();
-	bool Match(int tok, std::string nt, std::string exp, Token** ret);
+	bool Match(int tok, Token** ret);
 	void MatchEOF();
 	void SynErrorTok(std::string nt, std::string exp);
 	void TypeErrorTok(std::string nt, Type::TYPE exp, Type::TYPE rec, Token tok);

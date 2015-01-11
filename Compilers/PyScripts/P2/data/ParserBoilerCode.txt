@@ -61,7 +61,7 @@ void Project2::MatchEOF()
 		SynErrorTok("EOF", "EOF"); // The lex matches what we want to match when we're matching an individual token.
 	}
 }
-bool Project2::Match(int T, std::string nt, std::string exp, Token** retTok)
+bool Project2::Match(int T, Token** retTok)
 {
 	int C = lookAhead.token;
 	Token* ret = new Token(lookAhead); // might cause a memory leak. Don't care.
