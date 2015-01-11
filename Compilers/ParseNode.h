@@ -37,10 +37,10 @@ public:
 	void appendChild(ParseNode* child, int debugTargInstance = DEF_NOT_INSTANCE);
 	void appendToken(Token* child, ParseNode* targ, int debugTargInstance = DEF_NOT_INSTANCE);
 
-	std::list<Wrap> getChildren() { return children; };
+	std::vector<Wrap> getChildren() { return children; };
 
-	static void WriteUndecoratedTree(Wrap node, std::ofstream* out, int level = 0);
-	static void WriteDecoratedTree(Wrap node, std::ofstream* out, int level = 0);
+	static void WriteUndecoratedTree(Wrap node, std::ostream* out, int level = 0);
+	static void WriteDecoratedTree(Wrap node, std::ostream* out, int level = 0);
 
 	static std::string name(Wrap wrap, bool isRHS = false);
 
@@ -48,6 +48,7 @@ public:
 	int	get(const std::string varName); // gets a variable. Returns error message if var doesn't exist
 	ParseNode* findN(const std::string targ); 	// Finds Wrap with that name. Good for retrieving tokens.
 	Token* findT(const std::string targ); // Finds child with that name. I should never use this thing.
+	Token* findT(int loc); // Finds child at that location. I only use this because otherwise if there's a synerr, findT will break.
 
 	ParseNode(ParseNode* parent, std::string nt, std::vector<std::string> varNames);
 	ParseNode(const ParseNode& node);
@@ -63,7 +64,7 @@ private:
 	ParseNode* parent;
 	std::vector<std::string> varNames; // This keeps track of variables that can be used. Main use is for debugging purposes
 	std::map<std::string, int> vars;
-	std::list<Wrap> children;
+	std::vector<Wrap> children;
 };
 
 #endif

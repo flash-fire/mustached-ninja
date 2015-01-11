@@ -4,7 +4,7 @@
 
 ParseNode::ParseNode(ParseNode* par, std::string nonTerminal, std::vector<std::string> varNames) : parent(par), nt(nonTerminal), varNames(varNames)
 {
-	children = std::list<Wrap>();
+	children = std::vector<Wrap>();
 	for (auto& it : varNames) {
 		set(it, 0);
 	}
@@ -41,7 +41,7 @@ std::string ParseNode::name(Wrap wrap, bool isRHS)
 	}
 }
 
-void ParseNode::WriteUndecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int level)
+void ParseNode::WriteUndecoratedTree(Wrap wrap, std::ostream* os, int level)
 {
 	std::string out = "";
 	if (level > 0)
@@ -55,9 +55,9 @@ void ParseNode::WriteUndecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int 
 	}
 	else
 	{
-		out += ParseNode::name(wrap) + "\n";
+		out += ParseNode::name(wrap) + "\t\t" + wrap.val.tok->lex + "\n";
 	}
-	*fileToWrite << out;
+	*os << out;
 	//std::cout << out;
 
 	if (wrap.isNode)
@@ -65,12 +65,12 @@ void ParseNode::WriteUndecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int 
 		ParseNode* node = wrap.val.node;
 		for (auto& wrap : node->getChildren())
 		{
-			WriteUndecoratedTree(wrap, fileToWrite, level + 1);
+			WriteUndecoratedTree(wrap, os, level + 1);
 		}
 	}
 }
 
-void ParseNode::WriteDecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int level)
+void ParseNode::WriteDecoratedTree(Wrap wrap, std::ostream* os, int level)
 {
 	std::string out = "";
 	std::string tab = "";
@@ -99,17 +99,17 @@ void ParseNode::WriteDecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int le
 				}
 			}
 		}
-		*fileToWrite << out;
+		*os << out;
 
 		for (auto& wrap : node->getChildren())
 		{
-			WriteDecoratedTree(wrap, fileToWrite, level + 1);
+			WriteDecoratedTree(wrap, os, level + 1);
 		}
 	}
 	else
 	{
 		out += tab + ParseNode::name(wrap) + "\n";
-		*fileToWrite << out;
+		*os << out;
 	}
 }
 
@@ -269,6 +269,23 @@ ParseNode* ParseNode::findN(const std::string targ)
 	return NULL;
 }
 
+
+// Yeah it's unsafe, but I don't feel like loaading the grammar the proper way and supporting indexing.
+Token* ParseNode::findT(int loc)
+{
+	if (children.size() <= loc)
+	{
+		std::cout << "FINDT: Fail. We are OOB";
+		return NULL;
+	}
+	Wrap targ = children[loc];
+	if (targ.isNode)
+	{
+		std::cout << "FINDT: Fail. We found a node you idiot.";
+	}
+	return targ.val.tok;
+}
+
 Token* ParseNode::findT(const std::string targ)
 {
 	if (ParseNode::name(Wrap(this, DEF_INSTANCE)) == targ)
@@ -279,7 +296,8 @@ Token* ParseNode::findT(const std::string targ)
 
 	for (auto& wrap : children)
 	{
-		if (ParseNode::name(wrap) == targ)
+		std::string test = ParseNode::name(wrap);
+		if (test == targ)
 		{
 			if (!wrap.isNode)
 			{
