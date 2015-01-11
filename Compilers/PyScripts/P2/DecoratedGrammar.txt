@@ -25,8 +25,8 @@ type_1:
 			type_1->set("width", std_type_1->get("width"));
 	<<begin>> array_1 [_1 num_1 .._1 num_2 ]_1 of_1 std_type_1 <<end>>
 		<<end>>
-			Token* tok1 = type_1->findT("num_1");
-			Token* tok2 = type_1->findT("num_2");
+			Token* tok1 = type_1->findT(2); //# Yes this may seem unsafe, but I only have to do this for arrays so I'm okay with it.
+			Token* tok2 = type_1->findT(4);
 			type_1->set("t",TTI(ERROR)); //# Defaulting to error unless changed
 			type_1->set("width", 0);
 			
@@ -60,8 +60,7 @@ type_1:
 			{
 				if (arraySize < 0)
 				{
-					target << "SEMERROR: Array parameters improper. Min >= Max with " << tok1->lex << " and " << tok2->lex
-						<< "\n";
+					target << "SEMERROR: Array parameters improper. Min >= Max with " << tok1->lex << " and " << tok2->lex << "\n\n";
 				}
 			}
 			else 
@@ -79,7 +78,8 @@ type_1:
 				}
 				 //# FINALLY all the silly errors are done
 			}
-			std::cout << "Made array of type " << Type::typeToString(ITT(type_1->get("t"))) << " width " << type_1->get("width") << "\n";
+			std::cout << "Made array of type " << Type::typeToString(ITT(type_1->get("t"))) << " width " << type_1->get("width")
+			<< "\n" << "LEX#1: " << tok1->lex << " LEX#2: " << tok2->lex << "LEX_STD: "  << "\n";
 	<<error>> //# no need to say that the array has an error when you have a syntax error. You got problems. You already know.
 		type_1->set("t", TTI(ERROR));
 		type_1->set("width", 0);
@@ -94,7 +94,6 @@ std_type_1:
 			std_type_1->set("width", 4);
 			std_type_1->set("t", TTI(INT));
 	<<error>>
-		
 		std_type_1->set("t", TTI(ERROR));
 		std_type_1->set("width", 0);
 subprgm_decs_1:
