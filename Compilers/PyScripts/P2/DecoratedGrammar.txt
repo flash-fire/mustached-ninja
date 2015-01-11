@@ -45,23 +45,25 @@ type_1:
 					else
 						std::cout << "WTF in array terrible hack";
 				}
-				else if (tok1->isReal())
+				else if (currTok->isReal())
 				{
 					TypeErrorTok(nt, Type::INT, Type::REAL, *currTok);
 				}
 				else
-				{
-					TypeErrorTok(nt, Type::INT, Type::UNASSIGNED, *currTok);
+				{ //# I highly doubt this line will be reached because currTok must be valid syntactically for this to be reached.
+				  //# Therefore, I added this just in case I get it. IT's a nice "MY COMPILER HAS A BUG" output.
+				TypeErrorTok(nt, Type::INT, Type::UNASSIGNED, *currTok);
 				}
 				i++;
 			}
 			arraySize = max - min;
-			if (max == -1 || min == -1 || arraySize < 0) //# if bad args
+			if (max == -1 || min == -1)
+			{ // error would be already reported at above
+			
+			}
+			else if (arraySize <= 0) //# if bad args
 			{
-				if (arraySize < 0)
-				{
-					target << "SEMERROR: Array parameters improper. Min >= Max with " << tok1->lex << " and " << tok2->lex << "\n\n";
-				}
+				target << "SEMERROR: Array parameters improper. Min >= Max with " << tok1->lex << " and " << tok2->lex << "\n\n";
 			}
 			else 
 			{

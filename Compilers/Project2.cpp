@@ -431,7 +431,7 @@ void Project2::type(ParseNode* type_1) {
 				else
 					std::cout << "WTF in array terrible hack";
 			}
-			else if (tok1->isReal())
+			else if (currTok->isReal())
 			{
 				TypeErrorTok(nt, Type::INT, Type::REAL, *currTok);
 			}
@@ -442,12 +442,13 @@ void Project2::type(ParseNode* type_1) {
 			i++;
 		}
 		arraySize = max - min;
-		if (max == -1 || min == -1 || arraySize < 0) //# if bad args
+		if (max == -1 || min == -1)
 		{
-			if (arraySize < 0)
-			{
-				target << "SEMERROR: Array parameters improper. Min >= Max with " << tok1->lex << " and " << tok2->lex << "\n\n";
-			}
+
+		}
+		else if (arraySize <= 0) //# if bad args
+		{
+			target << "SEMERROR: Array parameters improper. Min >= Max with " << tok1->lex << " and " << tok2->lex << "\n\n";
 		}
 		else
 		{
@@ -2108,4 +2109,3 @@ relopError:
 
 	SynErrorTok(nt, exp);
 }
-
