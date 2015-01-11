@@ -1,6 +1,8 @@
 from MakeInstance import *
 from MassageGrammar import *
 # Loads the grammar from the file and returns it. Heck yeah!
+
+
 def loadDecGrammar(filename, nts):
    def handleSkip(f, line):
       while True:
@@ -14,7 +16,8 @@ def loadDecGrammar(filename, nts):
    line = f.readline()
    codeDict = dict()
    varsDict = {nt : set() for nt in nts}
-            
+   errorDict = {nt : "" for nt in nts}
+   
    while True:
       line = handleSkip(f, line)
       if not line:
@@ -27,7 +30,7 @@ def loadDecGrammar(filename, nts):
          print("Expected nt. Got", nt, " is not in non terminals. Sorry.")
          break
          
-      ###print("WE GOT NT : ", nt)
+      print("WE GOT NT : ", nt)
       var = line = f.readline().strip()
       line = handleSkip(f, line)
       if not line:
@@ -48,14 +51,14 @@ def loadDecGrammar(filename, nts):
          line = f.readline()
          # handles code
          lineStrip = line.strip()
-         ###print("\tPROD", prod)
+         print("\tPROD", prod)
          # handle nonterminals for the code and productions
          while lineStrip in prod:
             targ = lineStrip
             line = f.readline()
             line = handleSkip(f, line)
             lineStrip = line.strip()
-            while not lineStrip[0:9] == "<<begin>>" and not lineStrip[-1] in nts:
+            while not lineStrip[0:9] == "<<begin>>":
                if lineStrip in prod:
                   if (nt, prod) in codeDict:
                      codeDict[(nt, prod)] |= {(targ, code)}
@@ -63,14 +66,16 @@ def loadDecGrammar(filename, nts):
                      codeDict[(nt, prod)] = {(targ, code)}
                   continue
                elif lineStrip[0:9] == "<<begin>>":
-                  ###print("\t\t\t" + lineStrip[0:9] + " found another production")
+                  print("\t\t\t" + lineStrip[0:9] + " found another production")
                   break;
                elif lineStrip[:-1] in nts:
-                  ###print("\t\t\t" + lineStrip[:-1], " is in nts")
+                  print("\t\t\t" + lineStrip[:-1], " is in nts")
                   break
-               else:
-                  ###print("\t\t\tCODE~~: " + lineStrip)
-                  code += line
+               elif lineStrip[0:9] == "<<error>>":
+                  print("FOUND ERRORS")
+                  break
+               #print("\t\t\tCODE~~: " + lineStrip)
+               code += line
                line = f.readline()
                line = handleSkip(f, line)
                lineStrip = line.strip()
@@ -79,15 +84,32 @@ def loadDecGrammar(filename, nts):
                codeDict[(nt, prod)] |= {(targ, code)}
             else:
                codeDict[(nt, prod)] = {(targ, code)}
+      
+      if lineStrip[0:9] == "<<error>>": # optional error code for when SynError occurs at end of method.
+         errCode = "";
+         line = f.readline()
+         lineStrip = line.strip()
+         while lineStrip and lineStrip[:-1] not in nts:
+            errCode += line
+            line = f.readline();
+            lineStrip = line.strip()
+            print("LINE", lineStrip[:-1])
+         print("FOUND NT:", line)
+         errorDict[nt] = errCode
    f.close()
-   return varsDict, codeDict
+   return varsDict, codeDict, errorDict
 
-def printDecGrammar(varsDict, codeDict, ntsPrime):
+def printDecGrammar(varsDict, codeDict, errorsDict, ntsPrime):
    print("\nPRINTING VAR DICT")
    for nt in ntsPrime:
       if varsDict[nt]:
          print("\t", nt, varsDict[nt])
 
+   print("\nPRINTING ERROR DICT")
+   for nt in ntsPrime:
+      if errorsDict[nt]:
+         print("\tNT: ", nt)
+         print("\tCODE:", errorsDict[nt])
    print("\n\n\n" + "PRINTING CODE DICT")
    for key, val in codeDict.items():
       if val:
@@ -104,6 +126,6 @@ if __name__ == '__main__':
    renamed = renameGrammar(productions,nts,terms)
    ntsPrime = [defName(nt) for nt in nts]
    
-   varsDict, codeDict = loadDecGrammar("DecoratedGrammar.txt", ntsPrime)
+   varsDict, codeDict, errorDict = loadDecGrammar("DecoratedGrammar.txt", ntsPrime)
    
-   printDecGrammar(varsDict, codeDict, ntsPrime)
+   printDecGrammar(varsDict, codeDict, errorDict, ntsPrime)

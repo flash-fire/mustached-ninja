@@ -19,6 +19,58 @@ public:
 
 	std::map<std::string, std::string> synchSet;
 private:
+	std::map<std::string, std::vector<std::string>> vars = makeMap();
+	std::map<std::string, std::vector<std::string>> makeMap()
+	{
+		return {
+			{ "prgm_1", { std::vector<std::string>()}},
+			{ "prgmLF1_1", { std::vector<std::string>()}},
+			{ "prgmLF1LF1_1", { std::vector<std::string>()}},
+			{ "idList_1", { std::vector<std::string>()}},
+			{ "idListLR1_1", { std::vector<std::string>()}},
+			{ "decs_1", { std::vector<std::string>()}},
+			{ "decsLR1_1", { std::vector<std::string>()}},
+			{ "type_1", { "width", "t"} },
+			{ "std_type_1", { "width", "t"} },
+			{ "subprgm_decs_1", { std::vector<std::string>()}},
+			{ "subprgm_decsLR1_1", { std::vector<std::string>()}},
+			{ "subprgm_dec_1", { std::vector<std::string>()}},
+			{ "subprgm_decLF1_1", { std::vector<std::string>()}},
+			{ "subprgm_decLF1LF1_1", { std::vector<std::string>()}},
+			{ "subprgm_head_1", { std::vector<std::string>()}},
+			{ "subprgm_headLF1_1", { std::vector<std::string>()}},
+			{ "args_1", { std::vector<std::string>()}},
+			{ "param_list_1", { std::vector<std::string>()}},
+			{ "param_listLR1_1", { std::vector<std::string>()}},
+			{ "comp_stmt_1", { std::vector<std::string>()}},
+			{ "comp_stmtLF1_1", { std::vector<std::string>()}},
+			{ "opt_stmts_1", { std::vector<std::string>()}},
+			{ "stmt_list_1", { std::vector<std::string>()}},
+			{ "stmt_listLR1_1", { std::vector<std::string>()}},
+			{ "stmt_1", { std::vector<std::string>()}},
+			{ "stmtLF1_1", { std::vector<std::string>()}},
+			{ "variable_1", { std::vector<std::string>()}},
+			{ "variableLF1_1", { std::vector<std::string>()}},
+			{ "proc_stmt_1", { std::vector<std::string>()}},
+			{ "proc_stmtLF1_1", { std::vector<std::string>()}},
+			{ "expr_list_1", { std::vector<std::string>()}},
+			{ "expr_listLR1_1", { std::vector<std::string>()}},
+			{ "expr_1", { std::vector<std::string>()}},
+			{ "exprLF1_1", { std::vector<std::string>()}},
+			{ "term_1", { std::vector<std::string>()}},
+			{ "termLR1_1", { std::vector<std::string>()}},
+			{ "simple_expr_1", { std::vector<std::string>()}},
+			{ "simple_exprLR1_1", { std::vector<std::string>()}},
+			{ "factor_1", { std::vector<std::string>()}},
+			{ "factorLF1_1", { std::vector<std::string>()}},
+			{ "sign_1", { std::vector<std::string>()}},
+			{ "addop_1", { std::vector<std::string>()}},
+			{ "assignop_1", { std::vector<std::string>()}},
+			{ "mulop_1", { std::vector<std::string>()}},
+			{ "relop_1", { std::vector<std::string>()}},
+		};
+	};
+
 	void Project2::prgm(ParseNode* par);
 	void Project2::prgmLF1(ParseNode* par);
 	void Project2::prgmLF1LF1(ParseNode* par);

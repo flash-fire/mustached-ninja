@@ -6,7 +6,7 @@ ParseNode::ParseNode(ParseNode* par, std::string nonTerminal, std::vector<std::s
 {
 	children = std::list<Wrap>();
 	for (auto& it : varNames) {
-		locSet(it, 0);
+		set(it, 0);
 	}
 }
 
@@ -92,7 +92,7 @@ void ParseNode::WriteDecoratedTree(Wrap wrap, std::ofstream* fileToWrite, int le
 			for (std::string var : node->varNames)
 			{
 				std::string err = "";
-				out += tab + "   " + "<<" + var + ">> : " + std::to_string(node->locGet(var)) + "\n";
+				out += tab + "   " + "<<" + var + ">> : " + std::to_string(node->get(var)) + "\n";
 				if (err != "")
 				{
 					std::cout << err;
@@ -196,7 +196,7 @@ void ParseNode::appendToken(Token* tok, ParseNode* targ, int debugTargInstance)
 }
 
 // Error occurred if returns false
-bool ParseNode::locSet(const std::string varName, const int newVal)
+bool ParseNode::set(const std::string varName, const int newVal)
 {
 	if (std::find(std::begin(varNames), std::end(varNames), varName) == std::end(varNames))
 	{
@@ -212,7 +212,7 @@ bool ParseNode::locSet(const std::string varName, const int newVal)
 	return true;
 }
 // gets a variable. Returns error message if var doesn't exist
-int	ParseNode::locGet(const std::string varName)
+int	ParseNode::get(const std::string varName)
 {
 	if (vars.count(varName) != 0)
 	{
@@ -233,39 +233,66 @@ int	ParseNode::locGet(const std::string varName)
 // Non local setting can only occur with either parent, or with siblings.
 bool ParseNode::nonLocSet(const std::string targNT, const std::string var, const int val, std::string* errorMsg)
 {
-	Wrap targ = find(targNT, errorMsg);
-	if (*errorMsg != "")
-	{
-		return false;
-	}
-	return targ.isNode & targ.val.node->locSet(var, val);
+	ParseNode* node = findN(targNT);
+	return node && node->set(var, val);
 }
 
 int ParseNode::nonLocGet(const std::string targNT, const std::string var, std::string* errorMsg)
 {
-	Wrap targ = find(targNT, errorMsg);
-	if (*errorMsg != "")
-	{
-		return false;
-	}
-	return targ.isNode && targ.val.node->locGet(var);
+	ParseNode* targ = findN(targNT);
+	return targ && targ->get(var);
 }
 
-ParseNode::Wrapper ParseNode::find(const std::string targ, std::string* errorMsg)
+ParseNode* ParseNode::findN(const std::string targ)
 {
 	if (ParseNode::name(Wrap(this, DEF_INSTANCE)) == targ)
 	{
-		return Wrapper(this, DEF_INSTANCE);
+		return this;
 	}
 
 	for (auto& wrap : children)
 	{
 		if (ParseNode::name(wrap) == targ)
 		{
-			return wrap;
+			if (wrap.isNode)
+			{
+				//std::cout << "Found " << targ << "!!";
+				return wrap.val.node;
+			}
+			else
+			{
+				std::cout << "Found wrong type [token instead of node] for " << targ;
+			}
 		}
 	}
+	std::cout << "Find [node] failed for " << targ;
+	return NULL;
+}
 
-	*errorMsg += "IN findChild and we have sad news about the finding of our target node.\n";
-	return Wrapper(this, DEF_INSTANCE);
+Token* ParseNode::findT(const std::string targ)
+{
+	if (ParseNode::name(Wrap(this, DEF_INSTANCE)) == targ)
+	{
+		std::cout << "Find [token] tried to match current node.";
+		return NULL;
+	}
+
+	for (auto& wrap : children)
+	{
+		if (ParseNode::name(wrap) == targ)
+		{
+			if (!wrap.isNode)
+			{
+				//std::cout << "Found " << targ << "!!";
+				return wrap.val.tok;
+			}
+			else
+			{
+				std::cout << "Found wrong type [node instead of token] for " << targ;
+			}
+		}
+	}
+	std::cout << "Find [token] failed for " << targ;
+
+	return NULL;
 }

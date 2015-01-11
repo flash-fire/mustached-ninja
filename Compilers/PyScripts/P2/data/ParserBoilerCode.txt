@@ -6,6 +6,9 @@
 #include "ParseNode.h"
 #include "Type.h"
 
+#define TTI(arg) Type::typeToInt(Type::arg)
+#define ITT(arg) Type::intToType(arg)
+
 const std::string Project2::SYNCH_PATH = ".\\data\\synch.txt";
 
 Project2::Project2(Project1* p1) : lookAhead(Token()), p(p1)
@@ -64,7 +67,7 @@ Token* Project2::Match(int T, std::string nt, std::string exp)
 	int C = lookAhead.token;
 	if (T == C && C != EOF)
 	{
-		std::cout << "Matched: <" << p->TokenToGrammar(T) << ">\n";
+		//std::cout << "Matched: <" << p->TokenToGrammar(T) << ">\n";
 		Token ret = lookAhead;
 		lookAhead = p->nextToken();
 		return new Token(ret);

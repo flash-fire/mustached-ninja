@@ -77,6 +77,11 @@ bool Token::isInt()
 	return token == NUM && attr == 0;
 }
 
+bool Token::isReal()
+{
+	return token == NUM && attr == 1;
+}
+
 int Token::val()
 {
 	if (isInt())

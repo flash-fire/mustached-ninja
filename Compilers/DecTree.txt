@@ -46,7 +46,7 @@
           <type_1>
             <<VARS>>
              <<t>> : 7
-             <<width>> : 0
+             <<width>> : 4
             array_1
             [_1
             num_1
@@ -102,7 +102,7 @@
                       <type_1>
                         <<VARS>>
                          <<t>> : 7
-                         <<width>> : 0
+                         <<width>> : 4
                         array_1
                         [_1
                         num_1
@@ -356,7 +356,7 @@
                                       <type_1>
                                         <<VARS>>
                                          <<t>> : 8
-                                         <<width>> : 0
+                                         <<width>> : 16
                                         array_1
                                         [_1
                                         num_1

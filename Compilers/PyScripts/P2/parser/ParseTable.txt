@@ -1,236 +1,162 @@
 Terminal Order['(', ')', '*', '+', ',', '-', '.', '..', '/', ':', ':=', ';', '<', '<=', '<>', '=', '>', '>=', '[', ']', 'and', 'array', 'begin', 'call', 'div', 'do', 'else', 'end', 'id', 'if', 'integer', 'mod', 'not', 'num', 'of', 'or', 'procedure', 'program', 'real', 'then', 'var', 'while']
 prgm
-	program -> program id ( idList ) ; prgmLF1 
+	program -> p r o g r a m 
 prgmLF1
-	begin -> comp_stmt . 
-	procedure -> subprgm_decs comp_stmt . 
-	var -> decs prgmLF1LF1 
+	begin -> c o m p _ s t m t 
+	procedure -> s u b p r g m _ d e c s 
+	var -> d e c s 
 prgmLF1LF1
-	begin -> comp_stmt . 
-	procedure -> subprgm_decs comp_stmt . 
+	begin -> c o m p _ s t m t 
+	procedure -> s u b p r g m _ d e c s 
 idList
-	id -> id idListLR1 
+	id -> i d 
 idListLR1
-	) -> EPSILON
-	, -> , id idListLR1 
+	, -> , 
 decs
-	var -> var id : type ; decsLR1 
+	var -> v a r 
 decsLR1
-	begin -> EPSILON
-	procedure -> EPSILON
-	var -> var id : type ; decsLR1 
+	var -> v a r 
 type
-	array -> array [ num .. num ] of std_type 
-	integer -> std_type 
-	real -> std_type 
+	array -> a r r a y 
+	integer -> s t d _ t y p e 
+	real -> s t d _ t y p e 
 std_type
-	integer -> integer 
-	real -> real 
+	integer -> i n t e g e r 
+	real -> r e a l 
 subprgm_decs
-	procedure -> subprgm_dec ; subprgm_decsLR1 
+	procedure -> s u b p r g m _ d e c 
 subprgm_decsLR1
-	begin -> EPSILON
-	procedure -> subprgm_dec ; subprgm_decsLR1 
+	procedure -> s u b p r g m _ d e c 
 subprgm_dec
-	procedure -> subprgm_head subprgm_decLF1 
+	procedure -> s u b p r g m _ h e a d 
 subprgm_decLF1
-	begin -> comp_stmt 
-	procedure -> subprgm_decs comp_stmt 
-	var -> decs subprgm_decLF1LF1 
+	begin -> c o m p _ s t m t 
+	procedure -> s u b p r g m _ d e c s 
+	var -> d e c s 
 subprgm_decLF1LF1
-	begin -> comp_stmt 
-	procedure -> subprgm_decs comp_stmt 
+	begin -> c o m p _ s t m t 
+	procedure -> s u b p r g m _ d e c s 
 subprgm_head
-	procedure -> procedure id subprgm_headLF1 
+	procedure -> p r o c e d u r e 
 subprgm_headLF1
-	( -> args ; 
+	( -> a r g s 
 	; -> ; 
 args
-	( -> ( param_list ) 
+	( -> ( 
 param_list
-	id -> id : type param_listLR1 
+	id -> i d 
 param_listLR1
-	) -> EPSILON
-	; -> ; id : type param_listLR1 
+	; -> ; 
 comp_stmt
-	begin -> begin comp_stmtLF1 
+	begin -> b e g i n 
 comp_stmtLF1
-	begin -> opt_stmts end 
-	call -> opt_stmts end 
-	end -> end 
-	id -> opt_stmts end 
-	if -> opt_stmts end 
-	while -> opt_stmts end 
+	begin -> o p t _ s t m t s 
+	call -> o p t _ s t m t s 
+	end -> e n d 
+	id -> o p t _ s t m t s 
+	if -> o p t _ s t m t s 
+	while -> o p t _ s t m t s 
 opt_stmts
-	begin -> stmt_list 
-	call -> stmt_list 
-	id -> stmt_list 
-	if -> stmt_list 
-	while -> stmt_list 
+	begin -> s t m t _ l i s t 
+	call -> s t m t _ l i s t 
+	id -> s t m t _ l i s t 
+	if -> s t m t _ l i s t 
+	while -> s t m t _ l i s t 
 stmt_list
-	begin -> stmt stmt_listLR1 
-	call -> stmt stmt_listLR1 
-	id -> stmt stmt_listLR1 
-	if -> stmt stmt_listLR1 
-	while -> stmt stmt_listLR1 
+	begin -> s t m t 
+	call -> s t m t 
+	id -> s t m t 
+	if -> s t m t 
+	while -> s t m t 
 stmt_listLR1
-	; -> ; stmt stmt_listLR1 
-	end -> EPSILON
+	; -> ; 
 stmt
-	begin -> comp_stmt 
-	call -> proc_stmt 
-	id -> variable assignop expr 
-	if -> if expr then stmt stmtLF1 
-	while -> while expr do stmt 
+	begin -> c o m p _ s t m t 
+	call -> p r o c _ s t m t 
+	id -> v a r i a b l e 
+	if -> i f 
+	while -> w h i l e 
 stmtLF1
-	; -> EPSILON
-	else -> else stmt 
-	end -> EPSILON
+	else -> e l s e 
 variable
-	id -> id variableLF1 
+	id -> i d 
 variableLF1
-	:= -> EPSILON
-	[ -> [ expr ] 
+	[ -> [ 
 proc_stmt
-	call -> call id proc_stmtLF1 
+	call -> c a l l 
 proc_stmtLF1
-	( -> ( expr_list ) 
-	; -> EPSILON
-	else -> EPSILON
-	end -> EPSILON
+	( -> ( 
 expr_list
-	( -> expr expr_listLR1 
-	+ -> expr expr_listLR1 
-	- -> expr expr_listLR1 
-	id -> expr expr_listLR1 
-	not -> expr expr_listLR1 
-	num -> expr expr_listLR1 
+	( -> e x p r 
+	+ -> e x p r 
+	- -> e x p r 
+	id -> e x p r 
+	not -> e x p r 
+	num -> e x p r 
 expr_listLR1
-	) -> EPSILON
-	, -> , expr expr_listLR1 
+	, -> , 
 expr
-	( -> simple_expr exprLF1 
-	+ -> simple_expr exprLF1 
-	- -> simple_expr exprLF1 
-	id -> simple_expr exprLF1 
-	not -> simple_expr exprLF1 
-	num -> simple_expr exprLF1 
+	( -> s i m p l e _ e x p r 
+	+ -> s i m p l e _ e x p r 
+	- -> s i m p l e _ e x p r 
+	id -> s i m p l e _ e x p r 
+	not -> s i m p l e _ e x p r 
+	num -> s i m p l e _ e x p r 
 exprLF1
-	) -> EPSILON
-	, -> EPSILON
-	; -> EPSILON
-	< -> relop simple_expr 
-	<= -> relop simple_expr 
-	<> -> relop simple_expr 
-	= -> relop simple_expr 
-	> -> relop simple_expr 
-	>= -> relop simple_expr 
-	] -> EPSILON
-	do -> EPSILON
-	else -> EPSILON
-	end -> EPSILON
-	then -> EPSILON
+	< -> r e l o p 
+	<= -> r e l o p 
+	<> -> r e l o p 
+	= -> r e l o p 
+	> -> r e l o p 
+	>= -> r e l o p 
 term
-	( -> factor termLR1 
-	id -> factor termLR1 
-	not -> factor termLR1 
-	num -> factor termLR1 
+	( -> f a c t o r 
+	id -> f a c t o r 
+	not -> f a c t o r 
+	num -> f a c t o r 
 termLR1
-	) -> EPSILON
-	* -> mulop factor termLR1 
-	+ -> EPSILON
-	, -> EPSILON
-	- -> EPSILON
-	/ -> mulop factor termLR1 
-	; -> EPSILON
-	< -> EPSILON
-	<= -> EPSILON
-	<> -> EPSILON
-	= -> EPSILON
-	> -> EPSILON
-	>= -> EPSILON
-	] -> EPSILON
-	and -> mulop factor termLR1 
-	div -> mulop factor termLR1 
-	do -> EPSILON
-	else -> EPSILON
-	end -> EPSILON
-	mod -> mulop factor termLR1 
-	or -> EPSILON
-	then -> EPSILON
+	* -> m u l o p 
+	/ -> m u l o p 
+	and -> m u l o p 
+	div -> m u l o p 
+	mod -> m u l o p 
 simple_expr
-	( -> term simple_exprLR1 
-	+ -> sign term simple_exprLR1 
-	- -> sign term simple_exprLR1 
-	id -> term simple_exprLR1 
-	not -> term simple_exprLR1 
-	num -> term simple_exprLR1 
+	( -> t e r m 
+	+ -> s i g n 
+	- -> s i g n 
+	id -> t e r m 
+	not -> t e r m 
+	num -> t e r m 
 simple_exprLR1
-	) -> EPSILON
-	+ -> addop term simple_exprLR1 
-	, -> EPSILON
-	- -> addop term simple_exprLR1 
-	; -> EPSILON
-	< -> EPSILON
-	<= -> EPSILON
-	<> -> EPSILON
-	= -> EPSILON
-	> -> EPSILON
-	>= -> EPSILON
-	] -> EPSILON
-	do -> EPSILON
-	else -> EPSILON
-	end -> EPSILON
-	or -> addop term simple_exprLR1 
-	then -> EPSILON
+	+ -> a d d o p 
+	- -> a d d o p 
+	or -> a d d o p 
 factor
-	( -> ( expr ) 
-	id -> id factorLF1 
-	not -> not factor 
-	num -> num 
+	( -> ( 
+	id -> i d 
+	not -> n o t 
+	num -> n u m 
 factorLF1
-	) -> EPSILON
-	* -> EPSILON
-	+ -> EPSILON
-	, -> EPSILON
-	- -> EPSILON
-	/ -> EPSILON
-	; -> EPSILON
-	< -> EPSILON
-	<= -> EPSILON
-	<> -> EPSILON
-	= -> EPSILON
-	> -> EPSILON
-	>= -> EPSILON
-	[ -> [ expr ] 
-	] -> EPSILON
-	and -> EPSILON
-	div -> EPSILON
-	do -> EPSILON
-	else -> EPSILON
-	end -> EPSILON
-	mod -> EPSILON
-	or -> EPSILON
-	then -> EPSILON
+	[ -> [ 
 sign
 	+ -> + 
 	- -> - 
 addop
 	+ -> + 
 	- -> - 
-	or -> or 
+	or -> o r 
 assignop
-	:= -> := 
+	:= -> : = 
 mulop
 	* -> * 
 	/ -> / 
-	and -> and 
-	div -> div 
-	mod -> mod 
+	and -> a n d 
+	div -> d i v 
+	mod -> m o d 
 relop
 	< -> < 
-	<= -> <= 
-	<> -> <> 
+	<= -> < = 
+	<> -> < > 
 	= -> = 
 	> -> > 
-	>= -> >= 
+	>= -> > = 

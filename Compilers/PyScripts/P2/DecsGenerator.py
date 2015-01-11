@@ -74,7 +74,7 @@ def writeParseEntry(nt):
          outStr += writeNonEps(nt, prod, term, renameProd(nt, prod, nts, terms))
    
    outStr += writeEps(nt, epsProd(), follows)
-   
+   outStr += errorsDict[defName(nt)] + "\n"
    outStr += "\tSynErrorTok(nt, exp);\n"
    outStr += "}\n\n" # close method
    return outStr, outStr2
@@ -106,7 +106,7 @@ def writeNonEps(nt, prod, term, renamedProd):
    for i in range(0,len(prod)):
       targ = prod[i]
       if targ in nts:
-         outStr += "\t\tParseNode* " + names[i] + " = new ParseNode(" + dName + ",\"" + targ + "\", std::vector<std::string>());\n"
+         outStr += "\t\tParseNode* " + names[i] + " = new ParseNode(" + dName + ",\"" + targ + "\", vars[\"" + names[i] + "\"]);\n"
          outStr += "\t\t" + dName + "->appendChild(" + names[i] + ");\n"
    
    codes = dict()
@@ -167,6 +167,9 @@ def writeParser():
 
    copyFile(parseboil, pout)
    copyFile(headStart, hout)
+   
+   hout.write(makeVarDict())
+   
    pout.write(startParseMethod(start))
    parseTable.write("Terminal Order" + str(terms) + "\n")
    for nt in nts:
@@ -183,6 +186,31 @@ def writeParser():
    pout.close()
    hout.close()
  
+def makeVarDict():
+   outStr = "\tstd::map<std::string, std::vector<std::string>> vars = makeMap();\n"
+   outStr+= "\tstd::map<std::string, std::vector<std::string>> makeMap()\n"
+   outStr+= "\t{\n"
+   outStr += "\t\treturn {\n"
+   for i in range(0,len(ntsPrime)):
+      nt = ntsPrime[i]
+      if varsDict[nt]:
+         if i != len(ntsPrime) - 1:
+            outStr += "\t\t\t{ \"" + ntsPrime[i] + "\", {"
+            ls = list(varsDict[nt])
+            for j in range(0, len(ls)):
+               if j != len(ls)-1:
+                  outStr += " \"" + ls[j] + "\","
+               else:
+                  outStr += " \"" + ls[j] + "\"} }"
+                  if i != len(ntsPrime) - 1:
+                     outStr += ",\n"
+         else:
+            outStr += "{ \"" + nt + "\""
+      else:
+         outStr += "\t\t\t{ \"" + nt + "\", { std::vector<std::string>()}},\n" 
+   outStr += "\t\t};\n"
+   outStr += "\t};\n\n"
+   return outStr
 # Writes synch file, firsts and follows file...
 def writeMiscTextFiles(): 
    synch     = open(p+"synch.txt","w") # Writes synchset
@@ -201,7 +229,7 @@ def writeMiscTextFiles():
 def startParseMethod(start):
    outstr =  "void Project2::Parse()\n"
    outstr  += "{\n"
-   outstr += "\tParseNode* root = new ParseNode(NULL, \"" + start + "\", std::vector<std::string>());\n" 
+   outstr += "\tParseNode* root = new ParseNode(NULL, \"" + start + "\", vars[\"" + defName(start) + "\"]);\n" 
    outstr += "\tlookAhead = p->nextToken();\n"+"\t" + start + "(root);\n"
    outstr += "\tMatchEOF();\n"
    outstr += "\tstd::ofstream file;\n"
@@ -222,7 +250,7 @@ first_dict = firsts(nts, productions)
 follows_dict = follows(nts, productions, first_dict)
 ntsPrime = [defName(nt) for nt in nts]
 
-varsDict, codeDict = loadDecGrammar("DecoratedGrammar.txt", ntsPrime) # vars dict NT ==> SET(NT) ; # codeDict (nt', prod') ==> (nt', code)
+varsDict, codeDict, errorsDict = loadDecGrammar("DecoratedGrammar.txt", ntsPrime) # vars dict NT ==> SET(NT) ; # codeDict (nt', prod') ==> (nt', code)
 #printDecGrammar(varsDict, codeDict, ntsPrime)
 writeParser()
 print("Project 2 and 3 generated successfully!")

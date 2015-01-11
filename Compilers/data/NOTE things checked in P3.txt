@@ -1,0 +1,10 @@
+Things that will be caught in my compiler:
+	General:
+		Syntax errors result in a token that is invalid with original token data.
+		This allows nicer printing, and easier checking for errored tokens in semantic stuff.
+	Type:
+		Malformed tokens for type are found
+	Array:
+		Check the types of both arguments and confirm to be int
+		Check if the first argument is less than second argument
+		Check the std_type of the array

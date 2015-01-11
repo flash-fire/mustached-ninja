@@ -17,6 +17,7 @@ public:
 	bool isValid();
 	std::string gram();
 	bool isInt();
+	bool isReal();
 	int val();
 
 	friend std::ostream &operator<<(std::ostream& out, const Token &tok)

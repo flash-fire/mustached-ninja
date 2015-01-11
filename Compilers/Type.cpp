@@ -35,7 +35,7 @@ int Type::typeToInt(TYPE t)
 
 Type::TYPE Type::intToType(int t)
 {
-	if (t < 0 || t > 7) {
+	if (t < 0 || t > NUM_TYPES) {
 		std::cout << "Invalid int passed into type. WTF?" << t << "You are stupid noob and should be ashamed of yourself, Robbie.\n";
 		return Type::ERROR;
 	}

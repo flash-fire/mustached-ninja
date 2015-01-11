@@ -15,14 +15,14 @@ public:
 		INT, // Integer
 		REAL, // Real
 		AINT, // Array integer
-		AREAL, // array real		
+		AREAL, // array real	
 	};
 
 	Type(const Type& t);
 	Type(TYPE t);
 	Type();
 	~Type();
-
+	static const int NUM_TYPES = 8;
 	static bool isArrayType(TYPE t);
 	static bool isSame(Type t1, Type t2);
 	static int typeToInt(TYPE t);

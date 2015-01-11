@@ -21,19 +21,82 @@ type_1:
 	<<vars>> t width
 	<<begin>> std_type_1 <<end>>
 		<<end>>
-			type_1->locSet("t", std_type_1->locGet("t"));
-			type_1->locSet("width", std_type_1->locGet("width"));
-	<<begin>> array_1 [_1 num_1 .._1 num_2 ]_1 of_1 std_type_1 <<end>> 
+			type_1->set("t", std_type_1->get("t"));
+			type_1->set("width", std_type_1->get("width"));
+	<<begin>> array_1 [_1 num_1 .._1 num_2 ]_1 of_1 std_type_1 <<end>>
+		<<end>>
+			Token* tok1 = type_1->findT("num_1");
+			Token* tok2 = type_1->findT("num_2");
+			type_1->set("t",TTI(ERROR)); //# Defaulting to error unless changed
+			type_1->set("width", 0);
+			
+			int min = -1;
+			int max = -1;
+			int arraySize = 0;
+			int i = 0; //# Terrible hack is great hack!
+			for (Token* currTok : {tok1, tok2})
+			{
+				if (currTok->isInt())
+				{
+					if (i == 0)
+						min = currTok->val();
+					else if (i == 1)
+						max = currTok->val();
+					else
+						std::cout << "WTF in array terrible hack";
+				}
+				else if (tok1->isReal())
+				{
+					TypeErrorTok(nt, Type::INT, Type::REAL, *currTok);
+				}
+				else
+				{
+					TypeErrorTok(nt, Type::INT, Type::UNASSIGNED, *currTok);
+				}
+				i++;
+			}
+			arraySize = max - min;
+			if (max == -1 || min == -1 || arraySize < 0) //# if bad args
+			{
+				if (arraySize < 0)
+				{
+					target << "SEMERROR: Array parameters improper. Min >= Max with " << tok1->lex << " and " << tok2->lex
+						<< "\n";
+				}
+			}
+			else 
+			{
+				int t_ = std_type_1->get("t");
+				if (t_ == TTI(INT))
+				{
+					type_1->set("t", TTI(AINT));
+					type_1->set("width", std_type_1->get("width") * arraySize);
+				}
+				if (t_ == TTI(REAL))
+				{
+					type_1->set("t", TTI(AREAL));
+					type_1->set("width", std_type_1->get("width") * arraySize);
+				}
+				 //# FINALLY all the silly errors are done
+			}
+			std::cout << "Made array of type " << Type::typeToString(ITT(type_1->get("t"))) << " width " << type_1->get("width") << "\n";
+	<<error>> //# no need to say that the array has an error when you have a syntax error. You got problems. You already know.
+		type_1->set("t", TTI(ERROR));
+		type_1->set("width", 0);
 std_type_1:
 	<<vars>> t width
 	<<begin>> real_1 <<end>> 
 		<<end>>
-			std_type_1->locSet("width", 8);
-			std_type_1->locSet("t", Type::typeToInt(Type::REAL));
+			std_type_1->set("width", 8);
+			std_type_1->set("t", TTI(REAL));
 	<<begin>> integer_1 <<end>>
 		<<end>>
-			std_type_1->locSet("width", 4);
-			std_type_1->locSet("t", Type::typeToInt(Type::INT));
+			std_type_1->set("width", 4);
+			std_type_1->set("t", TTI(INT));
+	<<error>>
+		
+		std_type_1->set("t", TTI(ERROR));
+		std_type_1->set("width", 0);
 subprgm_decs_1:
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_1 <<end>> 
 subprgm_decsLR1_1:
