@@ -127,7 +127,7 @@ def writeNonEps(nt, prod, term, renamedProd):
          outStr += "\t\t" + targ + "(" + names[i] + ");\n"
       elif targ in terms:
          #outStr += "\t\t" + dName + "->appendToken(Match(p->GTT(\"" + targ + "\") ,nt, \"" + targ + "\"), ref);\n"
-         outStr += "\t\t if (!Match(p->GTT(\"" + targ + "\") ,nt, exp, &currTok)) goto " + nt + "Error;\n"
+         outStr += "\t\t if (!Match(p->GTT(\"" + targ + "\") , &currTok)) goto " + nt + "Error;\n"
          outStr += "\t\t" + dName + "->appendToken( currTok, ref);\n"
       else:
          print(prod, "ERROR: DOOM!!!!", targ)
