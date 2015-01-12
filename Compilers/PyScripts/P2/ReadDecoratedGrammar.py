@@ -60,10 +60,15 @@ def loadDecGrammar(filename, nts):
             lineStrip = line.strip()
             while not lineStrip[0:9] == "<<begin>>":
                if lineStrip in prod:
+                  print("In the annoying special case!")
                   if (nt, prod) in codeDict:
                      codeDict[(nt, prod)] |= {(targ, code)}
                   else:
                      codeDict[(nt, prod)] = {(targ, code)}
+                  code = ""
+                  targ = lineStrip
+                  line = f.readline()
+                  lineStrip = line.strip()
                   continue
                elif lineStrip[0:9] == "<<begin>>":
                   print("\t\t\t" + lineStrip[0:9] + " found another production")

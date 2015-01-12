@@ -1,9 +1,19 @@
 prgm_1:
+	<<vars>> totalSize
 	<<begin>> program_1 id_1 (_1 idList_1 )_1 ;_1 prgmLF1_1 <<end>> 
+		<<end>>
+			prgm_1->set("totalSize", prgmLF1_1->get("totalSize"));
 prgmLF1_1:
+	<<vars>> totalSize
 	<<begin>> comp_stmt_1 ._1 <<end>> 
 	<<begin>> subprgm_decs_1 comp_stmt_1 ._1 <<end>> 
 	<<begin>> decs_1 prgmLF1LF1_1 <<end>> 
+		<<begin>>
+			decs_1->set("offset", 0);
+		<<end>>
+			prgmLF1_1->set("totalSize", decs_1->get("totalSize"));
+		<<error>>
+			prgmLF1_1->set("totalSize", 0);
 prgmLF1LF1_1:
 	<<begin>> comp_stmt_1 ._1 <<end>> 
 	<<begin>> subprgm_decs_1 comp_stmt_1 ._1 <<end>> 
@@ -13,10 +23,45 @@ idListLR1_1:
 	<<begin>> EPSILON <<end>> 
 	<<begin>> ,_1 id_1 idListLR1_2 <<end>> 
 decs_1:
-	<<begin>> var_1 id_1 :_1 type_1 ;_1 decsLR1_1 <<end>> 
+	<<vars>> totalSize offset t
+	<<begin>> var_1 id_1 :_1 type_1 ;_1 decsLR1_1 <<end>>
+		type_1
+			decsLR1_1->set("offset", decs_1->get("offset") + type_1->get("width")); //# debug later
+		<<end>>
+			Token* idTok = decs_1->findT(1);
+			std::string ret = "";
+			std::string* err = &ret;
+			if (p->table.addType(idTok->lex, ITT(type_1->get("t")), err) == false)
+			{
+				target << err << " at " << idTok;
+			}
+			decs_1->set("t", decsLR1_1->get("t"));
+			decs_1->set("totalSize", decsLR1_1->get("totalSize"));
+	<<error>>
+		decs_1->set("t", TTI(ERROR));
+		decs_1->set("totalSize", 0);
 decsLR1_1:
+	<<vars>> totalSize offset t
 	<<begin>> EPSILON <<end>> 
+		<<end>>
+			decsLR1_1->set("totalSize", decsLR1_1->get("offset"));
+			decsLR1_1->set("t", TTI(NONE));
 	<<begin>> var_1 id_1 :_1 type_1 ;_1 decsLR1_2 <<end>> 
+		type_1
+			decsLR1_2->set("offset", decsLR1_1->get("offset") + type_1->get("width")); //# debug this later
+		<<end>>
+			Token* idTok = decsLR1_1->findT(1);
+			std::string ret = "";
+			std::string* err = &ret;
+			if (p->table.addType(idTok->lex, ITT(type_1->get("t")), err) == false)
+			{
+				target << err << " at " << idTok;
+			}
+			decsLR1_1->set("t", decsLR1_2->get("t"));
+			decsLR1_1->set("totalSize", decsLR1_2->get("totalSize"));
+	<<error>>
+		decsLR1_1->set("t", TTI(ERROR));
+		decsLR1_1->set("totalSize", 0);
 type_1:
 	<<vars>> t width
 	<<begin>> std_type_1 <<end>>
@@ -100,10 +145,13 @@ std_type_1:
 		std_type_1->set("width", 0);
 subprgm_decs_1:
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_1 <<end>> 
+      <<begin>>
+         subprgm_dec_1->set("offset", 0);
 subprgm_decsLR1_1:
 	<<begin>> EPSILON <<end>> 
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_2 <<end>> 
 subprgm_dec_1:
+   <<vars>> offset
 	<<begin>> subprgm_head_1 subprgm_decLF1_1 <<end>> 
 subprgm_decLF1_1:
 	<<begin>> decs_1 subprgm_decLF1LF1_1 <<end>> 

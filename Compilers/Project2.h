@@ -23,15 +23,15 @@ private:
 	std::map<std::string, std::vector<std::string>> makeMap()
 	{
 		return{
-			{ "prgm_1", { std::vector<std::string>() } },
-			{ "prgmLF1_1", { std::vector<std::string>() } },
+			{ "prgm_1", { "totalSize" } },
+			{ "prgmLF1_1", { "totalSize" } },
 			{ "prgmLF1LF1_1", { std::vector<std::string>() } },
 			{ "idList_1", { std::vector<std::string>() } },
 			{ "idListLR1_1", { std::vector<std::string>() } },
-			{ "decs_1", { std::vector<std::string>() } },
-			{ "decsLR1_1", { std::vector<std::string>() } },
-			{ "type_1", { "t", "width" } },
-			{ "std_type_1", { "t", "width" } },
+			{ "decs_1", { "totalSize", "offset", "t" } },
+			{ "decsLR1_1", { "totalSize", "offset", "t" } },
+			{ "type_1", { "width", "t" } },
+			{ "std_type_1", { "width", "t" } },
 			{ "subprgm_decs_1", { std::vector<std::string>() } },
 			{ "subprgm_decsLR1_1", { std::vector<std::string>() } },
 			{ "subprgm_dec_1", { std::vector<std::string>() } },

@@ -1,4 +1,6 @@
 <prgm_1>
+  <<VARS>>
+   <<totalSize>> : 16
   program_1
   id_1
   (_1
@@ -11,102 +13,74 @@
   )_1
   ;_1
   <prgmLF1_1>
+    <<VARS>>
+     <<totalSize>> : 16
     <decs_1>
+      <<VARS>>
+       <<totalSize>> : 16
+       <<offset>> : 0
+       <<t>> : 3
       var_1
       id_1
       :_1
       <type_1>
         <<VARS>>
-         <<t>> : 5
          <<width>> : 4
+         <<t>> : 5
         <std_type_1>
           <<VARS>>
-           <<t>> : 5
            <<width>> : 4
+           <<t>> : 5
           integer_1
       ;_1
       <decsLR1_1>
+        <<VARS>>
+         <<totalSize>> : 16
+         <<offset>> : 4
+         <<t>> : 3
         var_1
         id_1
         :_1
         <type_1>
           <<VARS>>
-           <<t>> : 6
            <<width>> : 8
+           <<t>> : 6
           <std_type_1>
             <<VARS>>
-             <<t>> : 6
              <<width>> : 8
+             <<t>> : 6
             real_1
         ;_1
         <decsLR1_2>
+          <<VARS>>
+           <<totalSize>> : 16
+           <<offset>> : 12
+           <<t>> : 3
           var_1
           id_1
           :_1
           <type_1>
             <<VARS>>
-             <<t>> : 0
-             <<width>> : 0
+             <<width>> : 4
+             <<t>> : 7
             array_1
             [_1
             num_1
             .._1
+            num_2
+            ]_1
+            of_1
             <std_type_1>
               <<VARS>>
-               <<t>> : 0
-               <<width>> : 0
+               <<width>> : 4
+               <<t>> : 5
+              integer_1
           ;_1
           <decsLR1_2>
-            var_1
-            id_1
-            :_1
-            <type_1>
-              <<VARS>>
-               <<t>> : 0
-               <<width>> : 0
-              array_1
-              [_1
-              num_1
-              .._1
-              num_2
-              ]_1
-              of_1
-              <std_type_1>
-                <<VARS>>
-                 <<t>> : 5
-                 <<width>> : 4
-                integer_1
-            ;_1
-            <decsLR1_2>
-              var_1
-              id_1
-              :_1
-              <type_1>
-                <<VARS>>
-                 <<t>> : 0
-                 <<width>> : 0
-                array_1
-                [_1
-                num_1
-                .._1
-                num_2
-                ]_1
-                of_1
-                <std_type_1>
-                  <<VARS>>
-                   <<t>> : 0
-                   <<width>> : 0
-              ;_1
-              <decsLR1_2>
-                var_1
-                id_1
-                :_1
-                <type_1>
-                  <<VARS>>
-                   <<t>> : 0
-                   <<width>> : 0
-                ;_1
-                <decsLR1_2>
+            <<VARS>>
+             <<totalSize>> : 16
+             <<offset>> : 16
+             <<t>> : 3
     <prgmLF1LF1_1>
       <subprgm_decs_1>
         <subprgm_dec_1>
@@ -121,12 +95,12 @@
                   :_1
                   <type_1>
                     <<VARS>>
-                     <<t>> : 5
                      <<width>> : 4
+                     <<t>> : 5
                     <std_type_1>
                       <<VARS>>
-                       <<t>> : 5
                        <<width>> : 4
+                       <<t>> : 5
                       integer_1
                   <param_listLR1_1>
                     ;_1
@@ -134,12 +108,12 @@
                     :_1
                     <type_1>
                       <<VARS>>
-                       <<t>> : 6
                        <<width>> : 8
+                       <<t>> : 6
                       <std_type_1>
                         <<VARS>>
-                         <<t>> : 6
                          <<width>> : 8
+                         <<t>> : 6
                         real_1
                     <param_listLR1_2>
                       ;_1
@@ -147,8 +121,8 @@
                       :_1
                       <type_1>
                         <<VARS>>
-                         <<t>> : 7
                          <<width>> : 4
+                         <<t>> : 7
                         array_1
                         [_1
                         num_1
@@ -158,8 +132,8 @@
                         of_1
                         <std_type_1>
                           <<VARS>>
-                           <<t>> : 5
                            <<width>> : 4
+                           <<t>> : 5
                           integer_1
                       <param_listLR1_2>
                         ;_1
@@ -167,32 +141,40 @@
                         :_1
                         <type_1>
                           <<VARS>>
-                           <<t>> : 6
                            <<width>> : 8
+                           <<t>> : 6
                           <std_type_1>
                             <<VARS>>
-                             <<t>> : 6
                              <<width>> : 8
+                             <<t>> : 6
                             real_1
                         <param_listLR1_2>
                 )_1
               ;_1
           <subprgm_decLF1_1>
             <decs_1>
+              <<VARS>>
+               <<totalSize>> : 4
+               <<offset>> : 0
+               <<t>> : 3
               var_1
               id_1
               :_1
               <type_1>
                 <<VARS>>
-                 <<t>> : 5
                  <<width>> : 4
+                 <<t>> : 5
                 <std_type_1>
                   <<VARS>>
-                   <<t>> : 5
                    <<width>> : 4
+                   <<t>> : 5
                   integer_1
               ;_1
               <decsLR1_1>
+                <<VARS>>
+                 <<totalSize>> : 4
+                 <<offset>> : 4
+                 <<t>> : 3
             <subprgm_decLF1LF1_1>
               <comp_stmt_1>
                 begin_1
@@ -282,12 +264,12 @@
                     :_1
                     <type_1>
                       <<VARS>>
-                       <<t>> : 5
                        <<width>> : 4
+                       <<t>> : 5
                       <std_type_1>
                         <<VARS>>
-                         <<t>> : 5
                          <<width>> : 4
+                         <<t>> : 5
                         integer_1
                     <param_listLR1_1>
                       ;_1
@@ -295,32 +277,40 @@
                       :_1
                       <type_1>
                         <<VARS>>
-                         <<t>> : 5
                          <<width>> : 4
+                         <<t>> : 5
                         <std_type_1>
                           <<VARS>>
-                           <<t>> : 5
                            <<width>> : 4
+                           <<t>> : 5
                           integer_1
                       <param_listLR1_2>
                   )_1
                 ;_1
             <subprgm_decLF1_1>
               <decs_1>
+                <<VARS>>
+                 <<totalSize>> : 8
+                 <<offset>> : 0
+                 <<t>> : 3
                 var_1
                 id_1
                 :_1
                 <type_1>
                   <<VARS>>
-                   <<t>> : 6
                    <<width>> : 8
+                   <<t>> : 6
                   <std_type_1>
                     <<VARS>>
-                     <<t>> : 6
                      <<width>> : 8
+                     <<t>> : 6
                     real_1
                 ;_1
                 <decsLR1_1>
+                  <<VARS>>
+                   <<totalSize>> : 8
+                   <<offset>> : 8
+                   <<t>> : 3
               <subprgm_decLF1LF1_1>
                 <subprgm_decs_1>
                   <subprgm_dec_1>
@@ -335,12 +325,12 @@
                             :_1
                             <type_1>
                               <<VARS>>
-                               <<t>> : 5
                                <<width>> : 4
+                               <<t>> : 5
                               <std_type_1>
                                 <<VARS>>
-                                 <<t>> : 5
                                  <<width>> : 4
+                                 <<t>> : 5
                                 integer_1
                             <param_listLR1_1>
                               ;_1
@@ -348,32 +338,40 @@
                               :_1
                               <type_1>
                                 <<VARS>>
-                                 <<t>> : 6
                                  <<width>> : 8
+                                 <<t>> : 6
                                 <std_type_1>
                                   <<VARS>>
-                                   <<t>> : 6
                                    <<width>> : 8
+                                   <<t>> : 6
                                   real_1
                               <param_listLR1_2>
                           )_1
                         ;_1
                     <subprgm_decLF1_1>
                       <decs_1>
+                        <<VARS>>
+                         <<totalSize>> : 4
+                         <<offset>> : 0
+                         <<t>> : 3
                         var_1
                         id_1
                         :_1
                         <type_1>
                           <<VARS>>
-                           <<t>> : 5
                            <<width>> : 4
+                           <<t>> : 5
                           <std_type_1>
                             <<VARS>>
-                             <<t>> : 5
                              <<width>> : 4
+                             <<t>> : 5
                             integer_1
                         ;_1
                         <decsLR1_1>
+                          <<VARS>>
+                           <<totalSize>> : 4
+                           <<offset>> : 4
+                           <<t>> : 3
                       <subprgm_decLF1LF1_1>
                         <subprgm_decs_1>
                           <subprgm_dec_1>
@@ -388,12 +386,12 @@
                                     :_1
                                     <type_1>
                                       <<VARS>>
-                                       <<t>> : 5
                                        <<width>> : 4
+                                       <<t>> : 5
                                       <std_type_1>
                                         <<VARS>>
-                                         <<t>> : 5
                                          <<width>> : 4
+                                         <<t>> : 5
                                         integer_1
                                     <param_listLR1_1>
                                       ;_1
@@ -401,8 +399,8 @@
                                       :_1
                                       <type_1>
                                         <<VARS>>
-                                         <<t>> : 8
                                          <<width>> : 16
+                                         <<t>> : 8
                                         array_1
                                         [_1
                                         num_1
@@ -412,28 +410,36 @@
                                         of_1
                                         <std_type_1>
                                           <<VARS>>
-                                           <<t>> : 6
                                            <<width>> : 8
+                                           <<t>> : 6
                                           real_1
                                       <param_listLR1_2>
                                   )_1
                                 ;_1
                             <subprgm_decLF1_1>
                               <decs_1>
+                                <<VARS>>
+                                 <<totalSize>> : 4
+                                 <<offset>> : 0
+                                 <<t>> : 3
                                 var_1
                                 id_1
                                 :_1
                                 <type_1>
                                   <<VARS>>
-                                   <<t>> : 5
                                    <<width>> : 4
+                                   <<t>> : 5
                                   <std_type_1>
                                     <<VARS>>
-                                     <<t>> : 5
                                      <<width>> : 4
+                                     <<t>> : 5
                                     integer_1
                                 ;_1
                                 <decsLR1_1>
+                                  <<VARS>>
+                                   <<totalSize>> : 4
+                                   <<offset>> : 4
+                                   <<t>> : 3
                               <subprgm_decLF1LF1_1>
                                 <comp_stmt_1>
                                   begin_1

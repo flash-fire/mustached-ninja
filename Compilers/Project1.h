@@ -16,6 +16,7 @@
 class Project1
 {
 public:
+	SymbolTable table;
 	static const char * const sourceNames[];
 	static const std::string SOURCE_PATH; // imput file
 	static const std::string TARGET_PATH; // output file
@@ -66,7 +67,6 @@ private:
 	std::map <std::string, Token> codeToToken; // Maps everything but reserved words to token
 	Trie ntMatcher; // Trie containing what needs to be matched for non terminals that are not reserved words [ie. Things that conflict with lexical things]
 	std::map<std::string, Token> Res; // reserved words
-	SymbolTable table;
 	std::list<Token> tokens;
 };
 

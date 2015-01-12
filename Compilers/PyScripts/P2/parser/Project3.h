@@ -11,7 +11,7 @@ public:
 	~Project2();
 	void LoadSynch();
 	void Parse();
-	bool Match(int tok, std::string nt, std::string exp, Token** ret);
+	bool Match(int tok, Token** ret);
 	void MatchEOF();
 	void SynErrorTok(std::string nt, std::string exp);
 	void TypeErrorTok(std::string nt, Type::TYPE exp, Type::TYPE rec, Token tok);
@@ -23,13 +23,13 @@ private:
 	std::map<std::string, std::vector<std::string>> makeMap()
 	{
 		return {
-			{ "prgm_1", { std::vector<std::string>()}},
-			{ "prgmLF1_1", { std::vector<std::string>()}},
+			{ "prgm_1", { "totalSize"} },
+			{ "prgmLF1_1", { "totalSize"} },
 			{ "prgmLF1LF1_1", { std::vector<std::string>()}},
 			{ "idList_1", { std::vector<std::string>()}},
 			{ "idListLR1_1", { std::vector<std::string>()}},
-			{ "decs_1", { std::vector<std::string>()}},
-			{ "decsLR1_1", { std::vector<std::string>()}},
+			{ "decs_1", { "t", "totalSize", "offset"} },
+			{ "decsLR1_1", { "t", "totalSize", "offset"} },
 			{ "type_1", { "t", "width"} },
 			{ "std_type_1", { "t", "width"} },
 			{ "subprgm_decs_1", { std::vector<std::string>()}},

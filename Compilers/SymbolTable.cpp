@@ -20,7 +20,7 @@ SymbolTable::~SymbolTable()
 bool SymbolTable::addType(std::string id, Type::TYPE type, std::string* err)
 {
 	*err = "";
-	std::string* typeErr = NULL;
+	std::string* typeErr = &std::string();
 	if (table.count(id) == 0)
 	{
 		*err += "SEM_ERROR: atempting to add type " + Type::typeToString(type) + " to entry " + id + " not in symbol table. ";

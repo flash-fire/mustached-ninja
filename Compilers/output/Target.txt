@@ -1,74 +1,50 @@
 0         program test (input, output);
 1           var a : integer;
 2           var b : real;
-3           var badType : array [1.11..-2] of integer;
-4           var badInd : array [4..1] of integer;
-5           var badStd : array [1..1] of error;
-6           var x : error;
-7           procedure proc1(x:integer; y:real; 
-8                           z:array [1..2] of integer; q: real);
-9             var d: integer;
-10            begin
-11              a:= 2;
-12              z[a] := 4;
-13              c[3] := 3
-14             end;
-15        
-16           procedure proc2(x: integer; y: integer);
-17             var e: real;
-18        
-19             procedure proc3(n: integer; z: real);
-20               var e: integer;
-21        
-22               procedure proc4(a: integer; z: array [1..3] of real);
-23                 var x: integer;
-24                 begin
-25                   a:= e 
-26                 end;
-27        
-28               begin
-29                 a:= e;
-30                 e:= c[e]
-31               end;
-32        
-33             begin
-34               call proc1(x, e, c, b);
-35               call proc3(c[1], e);
-36               e := e + 4.44;
-37               a:= (a mod y) div x;
-38               while ((a >= 4) and ((b <= e) 
-39                               or (not (a = c[a])))) do
-40                 begin
-41                   a:= c[a] + 1
-42                 end
-43             end;
-44        
-45        begin
-46          call proc2(c[4], c[5]);
-47          call proc2(c[4],2);
-48          if (a < 2) then a:= 1 else a := a + 2;
-49          if (b > 4.2) then a := c[a]
-50        end.
-SYNERR at line: 3 char pos 29 NonTerminal: <type> 
-Encountered: <-> Expected one of: <real integer array>
-
-Resynchronized at 3 char pos 43> 
-Using: <;>
-for synch set <; $ )> NT <type>
-
-SEMERROR: Array parameters improper. Min >= Max with 4 and 1
-
-SYNERR at line: 5 char pos 31 NonTerminal: <std_type> 
-Encountered: <error> Expected one of: <real integer>
-
-Resynchronized at 5 char pos 36> 
-Using: <;>
-for synch set <; $ )> NT <std_type>
-
-SYNERR at line: 6 char pos 10 NonTerminal: <type> 
-Encountered: <error> Expected one of: <real integer array>
-
-Resynchronized at 6 char pos 15> 
-Using: <;>
-for synch set <; $ )> NT <type>
-
+3           var c : array [1..2] of integer;
+4         
+5           procedure proc1(x:integer; y:real; 
+6                           z:array [1..2] of integer; q: real);
+7             var d: integer;
+8             begin
+9               a:= 2;
+10              z[a] := 4;
+11              c[3] := 3
+12             end;
+13        
+14           procedure proc2(x: integer; y: integer);
+15             var e: real;
+16        
+17             procedure proc3(n: integer; z: real);
+18               var e: integer;
+19        
+20               procedure proc4(a: integer; z: array [1..3] of real);
+21                 var x: integer;
+22                 begin
+23                   a:= e 
+24                 end;
+25        
+26               begin
+27                 a:= e;
+28                 e:= c[e]
+29               end;
+30        
+31             begin
+32               call proc1(x, e, c, b);
+33               call proc3(c[1], e);
+34               e := e + 4.44;
+35               a:= (a mod y) div x;
+36               while ((a >= 4) and ((b <= e) 
+37                               or (not (a = c[a])))) do
+38                 begin
+39                   a:= c[a] + 1
+40                 end
+41             end;
+42        
+43        begin
+44          call proc2(c[4], c[5]);
+45          call proc2(c[4],2);
+46          if (a < 2) then a:= 1 else a := a + 2;
+47          if (b > 4.2) then a := c[a]
+48        end.
+0041D170 at 00239890

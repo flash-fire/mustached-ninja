@@ -109,7 +109,7 @@ def writeNonEps(nt, prod, term, renamedProd):
    for i in range(0,len(prod)):
       targ = prod[i]
       if targ in nts:
-         outStr += "\t\tParseNode* " + names[i] + " = new ParseNode(" + dName + ",\"" + targ + "\", vars[\"" + names[i] + "\"]);\n"
+         outStr += "\t\tParseNode* " + names[i] + " = new ParseNode(" + dName + ",\"" + targ + "\", vars[\"" + defName(targ) + "\"]);\n"
          outStr += "\t\t" + dName + "->appendChild(" + names[i] + ");\n"
    
    codes = dict()
@@ -118,7 +118,7 @@ def writeNonEps(nt, prod, term, renamedProd):
       codes = {nt:code for (nt,code) in codeDict[(dName, renamedProd)]}
       
    if "<<begin>>" in codes:
-      outStr += codes["<<begin>>"]
+      outStr += codes["<<begin>>"] + "\n"
    # Token stuff
    for i in range(0,len(prod)):
       targ = prod[i]
@@ -132,10 +132,10 @@ def writeNonEps(nt, prod, term, renamedProd):
       else:
          print(prod, "ERROR: DOOM!!!!", targ)
       if renamedProd[i+1] in codes: # begin is first element. So increase element count by one to find actual
-         outStr += "\t\t" + codes[renamedProd[i+1]].strip()
+         outStr += "\t\t" + codes[renamedProd[i+1]] + "\n"
    
    if "<<end>>" in codes:
-      outStr += codes["<<end>>"]
+      outStr += codes["<<end>>"] + "\n"
    outStr += "\t\treturn;\n" # essentially a break in a case statement when using ifs
    outStr += "\t}\n" # close if  
    return outStr
