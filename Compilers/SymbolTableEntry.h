@@ -12,6 +12,8 @@ public:
 	SymbolTableEntry();
 	SymbolTableEntry(std::string name, int token, int attr);
 	SymbolTableEntry(const SymbolTableEntry& entry);
+	bool SymbolTableEntry::addType(Type::TYPE t, std::string* err);
+
 	~SymbolTableEntry();
 
 	friend std::ostream &operator<<(std::ostream& out, const SymbolTableEntry& entry)

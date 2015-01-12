@@ -1,5 +1,5 @@
 #include "SymbolTable.h"
-
+#include "Type.h"
 
 SymbolTable::SymbolTable()
 {
@@ -8,6 +8,30 @@ SymbolTable::SymbolTable()
 
 SymbolTable::~SymbolTable()
 {
+}
+
+
+// Returns true if no errors
+// Possible errors:
+//	1) symbol table already has a type for name [undeclared? I may add a method to add to symbol table WITH type]
+//	2) symbol table does not contain name
+//	3) If type of t is error, we don't report error as error has already been reported
+
+bool SymbolTable::addType(std::string id, Type::TYPE type, std::string* err)
+{
+	*err = "";
+	std::string* typeErr = NULL;
+	if (table.count(id) == 0)
+	{
+		*err += "SEM_ERROR: atempting to add type " + Type::typeToString(type) + " to entry " + id + " not in symbol table. ";
+		return false;
+	}
+	else if (table[id].addType(type, typeErr) == false)
+	{
+		*err += *typeErr;
+		return false;
+	}
+	return true;
 }
 
 int* SymbolTable::addEntry(std::string id)
@@ -45,14 +69,4 @@ std::string SymbolTable::getID(Token tok)
 		}
 	}
 	return "";
-}
-
-// Returns true if no errors
-// Possible errors:
-//	1) symbol table already has a type for name [undeclared? I may add a method to add to symbol table WITH type]
-//	2) symbol table does not contain name
-//	3) If type of t is error, we don't report error as error has already been reported
-bool SymbolTable::addType(std::string name, Type::TYPE t, std::string errorMsg)
-{
-	return true;
 }
