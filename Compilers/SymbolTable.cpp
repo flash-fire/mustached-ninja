@@ -34,8 +34,13 @@ bool SymbolTable::addType(std::string id, Type::TYPE type, std::string* err)
 	return true;
 }
 
-int* SymbolTable::addEntry(std::string id)
+int* SymbolTable::addEntry(std::string id, bool* isErr, std::string* err)
 {
+	if (table.count(id) > 0)
+	{
+		*isErr = true;
+		*err = "SEMERROR: trying to initialize an entry more than once. ";
+	}
 	SymbolTableEntry* sym = new SymbolTableEntry(id, 42, 0); // Lol this is the most hilariously evil thing ever.
 	sym->token.attr = (int)sym;
 	table[id] = *sym;

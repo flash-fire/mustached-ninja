@@ -16,6 +16,7 @@
     <ClInclude Include="ParseNode.h" />
     <ClInclude Include="Project1.h" />
     <ClInclude Include="Project2.h" />
+    <ClInclude Include="Scope.h" />
     <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="SymbolTableEntry.h" />
     <ClInclude Include="Token.h" />
@@ -28,6 +29,7 @@
     <ClCompile Include="ParseNode.cpp" />
     <ClCompile Include="Project1.cpp" />
     <ClCompile Include="Project2.cpp" />
+    <ClCompile Include="Scope.cpp" />
     <ClCompile Include="SymbolTable.cpp" />
     <ClCompile Include="SymbolTableEntry.cpp" />
     <ClCompile Include="Token.cpp" />

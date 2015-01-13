@@ -286,7 +286,9 @@ Token Project1::ReadIdentifier(const std::string& str)
 		return tok;
 	}
 	else { // Need new ID
-		return Token(ID, (int) table.addEntry(id));
+		bool err = false;
+		std::string errStr = "";
+		return Token(ID, (int) table.addEntry(id, &err, &errStr)); // ignoring errors for lexer. This thing is stupid and shouldn't actually exist.
 	}
 }
 
