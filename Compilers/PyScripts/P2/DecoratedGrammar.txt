@@ -28,7 +28,7 @@ decs_1:
 		type_1
 			decsLR1_1->set("offset", decs_1->get("offset") + type_1->get("width")); //# debug later
 		<<end>>
-			Token* idTok = decs_1->findT(1);
+			Token* idTok = decs_1->findT("id_1");
 			std::string ret = "";
 			std::string* err = &ret;
 			if (p->table.addType(idTok->lex, ITT(type_1->get("t")), err) == false)
@@ -70,8 +70,8 @@ type_1:
 			type_1->set("width", std_type_1->get("width"));
 	<<begin>> array_1 [_1 num_1 .._1 num_2 ]_1 of_1 std_type_1 <<end>>
 		<<end>>
-			Token* tok1 = type_1->findT(2); //# Yes this may seem unsafe, but I only have to do this for arrays so I'm okay with it.
-			Token* tok2 = type_1->findT(4);
+			Token* tok1 = type_1->findT("num_1"); //# Yes this may seem unsafe, but I only have to do this for arrays so I'm okay with it.
+			Token* tok2 = type_1->findT("num_2");
 			type_1->set("t",TTI(ERROR)); //# Defaulting to error unless changed
 			type_1->set("width", 0);
 			
@@ -145,13 +145,10 @@ std_type_1:
 		std_type_1->set("width", 0);
 subprgm_decs_1:
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_1 <<end>> 
-      <<begin>>
-         subprgm_dec_1->set("offset", 0);
 subprgm_decsLR1_1:
 	<<begin>> EPSILON <<end>> 
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_2 <<end>> 
 subprgm_dec_1:
-   <<vars>> offset
 	<<begin>> subprgm_head_1 subprgm_decLF1_1 <<end>> 
 subprgm_decLF1_1:
 	<<begin>> decs_1 subprgm_decLF1LF1_1 <<end>> 
