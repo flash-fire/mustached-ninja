@@ -311,9 +311,9 @@ Token Project1::CheckReservedAndID(const std::string& str)
 	{
 		return Res[str];
 	}
-	else if (table.hasEntry(str).isValid())
+	else if (table.hasEntry(str))
 	{
-		return table.get(str);
+		return table.get(str).token;
 	}
 	else
 	{

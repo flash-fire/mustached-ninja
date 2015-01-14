@@ -10,8 +10,8 @@ public:
 	SymbolTable();
 	~SymbolTable();
 	int* addEntry(std::string name, bool* isErr, std::string* err);
-	Token hasEntry(std::string name); // returns invalid token if table does not contain string.
-	Token get(std::string name);	  // Same as hasEntry. Lol
+	bool hasEntry(std::string name); 
+	SymbolTableEntry get(std::string name);
 	std::string getID(Token t);	// returns name of ID if exists in table.
 	bool addType(std::string name, Type::TYPE t, std::string* errorMsg);
 	std::map<std::string, SymbolTableEntry> table;

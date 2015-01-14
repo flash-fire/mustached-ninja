@@ -39,7 +39,7 @@ int* SymbolTable::addEntry(std::string id, bool* isErr, std::string* err)
 	if (table.count(id) > 0)
 	{
 		*isErr = true;
-		*err = "SEMERROR: trying to initialize an entry more than once. ";
+		*err = "SEMERROR: trying to initialize an entry more than once. ID in question : " + id;
 	}
 	SymbolTableEntry* sym = new SymbolTableEntry(id, 42, 0); // Lol this is the most hilariously evil thing ever.
 	sym->token.attr = (int)sym;
@@ -47,21 +47,21 @@ int* SymbolTable::addEntry(std::string id, bool* isErr, std::string* err)
 	return (int*) sym;
 }
 
-Token SymbolTable::hasEntry(std::string id)
+bool SymbolTable::hasEntry(std::string id)
 {
-	if (table.count(id) > 0)
+	return table.count(id) > 0;
+}
+
+SymbolTableEntry SymbolTable::get(std::string id)
+{
+	if (hasEntry(id))
 	{
-		return table[id].token;
+		return table[id];
 	}
 	else
 	{
-		return Token();
+		return SymbolTableEntry();
 	}
-}
-
-Token SymbolTable::get(std::string id)
-{
-	return hasEntry(id);
 }
 
 std::string SymbolTable::getID(Token tok)
