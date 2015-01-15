@@ -3,6 +3,7 @@
 #include "Project1.h"
 #include "ParseNode.h"
 #include "Type.h"
+#include "Scope.h"
 
 class Project2 {
 
@@ -18,4 +19,5 @@ public:
 	void UniteSynchronization(std::string nt);
 
 	std::map<std::string, std::string> synchSet;
+	Scope* currScope; // I'm not using a stack. I'm too rebellious to use a stack.
 private:

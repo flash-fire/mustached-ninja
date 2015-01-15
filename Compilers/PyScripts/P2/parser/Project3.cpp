@@ -166,6 +166,9 @@ void Project2::prgm(ParseNode* prgm_1 ) {
 		prgm_1->appendToken( currTok, ref);
 		 if (!Match(p->GTT("id") , &currTok)) goto prgmError;
 		prgm_1->appendToken( currTok, ref);
+					currScope = new Scope(NULL, prgm_1->findT("id_1")->lex);
+			std::cout << prgm_1->findT("id_1")->lex;
+
 		 if (!Match(p->GTT("(") , &currTok)) goto prgmError;
 		prgm_1->appendToken( currTok, ref);
 		ref = idList_1;
@@ -187,27 +190,11 @@ void Project2::prgm(ParseNode* prgm_1 ) {
 
 void Project2::prgmLF1(ParseNode* prgmLF1_1 ) {
 	std::string nt = "prgmLF1";
-	std::string exp = "var procedure begin";
+	std::string exp = "var begin procedure";
 	ParseNode* ref = prgmLF1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
-
-	if(lookAhead.token == p->GTT("var")) {
-		ParseNode* decs_1 = new ParseNode(prgmLF1_1,"decs", vars["decs_1"]);
-		prgmLF1_1->appendChild(decs_1);
-		ParseNode* prgmLF1LF1_1 = new ParseNode(prgmLF1_1,"prgmLF1LF1", vars["prgmLF1LF1_1"]);
-		prgmLF1_1->appendChild(prgmLF1LF1_1);
-			decs_1->set("offset", 0);
-
-		ref = decs_1;
-		decs(decs_1);
-		ref = prgmLF1LF1_1;
-		prgmLF1LF1(prgmLF1LF1_1);
-			prgmLF1_1->set("totalSize", decs_1->get("totalSize"));
-
-		return;
-	}
 
 	if(lookAhead.token == p->GTT("begin")) {
 		ParseNode* comp_stmt_1 = new ParseNode(prgmLF1_1,"comp_stmt", vars["comp_stmt_1"]);
@@ -232,6 +219,22 @@ void Project2::prgmLF1(ParseNode* prgmLF1_1 ) {
 		prgmLF1_1->appendToken( currTok, ref);
 		return;
 	}
+
+	if(lookAhead.token == p->GTT("var")) {
+		ParseNode* decs_1 = new ParseNode(prgmLF1_1,"decs", vars["decs_1"]);
+		prgmLF1_1->appendChild(decs_1);
+		ParseNode* prgmLF1LF1_1 = new ParseNode(prgmLF1_1,"prgmLF1LF1", vars["prgmLF1LF1_1"]);
+		prgmLF1_1->appendChild(prgmLF1LF1_1);
+			decs_1->set("offset", 0);
+
+		ref = decs_1;
+		decs(decs_1);
+		ref = prgmLF1LF1_1;
+		prgmLF1LF1(prgmLF1LF1_1);
+			prgmLF1_1->set("totalSize", decs_1->get("totalSize"));
+
+		return;
+	}
 	prgmLF1Error:
 			prgmLF1_1->set("totalSize", 0);
 
@@ -240,7 +243,7 @@ void Project2::prgmLF1(ParseNode* prgmLF1_1 ) {
 
 void Project2::prgmLF1LF1(ParseNode* prgmLF1LF1_1 ) {
 	std::string nt = "prgmLF1LF1";
-	std::string exp = "procedure begin";
+	std::string exp = "begin procedure";
 	ParseNode* ref = prgmLF1LF1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
@@ -298,7 +301,7 @@ void Project2::idList(ParseNode* idList_1 ) {
 
 void Project2::idListLR1(ParseNode* idListLR1_1 ) {
 	std::string nt = "idListLR1";
-	std::string exp = ") ,";
+	std::string exp = ", )";
 	ParseNode* ref = idListLR1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
@@ -372,7 +375,7 @@ void Project2::decs(ParseNode* decs_1 ) {
 
 void Project2::decsLR1(ParseNode* decsLR1_1 ) {
 	std::string nt = "decsLR1";
-	std::string exp = "var procedure begin";
+	std::string exp = "var begin procedure";
 	ParseNode* ref = decsLR1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
@@ -410,7 +413,7 @@ void Project2::decsLR1(ParseNode* decsLR1_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("procedure") || lookAhead.token == p->GTT("begin")) {
+	if(lookAhead.token == p->GTT("begin") || lookAhead.token == p->GTT("procedure")) {
 			decsLR1_1->set("totalSize", decsLR1_1->get("offset"));
 			decsLR1_1->set("t", TTI(NONE));
 		return;
@@ -424,13 +427,13 @@ void Project2::decsLR1(ParseNode* decsLR1_1 ) {
 
 void Project2::type(ParseNode* type_1 ) {
 	std::string nt = "type";
-	std::string exp = "real integer array";
+	std::string exp = "array real integer";
 	ParseNode* ref = type_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
 
-	if(lookAhead.token == p->GTT("integer")) {
+	if(lookAhead.token == p->GTT("real")) {
 		ParseNode* std_type_1 = new ParseNode(type_1,"std_type", vars["std_type_1"]);
 		type_1->appendChild(std_type_1);
 		ref = std_type_1;
@@ -441,7 +444,7 @@ void Project2::type(ParseNode* type_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("real")) {
+	if(lookAhead.token == p->GTT("integer")) {
 		ParseNode* std_type_1 = new ParseNode(type_1,"std_type", vars["std_type_1"]);
 		type_1->appendChild(std_type_1);
 		ref = std_type_1;
@@ -544,20 +547,20 @@ void Project2::std_type(ParseNode* std_type_1 ) {
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
 
-	if(lookAhead.token == p->GTT("integer")) {
-		 if (!Match(p->GTT("integer") , &currTok)) goto std_typeError;
-		std_type_1->appendToken( currTok, ref);
-			std_type_1->set("width", 4);
-			std_type_1->set("t", TTI(INT));
-
-		return;
-	}
-
 	if(lookAhead.token == p->GTT("real")) {
 		 if (!Match(p->GTT("real") , &currTok)) goto std_typeError;
 		std_type_1->appendToken( currTok, ref);
 			std_type_1->set("width", 8);
 			std_type_1->set("t", TTI(REAL));
+
+		return;
+	}
+
+	if(lookAhead.token == p->GTT("integer")) {
+		 if (!Match(p->GTT("integer") , &currTok)) goto std_typeError;
+		std_type_1->appendToken( currTok, ref);
+			std_type_1->set("width", 4);
+			std_type_1->set("t", TTI(INT));
 
 		return;
 	}
@@ -581,6 +584,16 @@ void Project2::subprgm_decs(ParseNode* subprgm_decs_1 ) {
 		subprgm_decs_1->appendChild(subprgm_dec_1);
 		ParseNode* subprgm_decsLR1_1 = new ParseNode(subprgm_decs_1,"subprgm_decsLR1", vars["subprgm_decsLR1_1"]);
 		subprgm_decs_1->appendChild(subprgm_decsLR1_1);
+			Scope* dummyScope = new Scope(currScope, "~~DUMMY~~");
+			scopeDepth++;
+			std::string* err = &std::string();
+			currScope->addChild(dummyScope, err); //# This call will never error. Thank god.
+			if (*err != "")
+			{
+				std::cout  << " ANGRY ANGRY ANGRY IMPOSSIBLE ASSERTION LIKE THING ENCOUNTERED. DUMMY SCOPE! DUMMYSCOPE! FEEL ANGER YOU SHUOLD! YOU ANGRISH!\n";
+			}
+			currScope = dummyScope;
+
 		ref = subprgm_dec_1;
 		subprgm_dec(subprgm_dec_1);
 		 if (!Match(p->GTT(";") , &currTok)) goto subprgm_decsError;
@@ -596,7 +609,7 @@ void Project2::subprgm_decs(ParseNode* subprgm_decs_1 ) {
 
 void Project2::subprgm_decsLR1(ParseNode* subprgm_decsLR1_1 ) {
 	std::string nt = "subprgm_decsLR1";
-	std::string exp = "procedure begin";
+	std::string exp = "begin procedure";
 	ParseNode* ref = subprgm_decsLR1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
@@ -617,6 +630,7 @@ void Project2::subprgm_decsLR1(ParseNode* subprgm_decsLR1_1 ) {
 	}
 
 	if(lookAhead.token == p->GTT("begin")) {
+			currScope = currScope->getParent();
 		return;
 	}
 	subprgm_decsLR1Error:
@@ -650,23 +664,11 @@ void Project2::subprgm_dec(ParseNode* subprgm_dec_1 ) {
 
 void Project2::subprgm_decLF1(ParseNode* subprgm_decLF1_1 ) {
 	std::string nt = "subprgm_decLF1";
-	std::string exp = "var procedure begin";
+	std::string exp = "var begin procedure";
 	ParseNode* ref = subprgm_decLF1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
-
-	if(lookAhead.token == p->GTT("var")) {
-		ParseNode* decs_1 = new ParseNode(subprgm_decLF1_1,"decs", vars["decs_1"]);
-		subprgm_decLF1_1->appendChild(decs_1);
-		ParseNode* subprgm_decLF1LF1_1 = new ParseNode(subprgm_decLF1_1,"subprgm_decLF1LF1", vars["subprgm_decLF1LF1_1"]);
-		subprgm_decLF1_1->appendChild(subprgm_decLF1LF1_1);
-		ref = decs_1;
-		decs(decs_1);
-		ref = subprgm_decLF1LF1_1;
-		subprgm_decLF1LF1(subprgm_decLF1LF1_1);
-		return;
-	}
 
 	if(lookAhead.token == p->GTT("begin")) {
 		ParseNode* comp_stmt_1 = new ParseNode(subprgm_decLF1_1,"comp_stmt", vars["comp_stmt_1"]);
@@ -687,6 +689,18 @@ void Project2::subprgm_decLF1(ParseNode* subprgm_decLF1_1 ) {
 		comp_stmt(comp_stmt_1);
 		return;
 	}
+
+	if(lookAhead.token == p->GTT("var")) {
+		ParseNode* decs_1 = new ParseNode(subprgm_decLF1_1,"decs", vars["decs_1"]);
+		subprgm_decLF1_1->appendChild(decs_1);
+		ParseNode* subprgm_decLF1LF1_1 = new ParseNode(subprgm_decLF1_1,"subprgm_decLF1LF1", vars["subprgm_decLF1LF1_1"]);
+		subprgm_decLF1_1->appendChild(subprgm_decLF1LF1_1);
+		ref = decs_1;
+		decs(decs_1);
+		ref = subprgm_decLF1LF1_1;
+		subprgm_decLF1LF1(subprgm_decLF1LF1_1);
+		return;
+	}
 	subprgm_decLF1Error:
 
 	SynErrorTok(nt, exp);
@@ -694,7 +708,7 @@ void Project2::subprgm_decLF1(ParseNode* subprgm_decLF1_1 ) {
 
 void Project2::subprgm_decLF1LF1(ParseNode* subprgm_decLF1LF1_1 ) {
 	std::string nt = "subprgm_decLF1LF1";
-	std::string exp = "procedure begin";
+	std::string exp = "begin procedure";
 	ParseNode* ref = subprgm_decLF1LF1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
@@ -739,6 +753,16 @@ void Project2::subprgm_head(ParseNode* subprgm_head_1 ) {
 		subprgm_head_1->appendToken( currTok, ref);
 		 if (!Match(p->GTT("id") , &currTok)) goto subprgm_headError;
 		subprgm_head_1->appendToken( currTok, ref);
+					Token* tok = subprgm_head_1->findT("id_1");
+			Scope* currSib = new Scope(currScope->getParent(), tok->lex);
+			std::string* errMsg = &std::string();
+			std::cout << std::string(scopeDepth * 2, ' ') << tok->lex << "\n" << "\n";
+			if (currScope->addSibling(currSib, errMsg) == false)
+			{
+				target << errMsg << "\non line " << tok->line << " and collumn " << tok->charNum;
+			}
+			currScope = currSib;
+
 		ref = subprgm_headLF1_1;
 		subprgm_headLF1(subprgm_headLF1_1);
 		return;
@@ -756,17 +780,17 @@ void Project2::subprgm_headLF1(ParseNode* subprgm_headLF1_1 ) {
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
 
-	if(lookAhead.token == p->GTT("(")) {
-		ParseNode* args_1 = new ParseNode(subprgm_headLF1_1,"args", vars["args_1"]);
-		subprgm_headLF1_1->appendChild(args_1);
-		ref = args_1;
-		args(args_1);
+	if(lookAhead.token == p->GTT(";")) {
 		 if (!Match(p->GTT(";") , &currTok)) goto subprgm_headLF1Error;
 		subprgm_headLF1_1->appendToken( currTok, ref);
 		return;
 	}
 
-	if(lookAhead.token == p->GTT(";")) {
+	if(lookAhead.token == p->GTT("(")) {
+		ParseNode* args_1 = new ParseNode(subprgm_headLF1_1,"args", vars["args_1"]);
+		subprgm_headLF1_1->appendChild(args_1);
+		ref = args_1;
+		args(args_1);
 		 if (!Match(p->GTT(";") , &currTok)) goto subprgm_headLF1Error;
 		subprgm_headLF1_1->appendToken( currTok, ref);
 		return;
@@ -886,11 +910,41 @@ void Project2::comp_stmt(ParseNode* comp_stmt_1 ) {
 
 void Project2::comp_stmtLF1(ParseNode* comp_stmtLF1_1 ) {
 	std::string nt = "comp_stmtLF1";
-	std::string exp = "while end call begin id if";
+	std::string exp = "if end begin id while call";
 	ParseNode* ref = comp_stmtLF1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
+
+	if(lookAhead.token == p->GTT("begin")) {
+		ParseNode* opt_stmts_1 = new ParseNode(comp_stmtLF1_1,"opt_stmts", vars["opt_stmts_1"]);
+		comp_stmtLF1_1->appendChild(opt_stmts_1);
+		ref = opt_stmts_1;
+		opt_stmts(opt_stmts_1);
+		 if (!Match(p->GTT("end") , &currTok)) goto comp_stmtLF1Error;
+		comp_stmtLF1_1->appendToken( currTok, ref);
+		return;
+	}
+
+	if(lookAhead.token == p->GTT("id")) {
+		ParseNode* opt_stmts_1 = new ParseNode(comp_stmtLF1_1,"opt_stmts", vars["opt_stmts_1"]);
+		comp_stmtLF1_1->appendChild(opt_stmts_1);
+		ref = opt_stmts_1;
+		opt_stmts(opt_stmts_1);
+		 if (!Match(p->GTT("end") , &currTok)) goto comp_stmtLF1Error;
+		comp_stmtLF1_1->appendToken( currTok, ref);
+		return;
+	}
+
+	if(lookAhead.token == p->GTT("while")) {
+		ParseNode* opt_stmts_1 = new ParseNode(comp_stmtLF1_1,"opt_stmts", vars["opt_stmts_1"]);
+		comp_stmtLF1_1->appendChild(opt_stmts_1);
+		ref = opt_stmts_1;
+		opt_stmts(opt_stmts_1);
+		 if (!Match(p->GTT("end") , &currTok)) goto comp_stmtLF1Error;
+		comp_stmtLF1_1->appendToken( currTok, ref);
+		return;
+	}
 
 	if(lookAhead.token == p->GTT("call")) {
 		ParseNode* opt_stmts_1 = new ParseNode(comp_stmtLF1_1,"opt_stmts", vars["opt_stmts_1"]);
@@ -902,7 +956,7 @@ void Project2::comp_stmtLF1(ParseNode* comp_stmtLF1_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("id")) {
+	if(lookAhead.token == p->GTT("if")) {
 		ParseNode* opt_stmts_1 = new ParseNode(comp_stmtLF1_1,"opt_stmts", vars["opt_stmts_1"]);
 		comp_stmtLF1_1->appendChild(opt_stmts_1);
 		ref = opt_stmts_1;
@@ -917,36 +971,6 @@ void Project2::comp_stmtLF1(ParseNode* comp_stmtLF1_1 ) {
 		comp_stmtLF1_1->appendToken( currTok, ref);
 		return;
 	}
-
-	if(lookAhead.token == p->GTT("while")) {
-		ParseNode* opt_stmts_1 = new ParseNode(comp_stmtLF1_1,"opt_stmts", vars["opt_stmts_1"]);
-		comp_stmtLF1_1->appendChild(opt_stmts_1);
-		ref = opt_stmts_1;
-		opt_stmts(opt_stmts_1);
-		 if (!Match(p->GTT("end") , &currTok)) goto comp_stmtLF1Error;
-		comp_stmtLF1_1->appendToken( currTok, ref);
-		return;
-	}
-
-	if(lookAhead.token == p->GTT("if")) {
-		ParseNode* opt_stmts_1 = new ParseNode(comp_stmtLF1_1,"opt_stmts", vars["opt_stmts_1"]);
-		comp_stmtLF1_1->appendChild(opt_stmts_1);
-		ref = opt_stmts_1;
-		opt_stmts(opt_stmts_1);
-		 if (!Match(p->GTT("end") , &currTok)) goto comp_stmtLF1Error;
-		comp_stmtLF1_1->appendToken( currTok, ref);
-		return;
-	}
-
-	if(lookAhead.token == p->GTT("begin")) {
-		ParseNode* opt_stmts_1 = new ParseNode(comp_stmtLF1_1,"opt_stmts", vars["opt_stmts_1"]);
-		comp_stmtLF1_1->appendChild(opt_stmts_1);
-		ref = opt_stmts_1;
-		opt_stmts(opt_stmts_1);
-		 if (!Match(p->GTT("end") , &currTok)) goto comp_stmtLF1Error;
-		comp_stmtLF1_1->appendToken( currTok, ref);
-		return;
-	}
 	comp_stmtLF1Error:
 
 	SynErrorTok(nt, exp);
@@ -954,13 +978,13 @@ void Project2::comp_stmtLF1(ParseNode* comp_stmtLF1_1 ) {
 
 void Project2::opt_stmts(ParseNode* opt_stmts_1 ) {
 	std::string nt = "opt_stmts";
-	std::string exp = "while id if call begin";
+	std::string exp = "begin if while id call";
 	ParseNode* ref = opt_stmts_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
 
-	if(lookAhead.token == p->GTT("call")) {
+	if(lookAhead.token == p->GTT("begin")) {
 		ParseNode* stmt_list_1 = new ParseNode(opt_stmts_1,"stmt_list", vars["stmt_list_1"]);
 		opt_stmts_1->appendChild(stmt_list_1);
 		ref = stmt_list_1;
@@ -984,7 +1008,7 @@ void Project2::opt_stmts(ParseNode* opt_stmts_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("if")) {
+	if(lookAhead.token == p->GTT("call")) {
 		ParseNode* stmt_list_1 = new ParseNode(opt_stmts_1,"stmt_list", vars["stmt_list_1"]);
 		opt_stmts_1->appendChild(stmt_list_1);
 		ref = stmt_list_1;
@@ -992,7 +1016,7 @@ void Project2::opt_stmts(ParseNode* opt_stmts_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("begin")) {
+	if(lookAhead.token == p->GTT("if")) {
 		ParseNode* stmt_list_1 = new ParseNode(opt_stmts_1,"stmt_list", vars["stmt_list_1"]);
 		opt_stmts_1->appendChild(stmt_list_1);
 		ref = stmt_list_1;
@@ -1006,13 +1030,13 @@ void Project2::opt_stmts(ParseNode* opt_stmts_1 ) {
 
 void Project2::stmt_list(ParseNode* stmt_list_1 ) {
 	std::string nt = "stmt_list";
-	std::string exp = "while id if call begin";
+	std::string exp = "begin if while id call";
 	ParseNode* ref = stmt_list_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
 
-	if(lookAhead.token == p->GTT("call")) {
+	if(lookAhead.token == p->GTT("begin")) {
 		ParseNode* stmt_1 = new ParseNode(stmt_list_1,"stmt", vars["stmt_1"]);
 		stmt_list_1->appendChild(stmt_1);
 		ParseNode* stmt_listLR1_1 = new ParseNode(stmt_list_1,"stmt_listLR1", vars["stmt_listLR1_1"]);
@@ -1048,7 +1072,7 @@ void Project2::stmt_list(ParseNode* stmt_list_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("if")) {
+	if(lookAhead.token == p->GTT("call")) {
 		ParseNode* stmt_1 = new ParseNode(stmt_list_1,"stmt", vars["stmt_1"]);
 		stmt_list_1->appendChild(stmt_1);
 		ParseNode* stmt_listLR1_1 = new ParseNode(stmt_list_1,"stmt_listLR1", vars["stmt_listLR1_1"]);
@@ -1060,7 +1084,7 @@ void Project2::stmt_list(ParseNode* stmt_list_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("begin")) {
+	if(lookAhead.token == p->GTT("if")) {
 		ParseNode* stmt_1 = new ParseNode(stmt_list_1,"stmt", vars["stmt_1"]);
 		stmt_list_1->appendChild(stmt_1);
 		ParseNode* stmt_listLR1_1 = new ParseNode(stmt_list_1,"stmt_listLR1", vars["stmt_listLR1_1"]);
@@ -1078,7 +1102,7 @@ void Project2::stmt_list(ParseNode* stmt_list_1 ) {
 
 void Project2::stmt_listLR1(ParseNode* stmt_listLR1_1 ) {
 	std::string nt = "stmt_listLR1";
-	std::string exp = "; end";
+	std::string exp = "end ;";
 	ParseNode* ref = stmt_listLR1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
@@ -1108,17 +1132,17 @@ void Project2::stmt_listLR1(ParseNode* stmt_listLR1_1 ) {
 
 void Project2::stmt(ParseNode* stmt_1 ) {
 	std::string nt = "stmt";
-	std::string exp = "while id if call begin";
+	std::string exp = "begin if while id call";
 	ParseNode* ref = stmt_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
 
-	if(lookAhead.token == p->GTT("call")) {
-		ParseNode* proc_stmt_1 = new ParseNode(stmt_1,"proc_stmt", vars["proc_stmt_1"]);
-		stmt_1->appendChild(proc_stmt_1);
-		ref = proc_stmt_1;
-		proc_stmt(proc_stmt_1);
+	if(lookAhead.token == p->GTT("begin")) {
+		ParseNode* comp_stmt_1 = new ParseNode(stmt_1,"comp_stmt", vars["comp_stmt_1"]);
+		stmt_1->appendChild(comp_stmt_1);
+		ref = comp_stmt_1;
+		comp_stmt(comp_stmt_1);
 		return;
 	}
 
@@ -1154,6 +1178,14 @@ void Project2::stmt(ParseNode* stmt_1 ) {
 		return;
 	}
 
+	if(lookAhead.token == p->GTT("call")) {
+		ParseNode* proc_stmt_1 = new ParseNode(stmt_1,"proc_stmt", vars["proc_stmt_1"]);
+		stmt_1->appendChild(proc_stmt_1);
+		ref = proc_stmt_1;
+		proc_stmt(proc_stmt_1);
+		return;
+	}
+
 	if(lookAhead.token == p->GTT("if")) {
 		ParseNode* expr_1 = new ParseNode(stmt_1,"expr", vars["expr_1"]);
 		stmt_1->appendChild(expr_1);
@@ -1173,14 +1205,6 @@ void Project2::stmt(ParseNode* stmt_1 ) {
 		stmtLF1(stmtLF1_1);
 		return;
 	}
-
-	if(lookAhead.token == p->GTT("begin")) {
-		ParseNode* comp_stmt_1 = new ParseNode(stmt_1,"comp_stmt", vars["comp_stmt_1"]);
-		stmt_1->appendChild(comp_stmt_1);
-		ref = comp_stmt_1;
-		comp_stmt(comp_stmt_1);
-		return;
-	}
 	stmtError:
 
 	SynErrorTok(nt, exp);
@@ -1188,7 +1212,7 @@ void Project2::stmt(ParseNode* stmt_1 ) {
 
 void Project2::stmtLF1(ParseNode* stmtLF1_1 ) {
 	std::string nt = "stmtLF1";
-	std::string exp = "; end else";
+	std::string exp = "else end ;";
 	ParseNode* ref = stmtLF1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
@@ -1204,7 +1228,7 @@ void Project2::stmtLF1(ParseNode* stmtLF1_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("end")) {
+	if(lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT(";")) {
 		return;
 	}
 	stmtLF1Error:
@@ -1288,7 +1312,7 @@ void Project2::proc_stmt(ParseNode* proc_stmt_1 ) {
 
 void Project2::proc_stmtLF1(ParseNode* proc_stmtLF1_1 ) {
 	std::string nt = "proc_stmtLF1";
-	std::string exp = "; end else (";
+	std::string exp = "else end ; (";
 	ParseNode* ref = proc_stmtLF1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
@@ -1306,7 +1330,7 @@ void Project2::proc_stmtLF1(ParseNode* proc_stmtLF1_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT("else")) {
+	if(lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT(";")) {
 		return;
 	}
 	proc_stmtLF1Error:
@@ -1316,37 +1340,37 @@ void Project2::proc_stmtLF1(ParseNode* proc_stmtLF1_1 ) {
 
 void Project2::expr_list(ParseNode* expr_list_1 ) {
 	std::string nt = "expr_list";
-	std::string exp = "num not + id ( -";
+	std::string exp = "num - ( not id +";
 	ParseNode* ref = expr_list_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
 
-	if(lookAhead.token == p->GTT("num")) {
-		ParseNode* expr_1 = new ParseNode(expr_list_1,"expr", vars["expr_1"]);
-		expr_list_1->appendChild(expr_1);
-		ParseNode* expr_listLR1_1 = new ParseNode(expr_list_1,"expr_listLR1", vars["expr_listLR1_1"]);
-		expr_list_1->appendChild(expr_listLR1_1);
-		ref = expr_1;
-		expr(expr_1);
-		ref = expr_listLR1_1;
-		expr_listLR1(expr_listLR1_1);
-		return;
-	}
-
-	if(lookAhead.token == p->GTT("id")) {
-		ParseNode* expr_1 = new ParseNode(expr_list_1,"expr", vars["expr_1"]);
-		expr_list_1->appendChild(expr_1);
-		ParseNode* expr_listLR1_1 = new ParseNode(expr_list_1,"expr_listLR1", vars["expr_listLR1_1"]);
-		expr_list_1->appendChild(expr_listLR1_1);
-		ref = expr_1;
-		expr(expr_1);
-		ref = expr_listLR1_1;
-		expr_listLR1(expr_listLR1_1);
-		return;
-	}
-
 	if(lookAhead.token == p->GTT("-")) {
+		ParseNode* expr_1 = new ParseNode(expr_list_1,"expr", vars["expr_1"]);
+		expr_list_1->appendChild(expr_1);
+		ParseNode* expr_listLR1_1 = new ParseNode(expr_list_1,"expr_listLR1", vars["expr_listLR1_1"]);
+		expr_list_1->appendChild(expr_listLR1_1);
+		ref = expr_1;
+		expr(expr_1);
+		ref = expr_listLR1_1;
+		expr_listLR1(expr_listLR1_1);
+		return;
+	}
+
+	if(lookAhead.token == p->GTT("not")) {
+		ParseNode* expr_1 = new ParseNode(expr_list_1,"expr", vars["expr_1"]);
+		expr_list_1->appendChild(expr_1);
+		ParseNode* expr_listLR1_1 = new ParseNode(expr_list_1,"expr_listLR1", vars["expr_listLR1_1"]);
+		expr_list_1->appendChild(expr_listLR1_1);
+		ref = expr_1;
+		expr(expr_1);
+		ref = expr_listLR1_1;
+		expr_listLR1(expr_listLR1_1);
+		return;
+	}
+
+	if(lookAhead.token == p->GTT("num")) {
 		ParseNode* expr_1 = new ParseNode(expr_list_1,"expr", vars["expr_1"]);
 		expr_list_1->appendChild(expr_1);
 		ParseNode* expr_listLR1_1 = new ParseNode(expr_list_1,"expr_listLR1", vars["expr_listLR1_1"]);
@@ -1370,7 +1394,7 @@ void Project2::expr_list(ParseNode* expr_list_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("(")) {
+	if(lookAhead.token == p->GTT("id")) {
 		ParseNode* expr_1 = new ParseNode(expr_list_1,"expr", vars["expr_1"]);
 		expr_list_1->appendChild(expr_1);
 		ParseNode* expr_listLR1_1 = new ParseNode(expr_list_1,"expr_listLR1", vars["expr_listLR1_1"]);
@@ -1382,7 +1406,7 @@ void Project2::expr_list(ParseNode* expr_list_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("not")) {
+	if(lookAhead.token == p->GTT("(")) {
 		ParseNode* expr_1 = new ParseNode(expr_list_1,"expr", vars["expr_1"]);
 		expr_list_1->appendChild(expr_1);
 		ParseNode* expr_listLR1_1 = new ParseNode(expr_list_1,"expr_listLR1", vars["expr_listLR1_1"]);
@@ -1400,7 +1424,7 @@ void Project2::expr_list(ParseNode* expr_list_1 ) {
 
 void Project2::expr_listLR1(ParseNode* expr_listLR1_1 ) {
 	std::string nt = "expr_listLR1";
-	std::string exp = ") ,";
+	std::string exp = ", )";
 	ParseNode* ref = expr_listLR1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
@@ -1430,37 +1454,37 @@ void Project2::expr_listLR1(ParseNode* expr_listLR1_1 ) {
 
 void Project2::expr(ParseNode* expr_1 ) {
 	std::string nt = "expr";
-	std::string exp = "num not + id ( -";
+	std::string exp = "num - ( not id +";
 	ParseNode* ref = expr_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
 
-	if(lookAhead.token == p->GTT("num")) {
-		ParseNode* simple_expr_1 = new ParseNode(expr_1,"simple_expr", vars["simple_expr_1"]);
-		expr_1->appendChild(simple_expr_1);
-		ParseNode* exprLF1_1 = new ParseNode(expr_1,"exprLF1", vars["exprLF1_1"]);
-		expr_1->appendChild(exprLF1_1);
-		ref = simple_expr_1;
-		simple_expr(simple_expr_1);
-		ref = exprLF1_1;
-		exprLF1(exprLF1_1);
-		return;
-	}
-
-	if(lookAhead.token == p->GTT("id")) {
-		ParseNode* simple_expr_1 = new ParseNode(expr_1,"simple_expr", vars["simple_expr_1"]);
-		expr_1->appendChild(simple_expr_1);
-		ParseNode* exprLF1_1 = new ParseNode(expr_1,"exprLF1", vars["exprLF1_1"]);
-		expr_1->appendChild(exprLF1_1);
-		ref = simple_expr_1;
-		simple_expr(simple_expr_1);
-		ref = exprLF1_1;
-		exprLF1(exprLF1_1);
-		return;
-	}
-
 	if(lookAhead.token == p->GTT("-")) {
+		ParseNode* simple_expr_1 = new ParseNode(expr_1,"simple_expr", vars["simple_expr_1"]);
+		expr_1->appendChild(simple_expr_1);
+		ParseNode* exprLF1_1 = new ParseNode(expr_1,"exprLF1", vars["exprLF1_1"]);
+		expr_1->appendChild(exprLF1_1);
+		ref = simple_expr_1;
+		simple_expr(simple_expr_1);
+		ref = exprLF1_1;
+		exprLF1(exprLF1_1);
+		return;
+	}
+
+	if(lookAhead.token == p->GTT("not")) {
+		ParseNode* simple_expr_1 = new ParseNode(expr_1,"simple_expr", vars["simple_expr_1"]);
+		expr_1->appendChild(simple_expr_1);
+		ParseNode* exprLF1_1 = new ParseNode(expr_1,"exprLF1", vars["exprLF1_1"]);
+		expr_1->appendChild(exprLF1_1);
+		ref = simple_expr_1;
+		simple_expr(simple_expr_1);
+		ref = exprLF1_1;
+		exprLF1(exprLF1_1);
+		return;
+	}
+
+	if(lookAhead.token == p->GTT("num")) {
 		ParseNode* simple_expr_1 = new ParseNode(expr_1,"simple_expr", vars["simple_expr_1"]);
 		expr_1->appendChild(simple_expr_1);
 		ParseNode* exprLF1_1 = new ParseNode(expr_1,"exprLF1", vars["exprLF1_1"]);
@@ -1484,7 +1508,7 @@ void Project2::expr(ParseNode* expr_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("(")) {
+	if(lookAhead.token == p->GTT("id")) {
 		ParseNode* simple_expr_1 = new ParseNode(expr_1,"simple_expr", vars["simple_expr_1"]);
 		expr_1->appendChild(simple_expr_1);
 		ParseNode* exprLF1_1 = new ParseNode(expr_1,"exprLF1", vars["exprLF1_1"]);
@@ -1496,7 +1520,7 @@ void Project2::expr(ParseNode* expr_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("not")) {
+	if(lookAhead.token == p->GTT("(")) {
 		ParseNode* simple_expr_1 = new ParseNode(expr_1,"simple_expr", vars["simple_expr_1"]);
 		expr_1->appendChild(simple_expr_1);
 		ParseNode* exprLF1_1 = new ParseNode(expr_1,"exprLF1", vars["exprLF1_1"]);
@@ -1514,13 +1538,13 @@ void Project2::expr(ParseNode* expr_1 ) {
 
 void Project2::exprLF1(ParseNode* exprLF1_1 ) {
 	std::string nt = "exprLF1";
-	std::string exp = "end then , <> = >= else do > < ] ) ; <=";
+	std::string exp = "> ] <= then else < ; >= <> end , ) do =";
 	ParseNode* ref = exprLF1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
 
-	if(lookAhead.token == p->GTT("=")) {
+	if(lookAhead.token == p->GTT("<=")) {
 		ParseNode* relop_1 = new ParseNode(exprLF1_1,"relop", vars["relop_1"]);
 		exprLF1_1->appendChild(relop_1);
 		ParseNode* simple_expr_1 = new ParseNode(exprLF1_1,"simple_expr", vars["simple_expr_1"]);
@@ -1544,7 +1568,7 @@ void Project2::exprLF1(ParseNode* exprLF1_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("<>")) {
+	if(lookAhead.token == p->GTT(">=")) {
 		ParseNode* relop_1 = new ParseNode(exprLF1_1,"relop", vars["relop_1"]);
 		exprLF1_1->appendChild(relop_1);
 		ParseNode* simple_expr_1 = new ParseNode(exprLF1_1,"simple_expr", vars["simple_expr_1"]);
@@ -1556,7 +1580,19 @@ void Project2::exprLF1(ParseNode* exprLF1_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT(">=")) {
+	if(lookAhead.token == p->GTT("=")) {
+		ParseNode* relop_1 = new ParseNode(exprLF1_1,"relop", vars["relop_1"]);
+		exprLF1_1->appendChild(relop_1);
+		ParseNode* simple_expr_1 = new ParseNode(exprLF1_1,"simple_expr", vars["simple_expr_1"]);
+		exprLF1_1->appendChild(simple_expr_1);
+		ref = relop_1;
+		relop(relop_1);
+		ref = simple_expr_1;
+		simple_expr(simple_expr_1);
+		return;
+	}
+
+	if(lookAhead.token == p->GTT("<>")) {
 		ParseNode* relop_1 = new ParseNode(exprLF1_1,"relop", vars["relop_1"]);
 		exprLF1_1->appendChild(relop_1);
 		ParseNode* simple_expr_1 = new ParseNode(exprLF1_1,"simple_expr", vars["simple_expr_1"]);
@@ -1580,19 +1616,7 @@ void Project2::exprLF1(ParseNode* exprLF1_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("<=")) {
-		ParseNode* relop_1 = new ParseNode(exprLF1_1,"relop", vars["relop_1"]);
-		exprLF1_1->appendChild(relop_1);
-		ParseNode* simple_expr_1 = new ParseNode(exprLF1_1,"simple_expr", vars["simple_expr_1"]);
-		exprLF1_1->appendChild(simple_expr_1);
-		ref = relop_1;
-		relop(relop_1);
-		ref = simple_expr_1;
-		simple_expr(simple_expr_1);
-		return;
-	}
-
-	if(lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT(",") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT("]") || lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT(";")) {
+	if(lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT(",") || lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT("]")) {
 		return;
 	}
 	exprLF1Error:
@@ -1607,6 +1631,18 @@ void Project2::term(ParseNode* term_1 ) {
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
+
+	if(lookAhead.token == p->GTT("not")) {
+		ParseNode* factor_1 = new ParseNode(term_1,"factor", vars["factor_1"]);
+		term_1->appendChild(factor_1);
+		ParseNode* termLR1_1 = new ParseNode(term_1,"termLR1", vars["termLR1_1"]);
+		term_1->appendChild(termLR1_1);
+		ref = factor_1;
+		factor(factor_1);
+		ref = termLR1_1;
+		termLR1(termLR1_1);
+		return;
+	}
 
 	if(lookAhead.token == p->GTT("num")) {
 		ParseNode* factor_1 = new ParseNode(term_1,"factor", vars["factor_1"]);
@@ -1643,18 +1679,6 @@ void Project2::term(ParseNode* term_1 ) {
 		termLR1(termLR1_1);
 		return;
 	}
-
-	if(lookAhead.token == p->GTT("not")) {
-		ParseNode* factor_1 = new ParseNode(term_1,"factor", vars["factor_1"]);
-		term_1->appendChild(factor_1);
-		ParseNode* termLR1_1 = new ParseNode(term_1,"termLR1", vars["termLR1_1"]);
-		term_1->appendChild(termLR1_1);
-		ref = factor_1;
-		factor(factor_1);
-		ref = termLR1_1;
-		termLR1(termLR1_1);
-		return;
-	}
 	termError:
 
 	SynErrorTok(nt, exp);
@@ -1662,29 +1686,13 @@ void Project2::term(ParseNode* term_1 ) {
 
 void Project2::termLR1(ParseNode* termLR1_1 ) {
 	std::string nt = "termLR1";
-	std::string exp = "mod = - < + end then <> , or >= else do > * div ] ) ; and <= /";
+	std::string exp = "> - <= else < + >= and * ) mod = div then ; or <> end , / do ]";
 	ParseNode* ref = termLR1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
 
-	if(lookAhead.token == p->GTT("mod")) {
-		ParseNode* mulop_1 = new ParseNode(termLR1_1,"mulop", vars["mulop_1"]);
-		termLR1_1->appendChild(mulop_1);
-		ParseNode* factor_1 = new ParseNode(termLR1_1,"factor", vars["factor_1"]);
-		termLR1_1->appendChild(factor_1);
-		ParseNode* termLR1_2 = new ParseNode(termLR1_1,"termLR1", vars["termLR1_1"]);
-		termLR1_1->appendChild(termLR1_2);
-		ref = mulop_1;
-		mulop(mulop_1);
-		ref = factor_1;
-		factor(factor_1);
-		ref = termLR1_2;
-		termLR1(termLR1_2);
-		return;
-	}
-
-	if(lookAhead.token == p->GTT("/")) {
+	if(lookAhead.token == p->GTT("div")) {
 		ParseNode* mulop_1 = new ParseNode(termLR1_1,"mulop", vars["mulop_1"]);
 		termLR1_1->appendChild(mulop_1);
 		ParseNode* factor_1 = new ParseNode(termLR1_1,"factor", vars["factor_1"]);
@@ -1732,7 +1740,7 @@ void Project2::termLR1(ParseNode* termLR1_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("div")) {
+	if(lookAhead.token == p->GTT("mod")) {
 		ParseNode* mulop_1 = new ParseNode(termLR1_1,"mulop", vars["mulop_1"]);
 		termLR1_1->appendChild(mulop_1);
 		ParseNode* factor_1 = new ParseNode(termLR1_1,"factor", vars["factor_1"]);
@@ -1748,7 +1756,23 @@ void Project2::termLR1(ParseNode* termLR1_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("=") || lookAhead.token == p->GTT("-") || lookAhead.token == p->GTT("<") || lookAhead.token == p->GTT("+") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT("<>") || lookAhead.token == p->GTT(",") || lookAhead.token == p->GTT("or") || lookAhead.token == p->GTT(">=") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT(">") || lookAhead.token == p->GTT("]") || lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("<=")) {
+	if(lookAhead.token == p->GTT("/")) {
+		ParseNode* mulop_1 = new ParseNode(termLR1_1,"mulop", vars["mulop_1"]);
+		termLR1_1->appendChild(mulop_1);
+		ParseNode* factor_1 = new ParseNode(termLR1_1,"factor", vars["factor_1"]);
+		termLR1_1->appendChild(factor_1);
+		ParseNode* termLR1_2 = new ParseNode(termLR1_1,"termLR1", vars["termLR1_1"]);
+		termLR1_1->appendChild(termLR1_2);
+		ref = mulop_1;
+		mulop(mulop_1);
+		ref = factor_1;
+		factor(factor_1);
+		ref = termLR1_2;
+		termLR1(termLR1_2);
+		return;
+	}
+
+	if(lookAhead.token == p->GTT("]") || lookAhead.token == p->GTT("-") || lookAhead.token == p->GTT("<=") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT("<") || lookAhead.token == p->GTT("+") || lookAhead.token == p->GTT(">=") || lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT("=") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("or") || lookAhead.token == p->GTT("<>") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT(",") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT(">")) {
 		return;
 	}
 	termLR1Error:
@@ -1758,35 +1782,11 @@ void Project2::termLR1(ParseNode* termLR1_1 ) {
 
 void Project2::simple_expr(ParseNode* simple_expr_1 ) {
 	std::string nt = "simple_expr";
-	std::string exp = "num not + id ( -";
+	std::string exp = "num - ( id not +";
 	ParseNode* ref = simple_expr_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
-
-	if(lookAhead.token == p->GTT("num")) {
-		ParseNode* term_1 = new ParseNode(simple_expr_1,"term", vars["term_1"]);
-		simple_expr_1->appendChild(term_1);
-		ParseNode* simple_exprLR1_1 = new ParseNode(simple_expr_1,"simple_exprLR1", vars["simple_exprLR1_1"]);
-		simple_expr_1->appendChild(simple_exprLR1_1);
-		ref = term_1;
-		term(term_1);
-		ref = simple_exprLR1_1;
-		simple_exprLR1(simple_exprLR1_1);
-		return;
-	}
-
-	if(lookAhead.token == p->GTT("id")) {
-		ParseNode* term_1 = new ParseNode(simple_expr_1,"term", vars["term_1"]);
-		simple_expr_1->appendChild(term_1);
-		ParseNode* simple_exprLR1_1 = new ParseNode(simple_expr_1,"simple_exprLR1", vars["simple_exprLR1_1"]);
-		simple_expr_1->appendChild(simple_exprLR1_1);
-		ref = term_1;
-		term(term_1);
-		ref = simple_exprLR1_1;
-		simple_exprLR1(simple_exprLR1_1);
-		return;
-	}
 
 	if(lookAhead.token == p->GTT("-")) {
 		ParseNode* sign_1 = new ParseNode(simple_expr_1,"sign", vars["sign_1"]);
@@ -1797,6 +1797,30 @@ void Project2::simple_expr(ParseNode* simple_expr_1 ) {
 		simple_expr_1->appendChild(simple_exprLR1_1);
 		ref = sign_1;
 		sign(sign_1);
+		ref = term_1;
+		term(term_1);
+		ref = simple_exprLR1_1;
+		simple_exprLR1(simple_exprLR1_1);
+		return;
+	}
+
+	if(lookAhead.token == p->GTT("not")) {
+		ParseNode* term_1 = new ParseNode(simple_expr_1,"term", vars["term_1"]);
+		simple_expr_1->appendChild(term_1);
+		ParseNode* simple_exprLR1_1 = new ParseNode(simple_expr_1,"simple_exprLR1", vars["simple_exprLR1_1"]);
+		simple_expr_1->appendChild(simple_exprLR1_1);
+		ref = term_1;
+		term(term_1);
+		ref = simple_exprLR1_1;
+		simple_exprLR1(simple_exprLR1_1);
+		return;
+	}
+
+	if(lookAhead.token == p->GTT("num")) {
+		ParseNode* term_1 = new ParseNode(simple_expr_1,"term", vars["term_1"]);
+		simple_expr_1->appendChild(term_1);
+		ParseNode* simple_exprLR1_1 = new ParseNode(simple_expr_1,"simple_exprLR1", vars["simple_exprLR1_1"]);
+		simple_expr_1->appendChild(simple_exprLR1_1);
 		ref = term_1;
 		term(term_1);
 		ref = simple_exprLR1_1;
@@ -1820,7 +1844,7 @@ void Project2::simple_expr(ParseNode* simple_expr_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("(")) {
+	if(lookAhead.token == p->GTT("id")) {
 		ParseNode* term_1 = new ParseNode(simple_expr_1,"term", vars["term_1"]);
 		simple_expr_1->appendChild(term_1);
 		ParseNode* simple_exprLR1_1 = new ParseNode(simple_expr_1,"simple_exprLR1", vars["simple_exprLR1_1"]);
@@ -1832,7 +1856,7 @@ void Project2::simple_expr(ParseNode* simple_expr_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("not")) {
+	if(lookAhead.token == p->GTT("(")) {
 		ParseNode* term_1 = new ParseNode(simple_expr_1,"term", vars["term_1"]);
 		simple_expr_1->appendChild(term_1);
 		ParseNode* simple_exprLR1_1 = new ParseNode(simple_expr_1,"simple_exprLR1", vars["simple_exprLR1_1"]);
@@ -1850,7 +1874,7 @@ void Project2::simple_expr(ParseNode* simple_expr_1 ) {
 
 void Project2::simple_exprLR1(ParseNode* simple_exprLR1_1 ) {
 	std::string nt = "simple_exprLR1";
-	std::string exp = "end then <> , = or >= else do - > < + ] ) ; <=";
+	std::string exp = "] - <= else < + >= ) = then ; or <> end , do >";
 	ParseNode* ref = simple_exprLR1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
@@ -1904,7 +1928,7 @@ void Project2::simple_exprLR1(ParseNode* simple_exprLR1_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("=") || lookAhead.token == p->GTT("<") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT("<>") || lookAhead.token == p->GTT(",") || lookAhead.token == p->GTT(">=") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT(">") || lookAhead.token == p->GTT("]") || lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("<=")) {
+	if(lookAhead.token == p->GTT(">") || lookAhead.token == p->GTT("]") || lookAhead.token == p->GTT("<=") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT("<") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT(">=") || lookAhead.token == p->GTT("<>") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT(",") || lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT("=")) {
 		return;
 	}
 	simple_exprLR1Error:
@@ -1919,6 +1943,16 @@ void Project2::factor(ParseNode* factor_1 ) {
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
+
+	if(lookAhead.token == p->GTT("not")) {
+		ParseNode* factor_2 = new ParseNode(factor_1,"factor", vars["factor_1"]);
+		factor_1->appendChild(factor_2);
+		 if (!Match(p->GTT("not") , &currTok)) goto factorError;
+		factor_1->appendToken( currTok, ref);
+		ref = factor_2;
+		factor(factor_2);
+		return;
+	}
 
 	if(lookAhead.token == p->GTT("num")) {
 		 if (!Match(p->GTT("num") , &currTok)) goto factorError;
@@ -1947,16 +1981,6 @@ void Project2::factor(ParseNode* factor_1 ) {
 		factor_1->appendToken( currTok, ref);
 		return;
 	}
-
-	if(lookAhead.token == p->GTT("not")) {
-		ParseNode* factor_2 = new ParseNode(factor_1,"factor", vars["factor_1"]);
-		factor_1->appendChild(factor_2);
-		 if (!Match(p->GTT("not") , &currTok)) goto factorError;
-		factor_1->appendToken( currTok, ref);
-		ref = factor_2;
-		factor(factor_2);
-		return;
-	}
 	factorError:
 
 	SynErrorTok(nt, exp);
@@ -1964,7 +1988,7 @@ void Project2::factor(ParseNode* factor_1 ) {
 
 void Project2::factorLF1(ParseNode* factorLF1_1 ) {
 	std::string nt = "factorLF1";
-	std::string exp = "mod = - < + [ end then <> , or >= else do > * div and ] / ) ; <=";
+	std::string exp = "] - <= else < + >= [ and * ) mod = div then ; or <> end , / do >";
 	ParseNode* ref = factorLF1_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
@@ -1982,7 +2006,7 @@ void Project2::factorLF1(ParseNode* factorLF1_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("mod") || lookAhead.token == p->GTT("=") || lookAhead.token == p->GTT("-") || lookAhead.token == p->GTT("<") || lookAhead.token == p->GTT("+") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT("<>") || lookAhead.token == p->GTT(",") || lookAhead.token == p->GTT("or") || lookAhead.token == p->GTT(">=") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT(">") || lookAhead.token == p->GTT("*") || lookAhead.token == p->GTT("div") || lookAhead.token == p->GTT("and") || lookAhead.token == p->GTT("]") || lookAhead.token == p->GTT("/") || lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("<=")) {
+	if(lookAhead.token == p->GTT(">") || lookAhead.token == p->GTT("-") || lookAhead.token == p->GTT("<=") || lookAhead.token == p->GTT("else") || lookAhead.token == p->GTT("<") || lookAhead.token == p->GTT("+") || lookAhead.token == p->GTT(">=") || lookAhead.token == p->GTT("and") || lookAhead.token == p->GTT("*") || lookAhead.token == p->GTT(")") || lookAhead.token == p->GTT("mod") || lookAhead.token == p->GTT("=") || lookAhead.token == p->GTT("div") || lookAhead.token == p->GTT("then") || lookAhead.token == p->GTT(";") || lookAhead.token == p->GTT("or") || lookAhead.token == p->GTT("<>") || lookAhead.token == p->GTT("end") || lookAhead.token == p->GTT(",") || lookAhead.token == p->GTT("/") || lookAhead.token == p->GTT("do") || lookAhead.token == p->GTT("]")) {
 		return;
 	}
 	factorLF1Error:
@@ -2016,7 +2040,7 @@ void Project2::sign(ParseNode* sign_1 ) {
 
 void Project2::addop(ParseNode* addop_1 ) {
 	std::string nt = "addop";
-	std::string exp = "+ or -";
+	std::string exp = "- or +";
 	ParseNode* ref = addop_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
@@ -2064,20 +2088,14 @@ void Project2::assignop(ParseNode* assignop_1 ) {
 
 void Project2::mulop(ParseNode* mulop_1 ) {
 	std::string nt = "mulop";
-	std::string exp = "and mod / * div";
+	std::string exp = "/ and div mod *";
 	ParseNode* ref = mulop_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
 
-	if(lookAhead.token == p->GTT("mod")) {
-		 if (!Match(p->GTT("mod") , &currTok)) goto mulopError;
-		mulop_1->appendToken( currTok, ref);
-		return;
-	}
-
-	if(lookAhead.token == p->GTT("/")) {
-		 if (!Match(p->GTT("/") , &currTok)) goto mulopError;
+	if(lookAhead.token == p->GTT("div")) {
+		 if (!Match(p->GTT("div") , &currTok)) goto mulopError;
 		mulop_1->appendToken( currTok, ref);
 		return;
 	}
@@ -2094,8 +2112,14 @@ void Project2::mulop(ParseNode* mulop_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("div")) {
-		 if (!Match(p->GTT("div") , &currTok)) goto mulopError;
+	if(lookAhead.token == p->GTT("mod")) {
+		 if (!Match(p->GTT("mod") , &currTok)) goto mulopError;
+		mulop_1->appendToken( currTok, ref);
+		return;
+	}
+
+	if(lookAhead.token == p->GTT("/")) {
+		 if (!Match(p->GTT("/") , &currTok)) goto mulopError;
 		mulop_1->appendToken( currTok, ref);
 		return;
 	}
@@ -2106,14 +2130,14 @@ void Project2::mulop(ParseNode* mulop_1 ) {
 
 void Project2::relop(ParseNode* relop_1 ) {
 	std::string nt = "relop";
-	std::string exp = "> <> < = >= <=";
+	std::string exp = "= >= <> <= < >";
 	ParseNode* ref = relop_1;
 	Token* currTok = &Token();
 	bool hasParseErr = false;
 	bool* addrErr = &hasParseErr;
 
-	if(lookAhead.token == p->GTT("=")) {
-		 if (!Match(p->GTT("=") , &currTok)) goto relopError;
+	if(lookAhead.token == p->GTT("<=")) {
+		 if (!Match(p->GTT("<=") , &currTok)) goto relopError;
 		relop_1->appendToken( currTok, ref);
 		return;
 	}
@@ -2124,26 +2148,26 @@ void Project2::relop(ParseNode* relop_1 ) {
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("<>")) {
-		 if (!Match(p->GTT("<>") , &currTok)) goto relopError;
-		relop_1->appendToken( currTok, ref);
-		return;
-	}
-
 	if(lookAhead.token == p->GTT(">=")) {
 		 if (!Match(p->GTT(">=") , &currTok)) goto relopError;
 		relop_1->appendToken( currTok, ref);
 		return;
 	}
 
-	if(lookAhead.token == p->GTT(">")) {
-		 if (!Match(p->GTT(">") , &currTok)) goto relopError;
+	if(lookAhead.token == p->GTT("=")) {
+		 if (!Match(p->GTT("=") , &currTok)) goto relopError;
 		relop_1->appendToken( currTok, ref);
 		return;
 	}
 
-	if(lookAhead.token == p->GTT("<=")) {
-		 if (!Match(p->GTT("<=") , &currTok)) goto relopError;
+	if(lookAhead.token == p->GTT("<>")) {
+		 if (!Match(p->GTT("<>") , &currTok)) goto relopError;
+		relop_1->appendToken( currTok, ref);
+		return;
+	}
+
+	if(lookAhead.token == p->GTT(">")) {
+		 if (!Match(p->GTT(">") , &currTok)) goto relopError;
 		relop_1->appendToken( currTok, ref);
 		return;
 	}

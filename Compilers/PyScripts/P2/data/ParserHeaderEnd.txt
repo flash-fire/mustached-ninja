@@ -1,3 +1,4 @@
+	int scopeDepth = 1;
 	Token lookAhead;
 	Project1* p;
 	std::ofstream target;

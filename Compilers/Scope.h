@@ -20,11 +20,13 @@ public:
 	bool isVarInScope(std::string name);
 	Type::TYPE getTypeOfVar(std::string name, std::string* err);
 
+	bool hasSibling(std::string name);
+
 	bool isProcCallable(std::string name);
 
 	std::string name; // For procedures (since they each have their own scope)
 private:
-	bool hasSibling(std::string name);
+
 
 	SymbolTable vars; // For variables. Will also allow to get entries and stuff.
 

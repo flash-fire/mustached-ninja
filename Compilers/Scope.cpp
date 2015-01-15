@@ -48,9 +48,14 @@ bool Scope::isProcCallable(std::string name)
 	return hasSibling(name) || (parent && parent->isProcCallable(name));
 }
 
-bool Scope::addChild(Scope* child, std::string* err)
+bool Scope::addChild(Scope* newChild, std::string* err)
 {
-	return this->child->addSibling(child, err);
+	if (child == NULL)
+	{
+		child = newChild;
+		return true;
+	}
+	return this->child->addSibling(newChild, err);
 }
 
 bool Scope::addSibling(Scope* sib, std::string* err)
@@ -62,7 +67,7 @@ bool Scope::addSibling(Scope* sib, std::string* err)
 			*err = "SEMERR: This is really weird, and most definitely shouldn't be happening. Compiler bug! Adding " + sib->name + " to " + name;
 			return false;
 		}
-		Scope* temp = nextSib;
+		Scope* temp = nextSib; // Yes this reverses the order of the scopes for printing later. Annoying but oh well. Any other way would be more complex.
 		nextSib = sib;
 		sib->nextSib = temp;
 		return true;

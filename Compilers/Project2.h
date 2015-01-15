@@ -3,6 +3,7 @@
 #include "Project1.h"
 #include "ParseNode.h"
 #include "Type.h"
+#include "Scope.h"
 
 class Project2 {
 
@@ -18,6 +19,7 @@ public:
 	void UniteSynchronization(std::string nt);
 
 	std::map<std::string, std::string> synchSet;
+	Scope* currScope; // I'm not using a stack. I'm too rebellious to use a stack.
 private:
 	std::map<std::string, std::vector<std::string>> vars = makeMap();
 	std::map<std::string, std::vector<std::string>> makeMap()
@@ -28,10 +30,10 @@ private:
 			{ "prgmLF1LF1_1", { std::vector<std::string>() } },
 			{ "idList_1", { std::vector<std::string>() } },
 			{ "idListLR1_1", { std::vector<std::string>() } },
-			{ "decs_1", { "totalSize", "offset", "t" } },
-			{ "decsLR1_1", { "totalSize", "offset", "t" } },
-			{ "type_1", { "width", "t" } },
-			{ "std_type_1", { "width", "t" } },
+			{ "decs_1", { "offset", "t", "totalSize" } },
+			{ "decsLR1_1", { "offset", "t", "totalSize" } },
+			{ "type_1", { "t", "width" } },
+			{ "std_type_1", { "t", "width" } },
 			{ "subprgm_decs_1", { std::vector<std::string>() } },
 			{ "subprgm_decsLR1_1", { std::vector<std::string>() } },
 			{ "subprgm_dec_1", { std::vector<std::string>() } },
@@ -122,6 +124,7 @@ private:
 
 	static const std::string Project2::SYNCH_PATH;
 	std::ifstream synch;
+	int scopeDepth = 1;
 	bool contains(std::string str, std::string targ);
 
 };

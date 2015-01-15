@@ -1,6 +1,9 @@
 prgm_1:
 	<<vars>> totalSize
 	<<begin>> program_1 id_1 (_1 idList_1 )_1 ;_1 prgmLF1_1 <<end>> 
+		id_1
+			currScope = new Scope(NULL, prgm_1->findT("id_1")->lex);
+			std::cout << prgm_1->findT("id_1")->lex;
 		<<end>>
 			prgm_1->set("totalSize", prgmLF1_1->get("totalSize"));
 prgmLF1_1:
@@ -145,10 +148,23 @@ std_type_1:
 		std_type_1->set("width", 0);
 subprgm_decs_1:
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_1 <<end>> 
+		<<begin>>
+			Scope* dummyScope = new Scope(currScope, "~~DUMMY~~");
+			scopeDepth++;
+			std::string* err = &std::string();
+			currScope->addChild(dummyScope, err); //# This call will never error. Thank god.
+			if (*err != "")
+			{
+				std::cout  << " ANGRY ANGRY ANGRY IMPOSSIBLE ASSERTION LIKE THING ENCOUNTERED. DUMMY SCOPE! DUMMYSCOPE! FEEL ANGER YOU SHUOLD! YOU ANGRISH!\n";
+			}
+			currScope = dummyScope;
 subprgm_decsLR1_1:
-	<<begin>> EPSILON <<end>> 
+	<<begin>> EPSILON <<end>>
+		<<end>>
+			currScope = currScope->getParent();
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_2 <<end>> 
 subprgm_dec_1:
+	<<vars>> first
 	<<begin>> subprgm_head_1 subprgm_decLF1_1 <<end>> 
 subprgm_decLF1_1:
 	<<begin>> decs_1 subprgm_decLF1LF1_1 <<end>> 
@@ -159,6 +175,16 @@ subprgm_decLF1LF1_1:
 	<<begin>> subprgm_decs_1 comp_stmt_1 <<end>> 
 subprgm_head_1:
 	<<begin>> procedure_1 id_1 subprgm_headLF1_1 <<end>> 
+		id_1
+			Token* tok = subprgm_head_1->findT("id_1");
+			Scope* currSib = new Scope(currScope->getParent(), tok->lex);
+			std::string* errMsg = &std::string();
+			std::cout << std::string(scopeDepth * 2, ' ') << tok->lex << "\n" << "\n";
+			if (currScope->addSibling(currSib, errMsg) == false)
+			{
+				target << errMsg << "\non line " << tok->line << " and collumn " << tok->charNum;
+			}
+			currScope = currSib;
 subprgm_headLF1_1:
 	<<begin>> args_1 ;_1 <<end>> 
 	<<begin>> ;_1 <<end>> 

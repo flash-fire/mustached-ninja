@@ -3,6 +3,7 @@
 #include "Project1.h"
 #include "ParseNode.h"
 #include "Type.h"
+#include "Scope.h"
 
 class Project2 {
 
@@ -18,6 +19,7 @@ public:
 	void UniteSynchronization(std::string nt);
 
 	std::map<std::string, std::string> synchSet;
+	Scope* currScope; // I'm not using a stack. I'm too rebellious to use a stack.
 private:
 	std::map<std::string, std::vector<std::string>> vars = makeMap();
 	std::map<std::string, std::vector<std::string>> makeMap()
@@ -28,13 +30,13 @@ private:
 			{ "prgmLF1LF1_1", { std::vector<std::string>()}},
 			{ "idList_1", { std::vector<std::string>()}},
 			{ "idListLR1_1", { std::vector<std::string>()}},
-			{ "decs_1", { "t", "offset", "totalSize"} },
-			{ "decsLR1_1", { "t", "offset", "totalSize"} },
-			{ "type_1", { "t", "width"} },
-			{ "std_type_1", { "t", "width"} },
+			{ "decs_1", { "totalSize", "t", "offset"} },
+			{ "decsLR1_1", { "totalSize", "t", "offset"} },
+			{ "type_1", { "width", "t"} },
+			{ "std_type_1", { "width", "t"} },
 			{ "subprgm_decs_1", { std::vector<std::string>()}},
 			{ "subprgm_decsLR1_1", { std::vector<std::string>()}},
-			{ "subprgm_dec_1", { std::vector<std::string>()}},
+			{ "subprgm_dec_1", { "first"} },
 			{ "subprgm_decLF1_1", { std::vector<std::string>()}},
 			{ "subprgm_decLF1LF1_1", { std::vector<std::string>()}},
 			{ "subprgm_head_1", { std::vector<std::string>()}},
@@ -116,6 +118,7 @@ private:
 	void Project2::assignop(ParseNode* par);
 	void Project2::mulop(ParseNode* par);
 	void Project2::relop(ParseNode* par);
+	int scopeDepth = 1;
 	Token lookAhead;
 	Project1* p;
 	std::ofstream target;
