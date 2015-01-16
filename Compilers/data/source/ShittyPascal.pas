@@ -1,11 +1,11 @@
 program test (input, output);
   var a : integer;
-  var b : real;
-  var badType : array [1.11..-2] of integer;
+  var repeat : real;
+  var badType : array [1.11..2] of integer;
   var badInd : array [4..1] of integer;
   var badStd : array [1..1] of error;
-  var x : error;
-  procedure proc1(x:integer; y:real; 
+  var repeat : real;
+  procedure shitty(x:integer; y:real; 
                   z:array [1..2] of integer; q: real);
     var d: integer;
     begin
@@ -14,7 +14,7 @@ program test (input, output);
       c[3] := 3
      end;
 
-   procedure proc2(x: integer; y: integer);
+   procedure shitty(x: integer; y: integer);
      var e: real;
 
      procedure proc3(n: integer; z: real);

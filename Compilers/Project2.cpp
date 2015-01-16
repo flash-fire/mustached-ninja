@@ -354,7 +354,7 @@ void Project2::decs(ParseNode* decs_1) {
 		std::string* err = &ret;
 		if (currScope->addVar(idTok->lex, ITT(type_1->get("t")), decs_1->get("offset"), err) == false)
 		{
-			target << err << " at " << idTok;
+			target << *err << " VAR NAME: " << idTok->lex << " LINE # " << idTok->line << "\n";
 		}
 
 		if (!Match(p->GTT(";"), &currTok)) goto decsError;
@@ -400,7 +400,7 @@ void Project2::decsLR1(ParseNode* decsLR1_1) {
 		std::string* err = &ret;
 		if (currScope->addVar(idTok->lex, ITT(type_1->get("t")), decsLR1_1->get("offset"), err) == false)
 		{
-			target << err << " at " << idTok;
+			target << *err << " VAR NAME: " << idTok->lex << " LINE # " << idTok->line << "\n";
 		}
 
 		if (!Match(p->GTT(";"), &currTok)) goto decsLR1Error;
@@ -510,7 +510,7 @@ void Project2::type(ParseNode* type_1) {
 		}
 		else if (arraySize <= 0) //# if bad args
 		{
-			target << "SEMERROR: Array parameters improper. Min >= Max with " << tok1->lex << " and " << tok2->lex << "\n\n";
+			target << "SEMERR: Array parameters improper. Min >= Max with " << tok1->lex << " and " << tok2->lex << "\n\n";
 		}
 		else
 		{
@@ -758,7 +758,7 @@ void Project2::subprgm_head(ParseNode* subprgm_head_1) {
 		std::cout << std::string(scopeDepth * 2, ' ') << tok->lex << "\n" << "\n";
 		if (currScope->addSibling(currSib, errMsg) == false)
 		{
-			target << errMsg << "\non line " << tok->line << " and collumn " << tok->charNum;
+			target << *errMsg << "\n\ton line " << tok->line << " and collumn " << tok->charNum << "\n";
 		}
 		currScope = currSib;
 
