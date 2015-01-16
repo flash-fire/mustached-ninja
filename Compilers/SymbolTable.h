@@ -14,6 +14,7 @@ public:
 	SymbolTableEntry get(std::string name);
 	std::string getID(Token t);	// returns name of ID if exists in table.
 	bool addType(std::string name, Type::TYPE t, std::string* errorMsg);
+	bool addAddr(std::string name, int addr, std::string* errorMsg);
 	std::map<std::string, SymbolTableEntry> table;
 };
 

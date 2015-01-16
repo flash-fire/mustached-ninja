@@ -30,14 +30,14 @@ decs_1:
 	<<begin>> var_1 id_1 :_1 type_1 ;_1 decsLR1_1 <<end>>
 		type_1
 			decsLR1_1->set("offset", decs_1->get("offset") + type_1->get("width")); //# debug later
-		<<end>>
 			Token* idTok = decs_1->findT("id_1");
 			std::string ret = "";
 			std::string* err = &ret;
-			if (p->table.addType(idTok->lex, ITT(type_1->get("t")), err) == false)
+			if (currScope->addVar(idTok->lex, ITT(type_1->get("t")), decs_1->get("offset"), err) == false)
 			{
 				target << err << " at " << idTok;
 			}
+		<<end>>
 			decs_1->set("t", decsLR1_1->get("t"));
 			decs_1->set("totalSize", decsLR1_1->get("totalSize"));
 	<<error>>
@@ -51,15 +51,15 @@ decsLR1_1:
 			decsLR1_1->set("t", TTI(NONE));
 	<<begin>> var_1 id_1 :_1 type_1 ;_1 decsLR1_2 <<end>> 
 		type_1
-			decsLR1_2->set("offset", decsLR1_1->get("offset") + type_1->get("width")); //# debug this later
-		<<end>>
-			Token* idTok = decsLR1_1->findT(1);
+			decsLR1_2->set("offset", decsLR1_1->get("offset") + type_1->get("width")); //# ADDRESS
+			Token* idTok = decsLR1_1->findT(1); //# SCOPE
 			std::string ret = "";
 			std::string* err = &ret;
-			if (p->table.addType(idTok->lex, ITT(type_1->get("t")), err) == false)
+			if (currScope->addVar(idTok->lex, ITT(type_1->get("t")), decsLR1_1->get("offset"), err) == false)
 			{
 				target << err << " at " << idTok;
 			}
+		<<end>>
 			decsLR1_1->set("t", decsLR1_2->get("t"));
 			decsLR1_1->set("totalSize", decsLR1_2->get("totalSize"));
 	<<error>>
@@ -128,8 +128,8 @@ type_1:
 				}
 				 //# FINALLY all the silly errors are done
 			}
-			std::cout << "Made array of type " << Type::typeToString(ITT(type_1->get("t"))) << " width " << type_1->get("width")
-			<< "\n" << "LEX#1: " << tok1->lex << " LEX#2: " << tok2->lex << "LEX_STD: "  << "\n";
+			std::cout << "\nMade array of type " << Type::typeToString(ITT(type_1->get("t"))) << " width " << type_1->get("width");
+
 	<<error>> //# no need to say that the array has an error when you have a syntax error. You got problems. You already know.
 		type_1->set("t", TTI(ERROR));
 		type_1->set("width", 0);
@@ -149,7 +149,7 @@ std_type_1:
 subprgm_decs_1:
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_1 <<end>> 
 		<<begin>>
-			Scope* dummyScope = new Scope(currScope, "~~DUMMY~~");
+			Scope* dummyScope = new Scope(currScope, "~~DUMMY~~"); //# SCOPE
 			scopeDepth++;
 			std::string* err = &std::string();
 			currScope->addChild(dummyScope, err); //# This call will never error. Thank god.
@@ -161,7 +161,7 @@ subprgm_decs_1:
 subprgm_decsLR1_1:
 	<<begin>> EPSILON <<end>>
 		<<end>>
-			currScope = currScope->getParent();
+			currScope = currScope->getParent(); //# SCOPE
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_2 <<end>> 
 subprgm_dec_1:
 	<<vars>> first

@@ -47,6 +47,23 @@ int* SymbolTable::addEntry(std::string id, bool* isErr, std::string* err)
 	return (int*) sym;
 }
 
+bool SymbolTable::addAddr(std::string id, int addr, std::string* err)
+{
+	*err = "";
+	std::string* typeErr = &std::string();
+	if (table.count(id) == 0)
+	{
+		*err += "SEM_ERROR: atempting to add address " + std::to_string(addr) + " to entry " + id + " not in symbol table. (IMPOSSIBLE ERROR BTW)";
+		return false;
+	}
+	else if (table[id].addAddr(addr, typeErr) == false)
+	{
+		*err += *typeErr;
+		return false;
+	}
+	return true;
+}
+
 bool SymbolTable::hasEntry(std::string id)
 {
 	return table.count(id) > 0;

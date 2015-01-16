@@ -32,5 +32,18 @@ bool SymbolTableEntry::addType(Type::TYPE t, std::string* err)
 		*err = "SEM ERROR: " + name + " already has type " + Type::typeToString(type) + ". Attempting to assign type " + Type::typeToString(type);
 		return false; 
 	}
+}
 
+bool SymbolTableEntry::addAddr(int addr, std::string* err)
+{
+	if (address == 0)
+	{
+		address = addr;
+		return true; // no error
+	}
+	else
+	{
+		*err = "SEM ERROR: " + name + " already has address " + std::to_string(address) + ". Attempting to assign address " + std::to_string(addr) + " IMPOSSIBLE ERROR!";
+		return false;
+	}
 }

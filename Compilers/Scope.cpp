@@ -23,7 +23,7 @@ Type::TYPE Scope::getTypeOfVar(std::string name, std::string* err)
 	}
 }
 
-bool Scope::addVar(std::string name, Type::TYPE type, std::string* err)
+bool Scope::addVar(std::string name, Type::TYPE type, int addr, std::string* err)
 {
 	if (!vars.hasEntry(name))
 	{
@@ -33,8 +33,8 @@ bool Scope::addVar(std::string name, Type::TYPE type, std::string* err)
 		{
 			*err += "\nThis should never happen ever. If this happens, your compiler had issues in addVar and it's not your fault. :( :( :(";
 			return false;
-		}
-		return vars.addType(name, type, err);
+		} // these things should never return an error. If they return an error in this scope, this program is so broken.. You have no idea!
+		return vars.addType(name, type, err) && vars.addAddr(name, addr, err);
 	}
 	else
 	{
