@@ -1,20 +1,99 @@
 #include "Scope.h"
 
-Scope::Scope(Scope* par, std::string name) : parent(par), nextSib(this), child(NULL), name(name), vars(SymbolTable()) {}
+Scope::Scope(Scope* par, std::string name) : parent(par), nextSib(this), child(NULL), name(name), vars(SymbolTable()), params(std::vector<VAR_WRAP>()) {}
 
 Scope::~Scope() {}
 
+
+void Scope::printScope(Scope* targ, std::ostream* os, int level, bool printSibs)
+{
+	std::string tab = "";
+	if (level > 0)
+	{
+		tab = std::string(level * 2, ' '); // switching level with ' ' is hilariously beepy
+		//out = std::string(' ', level);
+	}
+
+	if (targ->name == "~~DUMMY~~"){
+		goto printShit;
+	}
+
+	*os << tab << targ->name << "\n";
+	*os << tab << "  PARAMS:\n";
+	if (targ->params.size() == 0)
+	{
+		*os << tab << "    VOID\n";
+	}
+	for (VAR_WRAP wrap : targ->params)
+	{
+		*os << tab << "    NAME " << wrap.name << " TYPE " << Type::typeToString(wrap.type) << " ADDR " << wrap.addr << "\n";
+	}
+
+	*os << tab << "  LOCAL_VARS:\n";
+	for (auto x : targ->vars.table)
+	{
+		std::string id = x.first;
+		SymbolTableEntry entry = x.second;
+		*os << tab << "    NAME " << id << " TYPE " << Type::typeToString(entry.type)<< " ADDR " << entry.address << "\n";
+	}
+	
+	if (targ->child)
+	{
+		printScope(targ->child, os, level + 1, true);
+	}
+	printShit:
+	if (printSibs)
+	{
+		Scope* curr = targ->nextSib;
+		std::string targName = targ->name;
+		std::string currName = curr->name;
+		while (targName != currName)
+		{
+			printScope(curr, os, level, false);
+			curr = curr->nextSib;
+			currName = curr->name;
+			targName = targ->name;
+		}
+	}
+	//std::cout << out;
+	os->flush();
+}
 bool Scope::isVarInScope(std::string name)
 {
-	return vars.hasEntry(name) || (parent && parent->isVarInScope(name));
+	return vars.hasEntry(name) || hasParam(name) || (parent && 
+		parent->isVarInScope(name));
+}
+
+bool Scope::hasParam(std::string name)
+{
+	for (VAR_WRAP wrap : params)
+	{
+		if (wrap.name == name)
+			return true;
+	}
+	return false;
 }
 
 Type::TYPE Scope::getTypeOfVar(std::string name, std::string* err)
 {
 	if (isVarInScope(name))
 	{
-		SymbolTableEntry e = vars.get(name);
-		return e.type;
+		if (hasParam(name))
+		{
+			for (VAR_WRAP wrap : params)
+			{
+				if (wrap.name == name)
+				{
+					return wrap.type;
+				}
+			}
+			return Type::ERROR;
+		}
+		else
+		{
+			SymbolTableEntry e = vars.get(name);
+			return e.type;
+		}
 	}
 	else
 	{
@@ -23,8 +102,26 @@ Type::TYPE Scope::getTypeOfVar(std::string name, std::string* err)
 	}
 }
 
+bool Scope::addParam(std::string name, Type::TYPE type, int addr, std::string* err)
+{
+	if (hasParam(name))
+	{
+		*err = "SEMERR: Attempting to add parameter " + name + " when it already exists in parameters!";
+		return false;
+	}
+	VAR_WRAP wrap = { name, type, addr };
+	params.push_back(wrap);
+	return true;
+}
+
 bool Scope::addVar(std::string name, Type::TYPE type, int addr, std::string* err)
 {
+	if (hasParam(name))
+	{
+		*err = "SEMERR: Attempting to add variable " + name + " when it already exists in parameters!";
+		return false;
+	}
+
 	if (!vars.hasEntry(name))
 	{
 		bool isErr = false;

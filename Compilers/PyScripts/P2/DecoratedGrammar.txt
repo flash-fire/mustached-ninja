@@ -165,15 +165,21 @@ subprgm_decsLR1_1:
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_2 <<end>> 
 subprgm_dec_1:
 	<<vars>> first
-	<<begin>> subprgm_head_1 subprgm_decLF1_1 <<end>> 
+	<<begin>> subprgm_head_1 subprgm_decLF1_1 <<end>>
+		subprgm_head_1
+			subprgm_decLF1_1->set("totalSize", subprgm_head_1->get("totalSize")); //# pass back address totalSize for params
 subprgm_decLF1_1:
+	<<vars>> totalSize
 	<<begin>> decs_1 subprgm_decLF1LF1_1 <<end>> 
+		<<begin>>
+			decs_1->set("offset", subprgm_decLF1_1->get("totalSize")); //# receive address offset for params
 	<<begin>> comp_stmt_1 <<end>> 
 	<<begin>> subprgm_decs_1 comp_stmt_1 <<end>> 
 subprgm_decLF1LF1_1:
 	<<begin>> comp_stmt_1 <<end>> 
 	<<begin>> subprgm_decs_1 comp_stmt_1 <<end>> 
 subprgm_head_1:
+	<<vars>> totalSize t
 	<<begin>> procedure_1 id_1 subprgm_headLF1_1 <<end>> 
 		id_1
 			Token* tok = subprgm_head_1->findT("id_1");
@@ -185,16 +191,71 @@ subprgm_head_1:
 				target << *errMsg << "\n\ton line " << tok->line << " and collumn " << tok->charNum  << "\n";
 			}
 			currScope = currSib;
+		<<end>>
+			subprgm_head_1->set("totalSize", subprgm_headLF1_1->get("totalSize")); //# pass back address address offset for params
+			subprgm_head_1->set("t", subprgm_headLF1_1->get("t"));
+		<<error>>
+			subprgm_head_1->set("t", TTI(ERROR));
+			subprgm_head_1->set("totalSize", 0);
 subprgm_headLF1_1:
+	<<vars>> totalSize t
 	<<begin>> args_1 ;_1 <<end>> 
+		<<end>>
+			subprgm_headLF1_1->set("totalSize", args_1->get("totalSize"));
+			subprgm_headLF1_1->set("t", args_1->get("t"));
 	<<begin>> ;_1 <<end>> 
+		<<end>>
+			subprgm_headLF1_1->set("totalSize", 0);
+			subprgm_headLF1_1->set("t", TTI(NONE));
+	<<error>>
+		subprgm_headLF1_1->set("t", TTI(ERROR));
+		subprgm_headLF1_1->set("totalSize", 0);
 args_1:
+	<<vars>> totalSize offset t
 	<<begin>> (_1 param_list_1 )_1 <<end>> 
+		<<end>>
+			args_1->set("totalSize", param_list_1->get("totalSize"));
+			args_1->set("t", param_list_1->get("t"));
+		<<error>>
+			args_1->set("t", TTI(ERROR));
+			args_1->set("totalSize", 0);
 param_list_1:
+	<<vars>> totalSize offset t
 	<<begin>> id_1 :_1 type_1 param_listLR1_1 <<end>> 
+		type_1
+			param_listLR1_1->set("offset", param_list_1->get("offset") + type_1->get("width")); //# OFFSET STARTS AT 0 BECAUSE PARAMS
+			Token* idTok = param_list_1->findT("id_1");
+			std::string ret = "";
+			std::string* err = &ret;
+			if (currScope->addParam(idTok->lex, ITT(type_1->get("t")), param_list_1->get("offset"), err) == false)
+			{
+				target << *err << " VAR NAME: " << idTok->lex << " LINE # " << idTok->line << "\n";
+			}
+		<<end>>
+			param_list_1->set("t", param_listLR1_1->get("t"));
+			param_list_1->set("totalSize", param_listLR1_1->get("totalSize"));
 param_listLR1_1:
+	<<vars>> totalSize offset t
 	<<begin>> EPSILON <<end>> 
+		<<end>>
+			param_listLR1_1->set("totalSize", param_listLR1_1->get("offset"));
+			param_listLR1_1->set("t", TTI(NONE));
 	<<begin>> ;_1 id_1 :_1 type_1 param_listLR1_2 <<end>> 
+		type_1
+			param_listLR1_2->set("offset", param_listLR1_1->get("offset") + type_1->get("width")); //# ADDRESS
+			Token* idTok = param_listLR1_1->findT(1); //# SCOPE
+			std::string ret = "";
+			std::string* err = &ret;
+			if (currScope->addParam(idTok->lex, ITT(type_1->get("t")), param_listLR1_1->get("offset"), err) == false)
+			{
+				target << *err << " VAR NAME: " << idTok->lex << " LINE # " << idTok->line << "\n";
+			}
+		<<end>>
+			param_listLR1_1->set("t", param_listLR1_2->get("t"));
+			param_listLR1_1->set("totalSize", param_listLR1_2->get("totalSize"));
+	<<error>>
+		param_listLR1_1->set("t", TTI(ERROR));
+		param_listLR1_1->set("totalSize", 0);
 comp_stmt_1:
 	<<begin>> begin_1 comp_stmtLF1_1 <<end>> 
 comp_stmtLF1_1:

@@ -11,7 +11,7 @@ SymbolTableEntry::SymbolTableEntry(std::string name, int tok, int attr) : name(n
 {
 }
 
-SymbolTableEntry::SymbolTableEntry(const SymbolTableEntry& entry) : name(entry.name), token(entry.token), type(entry.type)
+SymbolTableEntry::SymbolTableEntry(const SymbolTableEntry& entry) : name(entry.name), token(entry.token), type(entry.type), address(entry.address)
 {
 
 }
@@ -38,7 +38,7 @@ bool SymbolTableEntry::addAddr(int addr, std::string* err)
 {
 	if (address == 0)
 	{
-		address = addr;
+		address = addr;// *new int(addr);
 		return true; // no error
 	}
 	else

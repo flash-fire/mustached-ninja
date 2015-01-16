@@ -36,14 +36,14 @@ private:
 			{ "std_type_1", { "t", "width" } },
 			{ "subprgm_decs_1", { std::vector<std::string>() } },
 			{ "subprgm_decsLR1_1", { std::vector<std::string>() } },
-			{ "subprgm_dec_1", { std::vector<std::string>() } },
-			{ "subprgm_decLF1_1", { std::vector<std::string>() } },
+			{ "subprgm_dec_1", { "first" } },
+			{ "subprgm_decLF1_1", { "totalSize" } },
 			{ "subprgm_decLF1LF1_1", { std::vector<std::string>() } },
-			{ "subprgm_head_1", { std::vector<std::string>() } },
-			{ "subprgm_headLF1_1", { std::vector<std::string>() } },
-			{ "args_1", { std::vector<std::string>() } },
-			{ "param_list_1", { std::vector<std::string>() } },
-			{ "param_listLR1_1", { std::vector<std::string>() } },
+			{ "subprgm_head_1", { "t", "totalSize" } },
+			{ "subprgm_headLF1_1", { "t", "totalSize" } },
+			{ "args_1", { "offset", "t", "totalSize" } },
+			{ "param_list_1", { "offset", "t", "totalSize" } },
+			{ "param_listLR1_1", { "offset", "t", "totalSize" } },
 			{ "comp_stmt_1", { std::vector<std::string>() } },
 			{ "comp_stmtLF1_1", { std::vector<std::string>() } },
 			{ "opt_stmts_1", { std::vector<std::string>() } },
@@ -118,13 +118,13 @@ private:
 	void Project2::assignop(ParseNode* par);
 	void Project2::mulop(ParseNode* par);
 	void Project2::relop(ParseNode* par);
+	int scopeDepth = 1;
 	Token lookAhead;
 	Project1* p;
 	std::ofstream target;
 
 	static const std::string Project2::SYNCH_PATH;
 	std::ifstream synch;
-	int scopeDepth = 1;
 	bool contains(std::string str, std::string targ);
 
 };

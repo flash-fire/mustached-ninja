@@ -11,17 +11,21 @@ public:
 	typedef struct VAR_WRAP {
 		std::string name;
 		Type::TYPE type;
+		int addr;
 	};
 	Scope(Scope* parent, std::string name);
 	~Scope();
 
 	Scope* getParent() { return parent; };
 
-	bool addParam(std::string name, Type::TYPE type);
+	static void printScope(Scope* targ, std::ostream* out, int level = 0, bool printSibs = true);
+
+	bool addParam(std::string name, Type::TYPE type, int addr, std::string* err);
 	bool addChild(Scope* child, std::string* err);
 	bool addSibling(Scope* sib, std::string* err);
 	bool addVar(std::string name, Type::TYPE type, int addr, std::string* err);
-	
+	bool hasParam(std::string name);
+
 	bool isVarInScope(std::string name);
 	Type::TYPE getTypeOfVar(std::string name, std::string* err);
 

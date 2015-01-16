@@ -1,0 +1,33 @@
+test
+  PARAMS:
+    VOID
+  LOCAL_VARS:
+    NAME a TYPE INT ADDR 0
+    NAME b TYPE REAL ADDR 4
+    NAME c TYPE ARRAY INT ADDR 12
+  proc1
+    PARAMS:
+      NAME x TYPE INT ADDR 0
+      NAME y TYPE REAL ADDR 4
+      NAME z TYPE ARRAY INT ADDR 12
+      NAME q TYPE REAL ADDR 16
+    LOCAL_VARS:
+      NAME d TYPE INT ADDR 24
+  proc2
+    PARAMS:
+      NAME x TYPE INT ADDR 0
+      NAME y TYPE INT ADDR 4
+    LOCAL_VARS:
+      NAME e TYPE REAL ADDR 8
+    proc3
+      PARAMS:
+        NAME n TYPE INT ADDR 0
+        NAME z TYPE REAL ADDR 4
+      LOCAL_VARS:
+        NAME e TYPE INT ADDR 12
+      proc4
+        PARAMS:
+          NAME a TYPE INT ADDR 0
+          NAME z TYPE ARRAY REAL ADDR 4
+        LOCAL_VARS:
+          NAME x TYPE INT ADDR 20
