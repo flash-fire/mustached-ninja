@@ -1,3 +1,4 @@
+
 #include "Type.h"
 #include <iostream>
 
@@ -63,9 +64,9 @@ std::string Type::typeToString(TYPE t)
 	case REAL:
 		return "REAL";
 	case AINT:
-		return "ARRAY INT";
+		return "ARRAY_INT";
 	case AREAL:
-		return "ARRAY REAL";
+		return "ARRAY_REAL";
 	case BOOL:
 		return "BOOLEAN";
 	case UNASSIGNED:
