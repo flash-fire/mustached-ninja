@@ -142,10 +142,10 @@ void Project2::Parse()
 	prgm(root);
 	MatchEOF();
 	std::ofstream file;
-	file.open("Tree.txt", std::ios::out | std::ios::trunc);
+	file.open("./output/Tree.txt", std::ios::out | std::ios::trunc);
 	ParseNode::WriteUndecoratedTree(ParseNode::Wrap(root, ParseNode::DEF_INSTANCE), &file);
 	std::ofstream decFile;
-	decFile.open("DecTree.txt", std::ios::out | std::ios::trunc);
+	decFile.open("./output/DecTree.txt", std::ios::out | std::ios::trunc);
 	ParseNode::WriteDecoratedTree(ParseNode::Wrap(root, ParseNode::DEF_INSTANCE), &decFile);
 }
 

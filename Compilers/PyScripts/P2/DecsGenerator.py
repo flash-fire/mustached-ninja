@@ -238,10 +238,10 @@ def startParseMethod(start):
    outstr += "\tlookAhead = p->nextToken();\n"+"\t" + start + "(root);\n"
    outstr += "\tMatchEOF();\n"
    outstr += "\tstd::ofstream file;\n"
-   outstr += "\tfile.open(\"Tree.txt\", std::ios::out | std::ios::trunc);\n"
+   outstr += "\tfile.open(\"./output/Tree.txt\"", std::ios::out | std::ios::trunc);\n"
    outstr += "\tParseNode::WriteUndecoratedTree(ParseNode::Wrap(root, ParseNode::DEF_INSTANCE), &file);\n"
    outstr += "\tstd::ofstream decFile;\n"
-   outstr += "\tdecFile.open(\"DecTree.txt\", std::ios::out | std::ios::trunc);\n"
+   outstr += "\tdecFile.open(\"./output/DecTree.txt\"", std::ios::out | std::ios::trunc);\n"
    outstr += "\tParseNode::WriteDecoratedTree(ParseNode::Wrap(root, ParseNode::DEF_INSTANCE), &decFile);\n"
    outstr += "}\n\n"
    return outstr
