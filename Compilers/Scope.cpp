@@ -133,10 +133,14 @@ Type::TYPE Scope::getTypeOfVar(std::string name, std::string* err)
 			}
 			return Type::ERROR;
 		}
-		else
+		else if (vars.hasEntry(name))
 		{
 			SymbolTableEntry e = vars.get(name);
 			return e.type;
+		}
+		else
+		{ // null pointer is impossible since I already checked the scope. That's a nice advantage of inneficiency. 
+			return parent->getTypeOfVar(name, err);
 		}
 	}
 	else

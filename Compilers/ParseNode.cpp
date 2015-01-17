@@ -94,11 +94,15 @@ void ParseNode::WriteDecoratedTree(Wrap wrap, std::ostream* os, int level)
 			for (std::string var : node->varNames)
 			{
 				std::string err = "";
-				if (var == "t")
+				if (var == "t" || var == "i")
 				{
 					auto checkName = ParseNode::name(wrap);
 					Type::TYPE check = Type::intToType(node->get(var));
 					std::string check2 = Type::typeToString(check);
+					if (check == Type::ERROR)
+					{
+						std::cout << " DBUG CHECK #$#$";
+					}
 					out += tab + "   " + "<<" + var + ">> : " + check2 + "\n";
 				}
 				else
