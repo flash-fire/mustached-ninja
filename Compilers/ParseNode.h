@@ -54,7 +54,7 @@ public:
 	ParseNode(const ParseNode& node);
 
 	~ParseNode();
-
+	std::string* leSigh = NULL; // additional piece of hacky code so that I can pass strings for that STUPID ONE INSTANCE I NEED STRINGS!
 
 private:	
 	// Please note that nonLocSet also does local sets; however, I for debugging purposes try to avoid using nonLocSet unless necessary

@@ -17,9 +17,9 @@
      <<totalSize>> : 16
     <decs_1>
       <<VARS>>
-       <<offset>> : 0
        <<t>> : 3
        <<totalSize>> : 16
+       <<offset>> : 0
       var_1		var
       id_1		a
       :_1		:
@@ -35,9 +35,9 @@
       ;_1		;
       <decsLR1_1>
         <<VARS>>
-         <<offset>> : 4
          <<t>> : 3
          <<totalSize>> : 16
+         <<offset>> : 4
         var_1		var
         id_1		b
         :_1		:
@@ -53,9 +53,9 @@
         ;_1		;
         <decsLR1_2>
           <<VARS>>
-           <<offset>> : 12
            <<t>> : 3
            <<totalSize>> : 16
+           <<offset>> : 12
           var_1		var
           id_1		c
           :_1		:
@@ -78,9 +78,9 @@
           ;_1		;
           <decsLR1_2>
             <<VARS>>
-             <<offset>> : 16
              <<t>> : 3
              <<totalSize>> : 16
+             <<offset>> : 16
     <prgmLF1LF1_1>
       <subprgm_decs_1>
         <subprgm_dec_1>
@@ -98,15 +98,15 @@
                <<totalSize>> : 24
               <args_1>
                 <<VARS>>
-                 <<offset>> : 0
                  <<t>> : 3
                  <<totalSize>> : 24
+                 <<offset>> : 0
                 (_1		(
                 <param_list_1>
                   <<VARS>>
-                   <<offset>> : 0
                    <<t>> : 3
                    <<totalSize>> : 24
+                   <<offset>> : 0
                   id_1		x
                   :_1		:
                   <type_1>
@@ -120,9 +120,9 @@
                       integer_1		integer
                   <param_listLR1_1>
                     <<VARS>>
-                     <<offset>> : 4
                      <<t>> : 3
                      <<totalSize>> : 24
+                     <<offset>> : 4
                     ;_1		;
                     id_1		y
                     :_1		:
@@ -137,9 +137,9 @@
                         real_1		real
                     <param_listLR1_2>
                       <<VARS>>
-                       <<offset>> : 12
                        <<t>> : 3
                        <<totalSize>> : 24
+                       <<offset>> : 12
                       ;_1		;
                       id_1		z
                       :_1		:
@@ -161,9 +161,9 @@
                           integer_1		integer
                       <param_listLR1_2>
                         <<VARS>>
-                         <<offset>> : 16
                          <<t>> : 3
                          <<totalSize>> : 24
+                         <<offset>> : 16
                         ;_1		;
                         id_1		q
                         :_1		:
@@ -178,9 +178,9 @@
                             real_1		real
                         <param_listLR1_2>
                           <<VARS>>
-                           <<offset>> : 24
                            <<t>> : 3
                            <<totalSize>> : 24
+                           <<offset>> : 24
                 )_1		)
               ;_1		;
           <subprgm_decLF1_1>
@@ -188,9 +188,9 @@
              <<totalSize>> : 24
             <decs_1>
               <<VARS>>
-               <<offset>> : 24
                <<t>> : 3
                <<totalSize>> : 28
+               <<offset>> : 24
               var_1		var
               id_1		d
               :_1		:
@@ -206,9 +206,9 @@
               ;_1		;
               <decsLR1_1>
                 <<VARS>>
-                 <<offset>> : 28
                  <<t>> : 3
                  <<totalSize>> : 28
+                 <<offset>> : 28
             <subprgm_decLF1LF1_1>
               <comp_stmt_1>
                 begin_1		begin
@@ -301,15 +301,15 @@
                  <<totalSize>> : 8
                 <args_1>
                   <<VARS>>
-                   <<offset>> : 0
                    <<t>> : 3
                    <<totalSize>> : 8
+                   <<offset>> : 0
                   (_1		(
                   <param_list_1>
                     <<VARS>>
-                     <<offset>> : 0
                      <<t>> : 3
                      <<totalSize>> : 8
+                     <<offset>> : 0
                     id_1		x
                     :_1		:
                     <type_1>
@@ -323,9 +323,9 @@
                         integer_1		integer
                     <param_listLR1_1>
                       <<VARS>>
-                       <<offset>> : 4
                        <<t>> : 3
                        <<totalSize>> : 8
+                       <<offset>> : 4
                       ;_1		;
                       id_1		y
                       :_1		:
@@ -340,9 +340,9 @@
                           integer_1		integer
                       <param_listLR1_2>
                         <<VARS>>
-                         <<offset>> : 8
                          <<t>> : 3
                          <<totalSize>> : 8
+                         <<offset>> : 8
                   )_1		)
                 ;_1		;
             <subprgm_decLF1_1>
@@ -350,9 +350,9 @@
                <<totalSize>> : 8
               <decs_1>
                 <<VARS>>
-                 <<offset>> : 8
                  <<t>> : 3
                  <<totalSize>> : 16
+                 <<offset>> : 8
                 var_1		var
                 id_1		e
                 :_1		:
@@ -368,9 +368,9 @@
                 ;_1		;
                 <decsLR1_1>
                   <<VARS>>
-                   <<offset>> : 16
                    <<t>> : 3
                    <<totalSize>> : 16
+                   <<offset>> : 16
               <subprgm_decLF1LF1_1>
                 <subprgm_decs_1>
                   <subprgm_dec_1>
@@ -388,15 +388,15 @@
                          <<totalSize>> : 12
                         <args_1>
                           <<VARS>>
-                           <<offset>> : 0
                            <<t>> : 3
                            <<totalSize>> : 12
+                           <<offset>> : 0
                           (_1		(
                           <param_list_1>
                             <<VARS>>
-                             <<offset>> : 0
                              <<t>> : 3
                              <<totalSize>> : 12
+                             <<offset>> : 0
                             id_1		n
                             :_1		:
                             <type_1>
@@ -410,9 +410,9 @@
                                 integer_1		integer
                             <param_listLR1_1>
                               <<VARS>>
-                               <<offset>> : 4
                                <<t>> : 3
                                <<totalSize>> : 12
+                               <<offset>> : 4
                               ;_1		;
                               id_1		z
                               :_1		:
@@ -427,9 +427,9 @@
                                   real_1		real
                               <param_listLR1_2>
                                 <<VARS>>
-                                 <<offset>> : 12
                                  <<t>> : 3
                                  <<totalSize>> : 12
+                                 <<offset>> : 12
                           )_1		)
                         ;_1		;
                     <subprgm_decLF1_1>
@@ -437,9 +437,9 @@
                        <<totalSize>> : 12
                       <decs_1>
                         <<VARS>>
-                         <<offset>> : 12
                          <<t>> : 3
                          <<totalSize>> : 16
+                         <<offset>> : 12
                         var_1		var
                         id_1		e
                         :_1		:
@@ -455,9 +455,9 @@
                         ;_1		;
                         <decsLR1_1>
                           <<VARS>>
-                           <<offset>> : 16
                            <<t>> : 3
                            <<totalSize>> : 16
+                           <<offset>> : 16
                       <subprgm_decLF1LF1_1>
                         <subprgm_decs_1>
                           <subprgm_dec_1>
@@ -475,15 +475,15 @@
                                  <<totalSize>> : 20
                                 <args_1>
                                   <<VARS>>
-                                   <<offset>> : 0
                                    <<t>> : 3
                                    <<totalSize>> : 20
+                                   <<offset>> : 0
                                   (_1		(
                                   <param_list_1>
                                     <<VARS>>
-                                     <<offset>> : 0
                                      <<t>> : 3
                                      <<totalSize>> : 20
+                                     <<offset>> : 0
                                     id_1		a
                                     :_1		:
                                     <type_1>
@@ -497,9 +497,9 @@
                                         integer_1		integer
                                     <param_listLR1_1>
                                       <<VARS>>
-                                       <<offset>> : 4
                                        <<t>> : 3
                                        <<totalSize>> : 20
+                                       <<offset>> : 4
                                       ;_1		;
                                       id_1		z
                                       :_1		:
@@ -521,9 +521,9 @@
                                           real_1		real
                                       <param_listLR1_2>
                                         <<VARS>>
-                                         <<offset>> : 20
                                          <<t>> : 3
                                          <<totalSize>> : 20
+                                         <<offset>> : 20
                                   )_1		)
                                 ;_1		;
                             <subprgm_decLF1_1>
@@ -531,9 +531,9 @@
                                <<totalSize>> : 20
                               <decs_1>
                                 <<VARS>>
-                                 <<offset>> : 20
                                  <<t>> : 3
                                  <<totalSize>> : 24
+                                 <<offset>> : 20
                                 var_1		var
                                 id_1		x
                                 :_1		:
@@ -549,9 +549,9 @@
                                 ;_1		;
                                 <decsLR1_1>
                                   <<VARS>>
-                                   <<offset>> : 24
                                    <<t>> : 3
                                    <<totalSize>> : 24
+                                   <<offset>> : 24
                               <subprgm_decLF1LF1_1>
                                 <comp_stmt_1>
                                   begin_1		begin
@@ -639,8 +639,13 @@
                             call_1		call
                             id_1		proc1
                             <proc_stmtLF1_1>
+                              <<VARS>>
+                               <<t>> : 0
                               (_1		(
                               <expr_list_1>
+                                <<VARS>>
+                                 <<t>> : 0
+                                 <<ind>> : 0
                                 <expr_1>
                                   <simple_expr_1>
                                     <term_1>
@@ -692,8 +697,13 @@
                               call_1		call
                               id_1		proc3
                               <proc_stmtLF1_1>
+                                <<VARS>>
+                                 <<t>> : 0
                                 (_1		(
                                 <expr_list_1>
+                                  <<VARS>>
+                                   <<t>> : 0
+                                   <<ind>> : 0
                                   <expr_1>
                                     <simple_expr_1>
                                       <term_1>
@@ -964,8 +974,13 @@
                   call_1		call
                   id_1		proc2
                   <proc_stmtLF1_1>
+                    <<VARS>>
+                     <<t>> : 0
                     (_1		(
                     <expr_list_1>
+                      <<VARS>>
+                       <<t>> : 0
+                       <<ind>> : 0
                       <expr_1>
                         <simple_expr_1>
                           <term_1>
@@ -1015,8 +1030,13 @@
                     call_1		call
                     id_1		proc2
                     <proc_stmtLF1_1>
+                      <<VARS>>
+                       <<t>> : 0
                       (_1		(
                       <expr_list_1>
+                        <<VARS>>
+                         <<t>> : 0
+                         <<ind>> : 0
                         <expr_1>
                           <simple_expr_1>
                             <term_1>

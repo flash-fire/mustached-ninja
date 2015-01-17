@@ -5,6 +5,50 @@ Scope::Scope(Scope* par, std::string name) : parent(par), nextSib(this), child(N
 Scope::~Scope() {}
 
 
+bool Scope::procInScope(std::string targ)
+{
+	if (name == targ)
+	{
+		return true;
+	}
+	return hasSibling(targ) || (parent && parent->hasSibling(targ));
+}
+
+std::vector<Scope::VAR_WRAP> Scope::getParamIfSis(std::string targ)
+{
+	if (name == targ)
+	{
+		return params;
+	}
+	Scope* curr = this;
+	do
+	{
+		if (curr->name == targ)
+		{
+			return curr->params;
+		}
+		curr = curr->nextSib;
+	} while (curr != this);
+	return std::vector<Scope::VAR_WRAP>();
+}
+
+std::vector<Scope::VAR_WRAP> Scope::getParams(std::string targ)
+{
+	if (false == procInScope(targ))
+	{
+		return std::vector<Scope::VAR_WRAP>();
+	}
+	if (name == targ)
+	{
+		return params;
+	}
+	if (hasSibling(targ))
+	{
+		return getParamIfSis(targ);
+	}
+	return parent->getParams(targ);
+}
+
 void Scope::printScope(Scope* targ, std::ostream* os, int level, bool printSibs)
 {
 	std::string tab = "";

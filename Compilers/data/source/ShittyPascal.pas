@@ -46,6 +46,8 @@ program test (input, output);
 begin
   call proc2(c[4], c[5]);
   call proc2(c[4],2);
+  call proc2;
+  call bullshit;
   if (a < 2) then a:= 1 else a := a + 2;
   if (b > 4.2) then a := c[a]
 end.

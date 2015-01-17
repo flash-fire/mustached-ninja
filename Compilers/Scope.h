@@ -25,6 +25,20 @@ public:
 	bool addSibling(Scope* sib, std::string* err);
 	bool addVar(std::string name, Type::TYPE type, int addr, std::string* err);
 	bool hasParam(std::string name);
+	
+	std::vector<VAR_WRAP> getParamIfSis(std::string name);
+
+	bool procInScope(std::string name);
+	std::vector<VAR_WRAP> getParams(std::string name);
+	/*int numParams() { return params.size(); };
+	Type::TYPE paramType(int i, std::string* err) {
+		if (i > numParams())
+		{
+			*err = "Too many parameters inputted into procedure " + name;
+			return Type::ERROR;
+		}
+		return params.at(i).type;
+	};*/
 
 	bool isVarInScope(std::string name);
 	Type::TYPE getTypeOfVar(std::string name, std::string* err);

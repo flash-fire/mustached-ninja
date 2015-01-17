@@ -284,10 +284,39 @@ variableLF1_1:
 	<<begin>> EPSILON <<end>> 
 proc_stmt_1:
 	<<begin>> call_1 id_1 proc_stmtLF1_1 <<end>> 
+	id_1
+		proc_stmtLF1_1->leSigh = &proc_stmt_1->findT("id_1")->lex; //# Making a one time use pointer in ParseNode just to make this decorating easier and safer.
 proc_stmtLF1_1:
+	<<vars>> t
 	<<begin>> EPSILON <<end>> 
+		<<end>>
+			std::string procID = *proc_stmtLF1_1->leSigh;
+			if (currScope->isProcCallable(procID))
+			{
+				if (currScope->getParams(procID).size() == 0)
+				{
+					proc_stmtLF1_1->set("t", TTI(NONE));
+					goto endCode;
+				}
+				else
+				{
+					target << "SEMERR: Expected " << std::to_string(currScope->getParams(procID).size()) << " parameters, but received none on line " << lookAhead.line << "\n";
+				}
+			}
+			else
+			{
+				target << "SEMERR: Procedure " << procID << " is not in scope on line " << lookAhead.line << "\n";
+			}
+			proc_stmtLF1_1->set("t", TTI(ERROR));
+			endCode:
 	<<begin>> (_1 expr_list_1 )_1 <<end>> 
+		<<begin>>
+			expr_list_1->leSigh = proc_stmtLF1_1->leSigh;
+			expr_list_1->set("ind",0);
+		<<end>>
+			proc_stmtLF1_1->set("t", expr_list_1->get("t"));
 expr_list_1:
+	<<vars>> t ind
 	<<begin>> expr_1 expr_listLR1_1 <<end>> 
 expr_listLR1_1:
 	<<begin>> ,_1 expr_1 expr_listLR1_2 <<end>> 
