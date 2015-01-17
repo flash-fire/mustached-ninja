@@ -1,6 +1,7 @@
 #include "ParseNode.h"
 #include<algorithm>
 #include<iostream>
+#include "Type.h"
 
 ParseNode::ParseNode(ParseNode* par, std::string nonTerminal, std::vector<std::string> varNames) : parent(par), nt(nonTerminal), varNames(varNames)
 {
@@ -93,7 +94,15 @@ void ParseNode::WriteDecoratedTree(Wrap wrap, std::ostream* os, int level)
 			for (std::string var : node->varNames)
 			{
 				std::string err = "";
-				out += tab + "   " + "<<" + var + ">> : " + std::to_string(node->get(var)) + "\n";
+				if (var == "t")
+				{
+					auto checkName = ParseNode::name(wrap);
+					Type::TYPE check = Type::intToType(node->get(var));
+					std::string check2 = Type::typeToString(check);
+					out += tab + "   " + "<<" + var + ">> : " + check2 + "\n";
+				}
+				else
+					out += tab + "   " + "<<" + var + ">> : " + std::to_string(node->get(var)) + "\n";
 				if (err != "")
 				{
 					std::cout << err;

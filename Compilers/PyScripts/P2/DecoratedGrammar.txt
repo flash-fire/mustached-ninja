@@ -338,11 +338,27 @@ simple_exprLR1_1:
 	<<begin>> EPSILON <<end>> 
 	<<begin>> addop_1 term_1 simple_exprLR1_2 <<end>> 
 factor_1:
+	<<vars>> t
 	<<begin>> id_1 factorLF1_1 <<end>> 
-	<<begin>> num_1 <<end>> 
+		<<end>>
+			factor_1->set("t", TTI(NONE));
+	<<begin>> num_1 <<end>>
+		num_1
+			Token* num = factor_1->findT("num_1");
+			if (num->isInt())
+				factor_1->set("t", TTI(INT));
+			else if (num->isReal())
+				factor_1->set("t", TTI(REAL));
+			else
+				factor_1->set("t", TTI(ERROR));
 	<<begin>> (_1 expr_1 )_1 <<end>> 
+		<<end>>
+			factor_1->set("t", TTI(NONE));
 	<<begin>> not_1 factor_2 <<end>> 
+		<<end>>
+			factor_1->set("t", TTI(NONE));
 factorLF1_1:
+	<<vars>> i
 	<<begin>> [_1 expr_1 ]_1 <<end>> 
 	<<begin>> EPSILON <<end>> 
 sign_1:

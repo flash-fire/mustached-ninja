@@ -59,6 +59,8 @@ Type::TYPE Type::promoteToArray(TYPE t)
 std::string Type::typeToString(TYPE t)
 {
 	switch (t){
+	case NONE:
+		return "NONE";
 	case INT:
 		return "INT";
 	case REAL:
