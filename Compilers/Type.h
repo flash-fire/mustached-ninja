@@ -15,14 +15,15 @@ public:
 		INT, // Integer
 		REAL, // Real
 		AINT, // Array integer
-		AREAL, // array real	
+		AREAL, // array real
+		IGNORE // used in factor when expression type doesn't actually matter
 	};
 
 	Type(const Type& t);
 	Type(TYPE t);
 	Type();
 	~Type();
-	static const int NUM_TYPES = 8;
+	static const int NUM_TYPES = 10;
 	static bool isArrayType(TYPE t);
 	static bool isSame(Type t1, Type t2);
 	static int typeToInt(TYPE t);

@@ -71,6 +71,7 @@ void ParseNode::WriteUndecoratedTree(Wrap wrap, std::ostream* os, int level)
 	}
 }
 
+static int debug = 0;
 void ParseNode::WriteDecoratedTree(Wrap wrap, std::ostream* os, int level)
 {
 	std::string out = "";
@@ -101,7 +102,8 @@ void ParseNode::WriteDecoratedTree(Wrap wrap, std::ostream* os, int level)
 					std::string check2 = Type::typeToString(check);
 					if (check == Type::ERROR)
 					{
-						std::cout << " DBUG CHECK #$#$";
+						debug++;
+						std::cout << " DBUG CHECK #$#$" << debug << "\n";
 					}
 					out += tab + "   " + "<<" + var + ">> : " + check2 + "\n";
 				}

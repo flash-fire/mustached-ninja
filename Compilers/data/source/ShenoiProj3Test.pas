@@ -30,8 +30,6 @@ program test (input, output);
        end;
 
      begin
-       call proc1(x, e, c, b);
-       call proc3(c[1], e);
        e := e + 4.44;
        a:= (a mod y) div x;
        while ((a >= 4) and ((b <= e) 
@@ -42,8 +40,6 @@ program test (input, output);
      end;
 
 begin
-  call proc2(c[4], c[5]);
-  call proc2(c[4],2);
   if (a < 2) then a:= 1 else a := a + 2;
   if (b > 4.2) then a := c[a]
 end.
