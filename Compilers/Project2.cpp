@@ -1847,7 +1847,7 @@ void Project2::expr_listLR1(ParseNode* expr_listLR1_1) {
 
 		ref = expr_listLR1_2;
 		expr_listLR1(expr_listLR1_2);
-		expr_listLR1_1->set("t", expr_listLR1_1->get("t"));
+		expr_listLR1_1->set("t", expr_listLR1_2->get("t"));
 
 		return;
 	}

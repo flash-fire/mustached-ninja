@@ -456,7 +456,7 @@ expr_listLR1_1:
 				expr_listLR1_2->set("i", TTI(NONE));
 			}
 		<<end>>
-			expr_listLR1_1->set("t", expr_listLR1_1->get("t"));
+			expr_listLR1_1->set("t", expr_listLR1_2->get("t"));
 	<<begin>> EPSILON <<end>> 
 		<<end>>
 			expr_listLR1_1->set("t", expr_listLR1_1->get("i"));
