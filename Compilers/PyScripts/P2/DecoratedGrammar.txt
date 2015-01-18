@@ -413,7 +413,7 @@ expr_listLR1_1:
 		<<begin>>
 			expr_listLR1_2->leSigh = expr_listLR1_1->leSigh;
 			std::string procID = *expr_listLR1_1->leSigh;
-			if (expr_listLR1_1->get("t") != TTI(ERROR))
+			if (expr_listLR1_1->get("i") != TTI(ERROR))
 			{
 				if (currScope->isProcCallable(procID))
 				{
