@@ -1564,11 +1564,11 @@ void Project2::expr_list(ParseNode* expr_list_1) {
 		expr(expr_1);
 		if (expr_1->get("t") == TTI(ERROR))
 		{
-			expr_listLR1_1->set("t", TTI(ERROR));
+			expr_listLR1_1->set("i", TTI(ERROR));
 		}
 		else
 		{
-			expr_listLR1_1->set("t", TTI(NONE));
+			expr_listLR1_1->set("i", TTI(NONE));
 		}
 
 		ref = expr_listLR1_1;
