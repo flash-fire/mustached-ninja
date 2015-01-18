@@ -1427,7 +1427,7 @@ void Project2::proc_stmtLF1(ParseNode* proc_stmtLF1_1) {
 		expr_list(expr_list_1);
 		if (!Match(p->GTT(")"), &currTok)) goto proc_stmtLF1Error;
 		proc_stmtLF1_1->appendToken(currTok, ref);
-		proc_stmtLF1_1->set("t", TTI(UNASSIGNED)); // set to exprList type
+		proc_stmtLF1_1->set("t", expr_list_1->get("t")); // set to exprList type
 
 		return;
 	}
