@@ -361,14 +361,105 @@ proc_stmtLF1_1:
 	<<begin>> (_1 expr_list_1 )_1 <<end>> 
 		<<begin>>
 			expr_list_1->leSigh = proc_stmtLF1_1->leSigh;
-			//expr_list_1->set("ind",0);
+			expr_list_1->set("ind",0);
 		<<end>>
-			proc_stmtLF1_1->set("t", TTI(UNASSIGNED)); // set to exprList type
+			proc_stmtLF1_1->set("t", expr_list_1->get("t")); // set to exprList type
 expr_list_1:
+	<<vars>> ind t
 	<<begin>> expr_1 expr_listLR1_1 <<end>> 
+		<<begin>>
+			expr_listLR1_1->leSigh = expr_list_1->leSigh;
+			std::string procID = *expr_list_1->leSigh;
+			if (currScope->isProcCallable(procID))
+			{
+				std::vector<Scope::VAR_WRAP> params = currScope->getParams(procID);
+				if (expr_list_1->get("ind") < params.size())
+				{
+					expr_listLR1_1->set("ind", expr_list_1->get("ind") + 1);
+					expr_1->set("i", params[expr_list_1->get("ind")].type);
+				}
+				else
+				{
+					expr_listLR1_1->set("i", TTI(ERROR));
+					expr_1->set("i", TTI(IGNORE));
+					target << "SEMERR: Expected ";
+					for (Scope::VAR_WRAP wrap : params)
+					{
+						target << Type::typeToString(wrap.type) << " , ";
+					} 
+					target << " but received additional parameters on line " << lookAhead.line << "\n";
+				}
+			}
+			else
+			{
+				expr_listLR1_1->set("i", TTI(ERROR));
+				expr_1->set("i", TTI(IGNORE));
+				target << "SEMERR: Procedure " << procID << " is not in scope on line " << lookAhead.line << "\n";
+			}
+		expr_1
+			if (expr_1->get("t") == TTI(ERROR))
+			{
+				expr_listLR1_1->set("t", TTI(ERROR));
+			}
+			else
+			{
+				expr_listLR1_1->set("t", TTI(NONE));
+			}
+		<<end>>
+			expr_list_1->set("t", expr_listLR1_1->get("t"));
 expr_listLR1_1:
+	<<vars>> t i ind
 	<<begin>> ,_1 expr_1 expr_listLR1_2 <<end>> 
+		<<begin>>
+			expr_listLR1_2->leSigh = expr_listLR1_1->leSigh;
+			std::string procID = *expr_listLR1_1->leSigh;
+			if (expr_listLR1_1->get("t") != TTI(ERROR))
+			{
+				if (currScope->isProcCallable(procID))
+				{
+					std::vector<Scope::VAR_WRAP> params = currScope->getParams(procID);
+					if (expr_listLR1_1->get("ind") < params.size())
+					{
+						expr_listLR1_2->set("ind", expr_listLR1_1->get("ind") + 1);
+						expr_1->set("i", params[expr_listLR1_1->get("ind")].type);
+					}
+					else
+					{
+						expr_listLR1_2->set("i", TTI(ERROR));
+						expr_1->set("i", TTI(IGNORE));
+						target << "SEMERR: Expected ";
+						for (Scope::VAR_WRAP wrap : params)
+						{
+							target << Type::typeToString(wrap.type) << " , ";
+						} 
+						target << " but received additional parameters on line " << lookAhead.line << "\n";
+					}
+				}
+				else
+				{
+					expr_listLR1_2->set("i", TTI(ERROR));
+					expr_1->set("i", TTI(IGNORE));
+					target << "SEMERR: Procedure " << procID << " is not in scope on line " << lookAhead.line << "\n";
+				}
+			}
+			else
+			{
+				expr_listLR1_2->set("i", TTI(ERROR));
+			}
+		expr_1
+			if (expr_1->get("t") == TTI(ERROR))
+			{
+				expr_listLR1_2->set("t", TTI(ERROR));
+			}
+			else
+			{
+				expr_listLR1_2->set("t", TTI(NONE));
+			}
+		<<end>>
+			expr_listLR1_1->set("t", expr_listLR1_1->get("t"));
 	<<begin>> EPSILON <<end>> 
+		<<end>>
+			expr_listLR1_1->set("t", expr_listLR1_1->get("i"));
 expr_1:
 	<<vars>> t i
 	<<begin>> simple_expr_1 exprLF1_1 <<end>> 

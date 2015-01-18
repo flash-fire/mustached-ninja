@@ -8,7 +8,7 @@
 #include <algorithm>
 
 const char * const Project1::sourceNames[] = 
-{ ".\\data\\source\\ShenoiProj3Test.pas",".\\data\\source\\ShittyPascal.pas", ".\\data\\source\\Over9000Fuzz.pas", ".\\data\\source\\BasicLexTest2.pas", ".\\data\\source\\Fuzz1.pas", ".\\data\\source\\IfTest.pas", ".\\data\\source\\ShenoiLexTest.pas"};
+{ ".\\data\\source\\ShenoiProj3Test2.pas",".\\data\\source\\ShittyPascal.pas", ".\\data\\source\\Over9000Fuzz.pas", ".\\data\\source\\BasicLexTest2.pas", ".\\data\\source\\Fuzz1.pas", ".\\data\\source\\IfTest.pas", ".\\data\\source\\ShenoiLexTest.pas"};
 const std::string Project1::SOURCE_PATH = sourceNames[0];
 const std::string Project1::TARGET_PATH = ".\\output\\Target.txt";
 const std::string Project1::MISC_FILE_PATH =  ".\\data\\MiscTokens.txt";
