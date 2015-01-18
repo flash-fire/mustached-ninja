@@ -273,7 +273,11 @@ stmt_1:
 	<<begin>> proc_stmt_1 <<end>> 
 	<<begin>> comp_stmt_1 <<end>> 
 	<<begin>> while_1 expr_1 do_1 stmt_2 <<end>> 
+		<<begin>>
+			expr_1->set("i", TTI(BOOL));
 	<<begin>> if_1 expr_1 then_1 stmt_2 stmtLF1_1 <<end>> 
+		<<begin>>
+			expr_1->set("i", TTI(BOOL));
 stmtLF1_1:
 	<<begin>> else_1 stmt_1 <<end>> 
 	<<begin>> EPSILON <<end>> 
@@ -287,6 +291,7 @@ proc_stmt_1:
 	id_1
 		proc_stmtLF1_1->leSigh = &proc_stmt_1->findT("id_1")->lex; //# Making a one time use pointer in ParseNode just to make this decorating easier and safer.
 proc_stmtLF1_1:
+	<<vars>> t
 	<<begin>> EPSILON <<end>> 
 		<<end>>
 			std::string procID = *proc_stmtLF1_1->leSigh;
@@ -313,51 +318,190 @@ proc_stmtLF1_1:
 			expr_list_1->leSigh = proc_stmtLF1_1->leSigh;
 			//expr_list_1->set("ind",0);
 		<<end>>
-			//proc_stmtLF1_1->set("t", expr_list_1->get("t"));
+			proc_stmtLF1_1->set("t", TTI(UNASSIGNED)); // set to exprList type
 expr_list_1:
 	<<begin>> expr_1 expr_listLR1_1 <<end>> 
 expr_listLR1_1:
 	<<begin>> ,_1 expr_1 expr_listLR1_2 <<end>> 
 	<<begin>> EPSILON <<end>> 
 expr_1:
+	<<vars>> t i
 	<<begin>> simple_expr_1 exprLF1_1 <<end>> 
-exprLF1_1:
-	<<begin>> relop_1 simple_expr_1 <<end>> 
-	<<begin>> EPSILON <<end>> 
-term_1:
-	<<begin>> factor_1 termLR1_1 <<end>> 
-termLR1_1:
-	<<begin>> EPSILON <<end>> 
-	<<begin>> mulop_1 factor_1 termLR1_2 <<end>> 
-simple_expr_1:
-	<<begin>> sign_1 term_1 simple_exprLR1_1 <<end>> 
-	<<begin>> term_1 simple_exprLR1_1 <<end>> 
-simple_exprLR1_1:
-	<<begin>> EPSILON <<end>> 
-	<<begin>> addop_1 term_1 simple_exprLR1_2 <<end>> 
-factor_1:
-	<<vars>> t
-	<<begin>> id_1 factorLF1_1 <<end>> 
-			id_1
-				Token* tok = factor_1->findT("id_1");
-				std::string id = tok->lex;
-				if (currScope->isVarInScope(id))
+		simple_expr_1
+			exprLF1_1->set("i", simple_expr_1->get("t"));
+		<<end>>
+			int rec = exprLF1_1->get("t");
+			int exp = expr_1->get("i");
+			if ((exp == rec) == false)
+			{
+				if ((exp == TTI(ERROR) || rec == TTI(ERROR)) == false)
 				{
-					std::string* err = &std::string();
-					Type::TYPE foundType = currScope->getTypeOfVar(id, err);
-					int t = foundType;
-					factorLF1_1->set("i", t);
-					if (*err != "")
+					target << "TYPERR: Expected type " << Type::typeToString(ITT(exp)) << " but receive " << Type::typeToString(ITT(rec))
+					<< "\non line " << lookAhead.line << " and near column " << lookAhead.charNum;
+				}
+				expr_1->set("t", TTI(ERROR));
+			}
+			else
+			{
+				expr_1->set("t", exprLF1_1->get("t"));
+			}
+exprLF1_1:
+	<<vars>> t i
+	<<begin>> relop_1 simple_expr_1 <<end>>
+		simple_expr_1
+			int t_1 = simple_expr_1->get("t");
+			int t_2 = exprLF1_1->get("t");
+			if (t_1 == t_2 && (t_2 == TTI(REAL) || t_2 == TTI(INT)))
+			{
+				exprLF1_1->set("t",TTI(BOOL));
+			}
+			else if (t_1 != TTI(ERROR) && t_2 != TTI(ERROR))
+			{
+				Token* rel = exprLF1_1->findT("relop_1");
+				target << "TYPERR: Expecting matching types of either both being INT or REAL, but received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
+				<< "\nfor relop " << rel->lex << " on line " << rel->line << " and column " << rel->charNum << "\n";
+				exprLF1_1->set("t", TTI(ERROR));
+			}
+			else
+			{
+				exprLF1_1->set("t", TTI(ERROR));
+			}
+	<<begin>> EPSILON <<end>> 
+		<<end>>
+			exprLF1_1->set("t", exprLF1_1->get("i"));
+term_1:
+	<<vars>> t
+	<<begin>> factor_1 termLR1_1 <<end>>
+		factor_1
+			termLR1_1->set("i", factor_1->get("t"));
+		<<end>>
+			term_1->set("t", termLR1_1->get("t"));
+termLR1_1:
+	<<vars>> t i
+	<<begin>> EPSILON <<end>> 
+		<<end>>
+			termLR1_1->set("t", termLR1_1->get("i"));
+	<<begin>> mulop_1 factor_1 termLR1_2 <<end>> 
+		factor_1
+			int t_1 = termLR1_1->get("i");
+			int t_2 = factor_1->get("t");
+			Token* mul = termLR1_1->findN("mulop_1")->findT(0);
+			if (t_1 == t_2)
+			{
+				std::string op = mul->lex;
+				if (op == "*" || op == "/" || op == "div" || op == "mod")
+				{
+					if (t_1 == TTI(INT) || t_1 == TTI(REAL))
 					{
-						std::cout << " UNEXPECTED ERR IN FACTOR: " << *err;
+						termLR1_2->set("i", t_1);
 					}
+					else
+					{
+						target << "TYPERR: Expecting matching numeral types, but received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
+						<< "\nfor mulop " << mul->lex << " on line " << mul->line << " and column " << mul->charNum << "\n";
+						termLR1_2->set("i", TTI(ERROR));
+					}
+				}
+				else if (op == "and")
+				{
+					if (t_1 == TTI(BOOL))
+					{
+						termLR1_2->set("i", TTI(BOOL));
+					}
+					else
+					{
+						target << "TYPERR: Expecting matching boolean types, but received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
+						<< "\nfor mulop " << mul->lex << " on line " << mul->line << " and column " << mul->charNum << "\n";
+						termLR1_2->set("i", TTI(ERROR));
+					}
+				}
+			}
+			else if (false == ( t_1 == TTI(ERROR) || t_2 == TTI(ERROR)))
+			{
+				target << "TYPERR: Expecting matching types, but received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
+				<< "\nfor mulop " << mul->lex << " on line " << mul->line << " and column " << mul->charNum << "\n";
+				termLR1_2->set("i", TTI(ERROR));
+			}
+		termLR1_2
+			termLR1_1->set("t", termLR1_2->get("t"));
+
+simple_expr_1:
+	<<vars>> t
+	<<begin>> sign_1 term_1 simple_exprLR1_1 <<end>>
+		term_1
+			simple_exprLR1_1->set("i", term_1->get("t"));
+		<<end>>
+			simple_expr_1->set("t", simple_exprLR1_1->get("t"));
+	<<begin>> term_1 simple_exprLR1_1 <<end>>
+		term_1
+			simple_exprLR1_1->set("i", term_1->get("t"));
+		<<end>>
+			simple_expr_1->set("t", simple_exprLR1_1->get("t"));
+simple_exprLR1_1:
+	<<vars>> t i
+	<<begin>> EPSILON <<end>>
+		<<end>>
+			simple_exprLR1_1->set("t", simple_exprLR1_1->get("i"));
+	<<begin>> addop_1 term_1 simple_exprLR1_2 <<end>> 
+		term_1
+			Token* add = simple_exprLR1_1->findN("addop_1")->findT(0);
+			int t_1 = simple_exprLR1_1->get("t");
+			int t_2 = term_1->get("t");
+			if (t_1 == t_2)
+			{
+				if ((t_2 == TTI(REAL) || t_2 == TTI(INT)) && add->lex != "or")
+				{
+					simple_exprLR1_2->set("i",t_2);
+				}
+				else if (t_2 == TTI(BOOL) && add->lex == "or")
+				{
+					simple_exprLR1_2->set("i",TTI(BOOL));
 				}
 				else
 				{
-					target << "SEMERR : attempting to use uninitialized variable: " + id + " on line " + std::to_string(tok->line); +" char position " + std::to_string(tok->charNum) + "\n";
+					target << "TYPERR: invalid type arguments for " << add->lex << ".\n";
+					if (add->lex == "or")
+						target << "Expected both booleans; received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2)) << "\n";
+					else
+						target << "Expected both numeric types; received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2)) << "\n";
+					target << " on line " << lookAhead.line << "\n";
 				}
+			}
+			else if (t_1 != TTI(ERROR) && t_2 != TTI(ERROR))
+			{
+				target << "TYPERR: Expecting matching types of either both being INT or REAL, but received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
+				<< "\nfor relop " << add->lex << " on line " << add->line << " and column " << add->charNum << "\n";
+				simple_exprLR1_2->set("i", TTI(ERROR));
+			}
+			else
+			{
+				simple_exprLR1_2->set("i", TTI(ERROR));
+			}
+	<<end>>
+		simple_exprLR1_1->set("t", simple_exprLR1_2->get("t"));
+factor_1:
+	<<vars>> t
+	<<begin>> id_1 factorLF1_1 <<end>> 
+		id_1
+			Token* tok = factor_1->findT("id_1");
+			std::string id = tok->lex;
+			if (currScope->isVarInScope(id))
+			{
+				std::string* err = &std::string();
+				Type::TYPE foundType = currScope->getTypeOfVar(id, err);
+				int t = foundType;
+				factorLF1_1->set("i", t);
+				if (*err != "")
+				{
+					std::cout << " UNEXPECTED ERR IN FACTOR: " << *err;
+				}
+			}
+			else
+			{
+				target << "SEMERR : attempting to use uninitialized variable: " << id << " on line " << std::to_string(tok->line) << " char position " << std::to_string(tok->charNum) << "\n";
+			}
 		<<end>>
-			factor_1->set("t", TTI(NONE)); //# place holder
+			factor_1->set("t", factorLF1_1->get("t")); //# place holder
 	<<begin>> num_1 <<end>>
 		num_1
 			Token* num = factor_1->findT("num_1");
@@ -369,14 +513,50 @@ factor_1:
 				factor_1->set("t", TTI(ERROR));
 	<<begin>> (_1 expr_1 )_1 <<end>> 
 		<<end>>
-			factor_1->set("t", TTI(NONE));
+			factor_1->set("t", expr_1->get("t"));
 	<<begin>> not_1 factor_2 <<end>> 
 		<<end>>
-			factor_1->set("t", TTI(NONE));
+			if (factor_2->get("t") == TTI(BOOL))
+			{
+				factor_1->set("t", TTI(BOOL));
+			}
+			else if (factor_2->get("t") != TTI(ERROR))
+			{
+				target << "TYPERR: Expected BOOL but received " << Type::typeToString(ITT(factor_1->get("t"))) << " on line " << lookAhead.line << ".\n";
+				factor_1->set("t", TTI(ERROR));
+			}
+			else
+			{
+				factor_1->set("t", TTI(ERROR));
+			}
 factorLF1_1:
-	<<vars>> i
+	<<vars>> i t
 	<<begin>> [_1 expr_1 ]_1 <<end>> 
-	<<begin>> EPSILON <<end>> 
+		<<end>>
+			int t_i = factorLF1_1->get("i");
+			if (false == (t_i == TTI(AINT) || t_i == TTI(AREAL) || t_i == TTI(ERROR)))
+			{
+				target << "TYPERR: Expected array, but received " << Type::typeToString(ITT(t_i)) << " on line " << lookAhead.line << ".\n";
+				factorLF1_1->set("t", TTI(ERROR));
+			}
+			else
+			{	
+				if (expr_1->get("t") == TTI(INT))
+				{
+					int t_exp = 0;
+					if (t_i == TTI(AINT)) t_exp = TTI(INT);
+					if (t_i == TTI(AREAL)) t_exp = TTI(REAL);
+					factorLF1_1->set("t", t_exp);
+				}
+				else
+				{
+					factorLF1_1->set("t", TTI(ERROR));
+				}
+			}
+		<<begin>> EPSILON <<end>> 
+		<<end>>
+			int t_i = factorLF1_1->get("i");
+			factorLF1_1->set("t", t_i);
 sign_1:
 	<<begin>> -_1 <<end>> 
 	<<begin>> +_1 <<end>> 

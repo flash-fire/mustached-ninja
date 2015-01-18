@@ -1,15 +1,16 @@
 program test (input, output);
   var a : integer;
   var repeat : real;
-  var badType : array [1.11..2] of integer;
-  var badInd : array [4..1] of integer;
+  var b : array [1.11..2] of integer;
+  var k : array [4..1] of integer;
   var badStd : array [1..1] of error;
+  var tiTest : array [1..2] of real;
   var repeat : real;
   procedure shitty(x:integer; y:real; 
                   z:array [1..2] of integer; q: real);
     var d: integer;
     begin
-      a:= 2;
+      a:= tiTest;
       z[a] := 4;
       c[3] := 3
      end;
