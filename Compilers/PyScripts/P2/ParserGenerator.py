@@ -105,7 +105,7 @@ def writeParser(start, nts, terms, productions, first_dict, follows_dict):
 
    copyFile(parseboil, pout)
    copyFile(headStart, hout)
-   #pout.write(startParseMethod(start))
+   pout.write(startParseMethod(start))
    parseTable.write("Terminal Order" + str(terms) + "\n")
    for nt in nts:
       s,s2 = writeParseEntry(nt, nts, terms, productions, first_dict, follows_dict)
