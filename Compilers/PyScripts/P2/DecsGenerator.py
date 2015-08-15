@@ -243,6 +243,9 @@ def startParseMethod(start):
    outstr += "\tstd::ofstream decFile;\n"
    outstr += "\tdecFile.open(\"./output/DecTree.txt\", std::ios::out | std::ios::trunc);\n"
    outstr += "\tParseNode::WriteDecoratedTree(ParseNode::Wrap(root, ParseNode::DEF_INSTANCE), &decFile);\n"
+   outstr += "\tstd::ofstream addr;\n"
+   outstr += "\taddr.open(\"./output/Scope.txt\");\n"
+   outstr += "\tScope::printScope(currScope, &addr);\n"
    outstr += "}\n\n"
    return outstr
 

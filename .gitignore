@@ -15,3 +15,6 @@ Compilers.sdf
 *.sdf
 Compilers.sdf
 *.vcxproj
+Compilers/output/DecTree.txt
+Compilers/output/Scope.txt
+Compilers/output/Tree.txt

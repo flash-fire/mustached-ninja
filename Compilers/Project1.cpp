@@ -8,8 +8,10 @@
 #include <algorithm>
 
 const char * const Project1::sourceNames[] = 
-{ ".\\data\\source\\ShenoiProj3Test2.pas",".\\data\\source\\ShittyPascal.pas", ".\\data\\source\\Over9000Fuzz.pas", ".\\data\\source\\BasicLexTest2.pas", ".\\data\\source\\Fuzz1.pas", ".\\data\\source\\IfTest.pas", ".\\data\\source\\ShenoiLexTest.pas"};
-const std::string Project1::SOURCE_PATH = sourceNames[0];
+{ ".\\data\\source\\ShenoiProj3Test.pas", ".\\data\\source\\ShittyPascal.pas", ".\\data\\source\\Badlex.pas",
+".\\data\\source\\Over9000Fuzz.pas", ".\\data\\source\\BasicLexTest2.pas", ".\\data\\source\\Fuzz1.pas"
+, ".\\data\\source\\IfTest.pas", ".\\data\\source\\ShenoiLexTest.pas", ".\\data\\source\\ShittyP4.pas"};
+const std::string Project1::SOURCE_PATH = sourceNames[0]; //".\\data\\source\\BasicLexTest2.pas";//sourceNames[4];
 const std::string Project1::TARGET_PATH = ".\\output\\Target.txt";
 const std::string Project1::MISC_FILE_PATH =  ".\\data\\MiscTokens.txt";
 const std::string Project1::RES_FILE_PATH	= ".\\data\\ReservedWords.txt";
@@ -511,6 +513,9 @@ void Project1::PrettyPrintToken(Token tok)
 		commonName = "LEXERR";
 		description = CErrors::errors[tok];
 		target << paddify(commonName + ":", 10) << paddify(CErrors::errors[tok] + ":", 30) << tok.lex << "\n";
+		tokenFile << paddify(std::to_string(tok.line), 10) << paddify(tok.lex, 10) << "\t" << paddify(std::to_string(tok.token), 4)
+			<< paddify("(" + commonName + ")", 10) << "\t" << paddify(std::to_string(tok.attr), 9) << "( " << description << " )\n";
+		return;
 	}
 	else if (table.getID(tok) != "")
 	{

@@ -44,6 +44,7 @@ public:
 	Type::TYPE getTypeOfVar(std::string name, std::string* err);
 
 	bool hasSibling(std::string name);
+	bool deepHasSibling(std::string name); // like has sibling but deeper
 
 	bool isProcCallable(std::string name);
 

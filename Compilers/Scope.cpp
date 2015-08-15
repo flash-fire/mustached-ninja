@@ -32,7 +32,7 @@ std::vector<Scope::VAR_WRAP> Scope::getParamIfSis(std::string targ)
 	return std::vector<Scope::VAR_WRAP>();
 }
 
-std::vector<Scope::VAR_WRAP> Scope::getParams(std::string targ)
+/*std::vector<Scope::VAR_WRAP> Scope::getParams(std::string targ)
 {
 	if (false == procInScope(targ))
 	{
@@ -47,6 +47,32 @@ std::vector<Scope::VAR_WRAP> Scope::getParams(std::string targ)
 		return getParamIfSis(targ);
 	}
 	return parent->getParams(targ);
+} */
+
+std::vector<Scope::VAR_WRAP> Scope::getParams(std::string targ)
+{
+	if (isProcCallable(targ) == false)
+	{
+		return std::vector<Scope::VAR_WRAP>();
+	}
+	Scope* curr = this;
+	do
+	{
+		if (curr->name == targ) // dirty hack! If its void, who cares if the array returned is size 0!
+		{
+			return curr->params;
+		}
+		if (curr->child)
+		{
+			std::vector<Scope::VAR_WRAP> ret = curr->child->getParams(targ);
+			if (ret.size() > 0)
+			{
+				return ret;
+			}
+		}
+		curr = curr->nextSib;
+	} while (curr != this);
+	return std::vector<Scope::VAR_WRAP>();
 }
 
 void Scope::printScope(Scope* targ, std::ostream* os, int level, bool printSibs)
@@ -187,9 +213,54 @@ bool Scope::addVar(std::string name, Type::TYPE type, int addr, std::string* err
 		return false;
 	}
 }
+bool Scope::deepHasSibling(std::string name)
+{
+	if (!this) // null check bitches
+	{
+		return false;
+	}
+	Scope* curr = this;
+	do
+	{ 
+		if (curr->name == name || (curr->child && curr->child->deepHasSibling(name)))
+		{
+			return true;
+		}
+		curr = curr->nextSib;
+	} while (curr != this);
+	return false;
+
+}
 
 bool Scope::isProcCallable(std::string name)
 {
+	if (this->deepHasSibling(name))
+
+		// You can call your parents, and any subsequent grandparent of that.  You can call your siblings, and all of your siblings children, and subsequent children
+	{
+		return true;
+	}
+	
+	// If Shenoi wants it so that you can't call nested children of siblings, uncomment this code, and comment the above if statement
+	/*if
+	(this->hasSibling(name) && (this->child && this->child->deepHasSibling(name)))
+	{
+		return true;
+	}
+	*/
+	Scope* curr = this;
+	do
+	{
+		if (curr->name == name)
+		{
+			return true;
+		}
+		curr = curr->parent;
+	} while (curr != NULL); // Checks if scope is in parents
+	if (child == NULL)
+	{ 
+		return false;
+	}
 	return hasSibling(name) || (parent && parent->isProcCallable(name));
 }
 
@@ -205,6 +276,16 @@ bool Scope::addChild(Scope* newChild, std::string* err)
 
 bool Scope::addSibling(Scope* sib, std::string* err)
 {
+	Scope* curr = this;
+	while (curr != NULL)
+	{
+		if (curr->name == sib->name)
+		{
+			*err = "SEMERR: Attempting to add scope -- " + sib->name + " -- when name already exists in parenting scope!";
+			return false;
+		}
+		curr = curr->parent;
+	}
 	if (!hasSibling(sib->name))
 	{
 		if (sib->nextSib != sib)
@@ -217,6 +298,7 @@ bool Scope::addSibling(Scope* sib, std::string* err)
 		sib->nextSib = temp;
 		return true;
 	}
+
 	*err = "SEMERR: Attempting to add scope -- " + sib->name + " -- when name already exists as a sibling in same level!";
 	return false;
 }
