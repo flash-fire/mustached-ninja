@@ -147,6 +147,9 @@ void Project2::Parse()
 	std::ofstream decFile;
 	decFile.open("./output/DecTree.txt", std::ios::out | std::ios::trunc);
 	ParseNode::WriteDecoratedTree(ParseNode::Wrap(root, ParseNode::DEF_INSTANCE), &decFile);
+	std::ofstream addr;
+	addr.open("./output/Scope.txt");
+	Scope::printScope(currScope, &addr);
 }
 
 void Project2::prgm(ParseNode* prgm_1) {
