@@ -169,7 +169,7 @@ void Project2::prgm(ParseNode* prgm_1) {
 		prgm_1->appendToken(currTok, ref);
 		if (!Match(p->GTT("id"), &currTok)) goto prgmError;
 		prgm_1->appendToken(currTok, ref);
-		currScope = new Scope(NULL, prgm_1->findT("id_1")->lex);
+		currScope = new Scope(NULL, prgm_1->findT("id_1")->lex, lookAhead.line);
 		std::cout << prgm_1->findT("id_1")->lex;
 
 		if (!Match(p->GTT("("), &currTok)) goto prgmError;
@@ -586,7 +586,7 @@ void Project2::subprgm_decs(ParseNode* subprgm_decs_1) {
 		subprgm_decs_1->appendChild(subprgm_dec_1);
 		ParseNode* subprgm_decsLR1_1 = new ParseNode(subprgm_decs_1, "subprgm_decsLR1", vars["subprgm_decsLR1_1"]);
 		subprgm_decs_1->appendChild(subprgm_decsLR1_1);
-		Scope* dummyScope = new Scope(currScope, "~~DUMMY~~"); //# SCOPE
+		Scope* dummyScope = new Scope(currScope, "~~DUMMY~~", -1); //# SCOPE
 		scopeDepth++;
 		std::string* err = &std::string();
 		currScope->addChild(dummyScope, err); //# This call will never error. Thank god.
@@ -760,7 +760,7 @@ void Project2::subprgm_head(ParseNode* subprgm_head_1) {
 		if (!Match(p->GTT("id"), &currTok)) goto subprgm_headError;
 		subprgm_head_1->appendToken(currTok, ref);
 		Token* tok = subprgm_head_1->findT("id_1");
-		Scope* currSib = new Scope(currScope->getParent(), tok->lex);
+		Scope* currSib = new Scope(currScope->getParent(), tok->lex, lookAhead.line);
 		std::string* errMsg = &std::string();
 		//#std::cout << std::string(scopeDepth * 2, ' ') << tok->lex << "\n" << "\n";
 		if (currScope->addSibling(currSib, errMsg) == false)

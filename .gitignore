@@ -18,3 +18,5 @@ Compilers.sdf
 Compilers/output/DecTree.txt
 Compilers/output/Scope.txt
 Compilers/output/Tree.txt
+Compilers/PyScripts/P2/parser/Project3.cpp
+Compilers/PyScripts/P2/parser/Project3.h

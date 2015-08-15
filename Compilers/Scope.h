@@ -13,7 +13,7 @@ public:
 		Type::TYPE type;
 		int addr;
 	};
-	Scope(Scope* parent, std::string name);
+	Scope(Scope* parent, std::string name, int lineNum);
 	~Scope();
 
 	Scope* getParent() { return parent; };
@@ -53,6 +53,7 @@ private:
 
 
 	SymbolTable vars; // For variables. Will also allow to get entries and stuff.
+	int lineNum;
 	std::vector<VAR_WRAP> params;
 	Scope* parent; // For backtracking in case someone needs to reference parent's variables for whatever reason
 	Scope* nextSib;

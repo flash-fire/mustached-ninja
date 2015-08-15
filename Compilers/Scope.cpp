@@ -1,6 +1,6 @@
 #include "Scope.h"
 
-Scope::Scope(Scope* par, std::string name) : parent(par), nextSib(this), child(NULL), name(name), vars(SymbolTable()), params(std::vector<VAR_WRAP>()) {}
+Scope::Scope(Scope* par, std::string name, int lineNum) : parent(par), nextSib(this), child(NULL), name(name), vars(SymbolTable()), lineNum(lineNum), params(std::vector<VAR_WRAP>()) {}
 
 Scope::~Scope() {}
 
@@ -87,8 +87,9 @@ void Scope::printScope(Scope* targ, std::ostream* os, int level, bool printSibs)
 	if (targ->name == "~~DUMMY~~"){
 		goto printShit;
 	}
-
+	
 	*os << tab << targ->name << "\n";
+	*os << tab << "  LINE NUM :: " << targ->lineNum << "\n";
 	*os << tab << "  PARAMS:\n";
 	if (targ->params.size() == 0)
 	{

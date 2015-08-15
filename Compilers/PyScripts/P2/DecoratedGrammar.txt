@@ -2,7 +2,7 @@ prgm_1:
 	<<vars>> totalSize
 	<<begin>> program_1 id_1 (_1 idList_1 )_1 ;_1 prgmLF1_1 <<end>> 
 		id_1
-			currScope = new Scope(NULL, prgm_1->findT("id_1")->lex);
+			currScope = new Scope(NULL, prgm_1->findT("id_1")->lex, lookAhead.line);
 			std::cout << prgm_1->findT("id_1")->lex;
 		<<end>>
 			prgm_1->set("totalSize", prgmLF1_1->get("totalSize"));
@@ -149,7 +149,7 @@ std_type_1:
 subprgm_decs_1:
 	<<begin>> subprgm_dec_1 ;_1 subprgm_decsLR1_1 <<end>> 
 		<<begin>>
-			Scope* dummyScope = new Scope(currScope, "~~DUMMY~~"); //# SCOPE
+			Scope* dummyScope = new Scope(currScope, "~~DUMMY~~", -1); //# Dummy scope that makes algorithms easier.
 			scopeDepth++;
 			std::string* err = &std::string();
 			currScope->addChild(dummyScope, err); //# This call will never error. Thank god.
@@ -183,7 +183,7 @@ subprgm_head_1:
 	<<begin>> procedure_1 id_1 subprgm_headLF1_1 <<end>> 
 		id_1
 			Token* tok = subprgm_head_1->findT("id_1");
-			Scope* currSib = new Scope(currScope->getParent(), tok->lex);
+			Scope* currSib = new Scope(currScope->getParent(), tok->lex, lookAhead.line);
 			std::string* errMsg = &std::string();
 			//#std::cout << std::string(scopeDepth * 2, ' ') << tok->lex << "\n" << "\n";
 			if (currScope->addSibling(currSib, errMsg) == false)
