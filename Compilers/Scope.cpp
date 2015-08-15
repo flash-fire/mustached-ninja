@@ -193,7 +193,7 @@ bool Scope::addVar(std::string name, Type::TYPE type, int addr, std::string* err
 {
 	if (hasParam(name))
 	{
-		*err = "SEMERR: Attempting to add variable " + name + " when it already exists in parameters!";
+		*err = "SEMERR: Attempting to add variable " + name + " when it already exists in parameters in scope " + this->name;
 		return false;
 	}
 
@@ -210,7 +210,7 @@ bool Scope::addVar(std::string name, Type::TYPE type, int addr, std::string* err
 	}
 	else
 	{
-		*err = "SEMERR: Attempting to declare variable " + name + " twice in same scope!";
+		*err = "SEMERR: Attempting to declare variable " + name + " twice in same scope called" + this->name + "!";
 		return false;
 	}
 }
@@ -282,7 +282,8 @@ bool Scope::addSibling(Scope* sib, std::string* err)
 	{
 		if (curr->name == sib->name)
 		{
-			*err = "SEMERR: Attempting to add scope -- " + sib->name + " -- when name already exists in parenting scope!";
+			*err = "SEMERR: Attempting to add scope -- " + sib->name + " -- when name already exists in parenting scope!\nNew scope is on line " 
+				+ std::to_string(sib->lineNum) + " conflicting scope is line " + std::to_string(this->lineNum);
 			return false;
 		}
 		curr = curr->parent;
@@ -300,7 +301,8 @@ bool Scope::addSibling(Scope* sib, std::string* err)
 		return true;
 	}
 
-	*err = "SEMERR: Attempting to add scope -- " + sib->name + " -- when name already exists as a sibling in same level!";
+	*err = "SEMERR: Attempting to add scope -- " + sib->name + " -- when name already exists as a sibling in same level!\n"
+		+ "New sibling is on line " + std::to_string(sib->lineNum);
 	return false;
 }
 
