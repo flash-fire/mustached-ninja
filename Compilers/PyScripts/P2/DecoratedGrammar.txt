@@ -486,7 +486,8 @@ exprLF1_1:
 			}
 			else if (t_1 != TTI(ERROR) && t_2 != TTI(ERROR))
 			{
-				Token* rel = exprLF1_1->findT("relop_1");
+				ParseNode* relop = exprLF1_1->findN("relop_1");
+				Token* rel = relop->findT(0); // IF YOU WANT TO BE BROKEN THEN FINE I WILL DO STRANGE THINGS GOOD GRIEF
 				target << "TYPERR: Expecting matching types of either both being INT or REAL but receiving " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
 				<< " respectively for relop " << rel->lex << " on line " << rel->line << " and column " << rel->charNum << "\n";
 				exprLF1_1->set("t", TTI(ERROR));
