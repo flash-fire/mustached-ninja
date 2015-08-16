@@ -309,7 +309,7 @@ variableLF1_1:
 			int t_i = variableLF1_1->get("i");
 			if (false == (t_i == TTI(AINT) || t_i == TTI(AREAL) || t_i == TTI(ERROR)))
 			{
-				target << "TYPERR: ~Expected array, but received " << Type::typeToString(ITT(t_i)) << " on line " << lookAhead.line << ".\n";
+				target << "TYPERR: Expecting array, but received " << Type::typeToString(ITT(t_i)) << " on line " << lookAhead.line << ".\n";
 				variableLF1_1->set("t", TTI(ERROR));
 			}
 			else
@@ -450,7 +450,7 @@ expr_listLR1_1:
 				else
 				{
 					expr_listLR1_1->set("t", TTI(ERROR));
-					target << "SEMERR: Expected " << std::to_string(numParamsExpected) << " parameters but received " << std::to_string(numParamsFound) << " parameters on line " << lookAhead.line << " for function " << procID << "\n";
+					target << "SEMERR: Expecting " << std::to_string(numParamsExpected) << " parameters but receiving " << std::to_string(numParamsFound) << " parameters on line " << lookAhead.line << " for function " << procID << "\n";
 				}
 			}
 expr_1:
@@ -465,7 +465,7 @@ expr_1:
 			{
 				if ((exp == TTI(ERROR) || rec == TTI(ERROR)) == false)
 				{
-					target << "TYPERR: Expected type " << Type::typeToString(ITT(exp)) << " but received " << Type::typeToString(ITT(rec))
+					target << "TYPERR: Expecting type " << Type::typeToString(ITT(exp)) << " but receiving " << Type::typeToString(ITT(rec))
 					<< " on line " << lookAhead.line << " and near column " << lookAhead.charNum << "\n";
 				}
 				expr_1->set("t", TTI(ERROR));
@@ -487,8 +487,8 @@ exprLF1_1:
 			else if (t_1 != TTI(ERROR) && t_2 != TTI(ERROR))
 			{
 				Token* rel = exprLF1_1->findT("relop_1");
-				target << "TYPERR: Expecting matching types of either both being INT or REAL, but received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
-				<< "\nfor relop " << rel->lex << " on line " << rel->line << " and column " << rel->charNum << "\n";
+				target << "TYPERR: Expecting matching types of either both being INT or REAL but receiving " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
+				<< " respectively for relop " << rel->lex << " on line " << rel->line << " and column " << rel->charNum << "\n";
 				exprLF1_1->set("t", TTI(ERROR));
 			}
 			else
@@ -527,7 +527,7 @@ termLR1_1:
 					else if(t_1 != TTI(ERROR))
 					{
 						target << "TYPERR: Expecting matching numeral types, but received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
-						<< "\nfor mulop " << mul->lex << " on line " << mul->line << " and column " << mul->charNum << "\n";
+						<< " for mulop " << mul->lex << " on line " << mul->line << " and column " << mul->charNum << "\n";
 						termLR1_2->set("i", TTI(ERROR));
 					}
 				}
@@ -539,16 +539,16 @@ termLR1_1:
 					}
 					else if (t_1 != TTI(ERROR))
 					{
-						target << "TYPERR: Expecting matching boolean types, but received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
-						<< "\nfor mulop " << mul->lex << " on line " << mul->line << " and column " << mul->charNum << "\n";
+						target << "TYPERR: Expecting matching boolean types, but receiving " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
+						<< " respectively for mulop " << mul->lex << " on line " << mul->line << " and column " << mul->charNum << "\n";
 						termLR1_2->set("i", TTI(ERROR));
 					}
 				}
 			}
 			else if (false == ( t_1 == TTI(ERROR) || t_2 == TTI(ERROR)))
 			{
-				target << "TYPERR: Expecting matching types, but received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
-				<< "\nfor mulop " << mul->lex << " on line " << mul->line << " and column " << mul->charNum << "\n";
+				target << "TYPERR: Expecting matching types, but receiving " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
+				<< " respectively for mulop " << mul->lex << " on line " << mul->line << " and column " << mul->charNum << "\n";
 				termLR1_2->set("i", TTI(ERROR));
 			}
 		termLR1_2
@@ -590,15 +590,15 @@ simple_exprLR1_1:
 				{
 					target << "TYPERR: invalid type arguments for " << add->lex << ".";
 					if (add->lex == "or")
-						target << " Expected both booleans; received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2)) << " respectively.\n";
+						target << " Expecting both booleans; receiving " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2)) << " respectively";
 					else
-						target << " Expected both numeric types; received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2)) << " respectively.\n";
+						target << " Expecting matching numeric types; receiving " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2)) << " respectively";
 					target << " on line " << lookAhead.line << "\n";
 				}
 			}
 			else if (t_1 != TTI(ERROR) && t_2 != TTI(ERROR))
 			{
-			target << "TYPERR: Expecting matching types but received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
+			target << "TYPERR: Expecting matching types but receiving " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
 				<< " respectively for operation " << add->lex << " on line " << add->line << " and column " << add->charNum << "\n";
 				simple_exprLR1_2->set("i", TTI(ERROR));
 			}

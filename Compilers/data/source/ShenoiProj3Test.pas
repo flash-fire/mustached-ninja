@@ -26,12 +26,22 @@ program test (input, output);
          var x: integer;
          var q: real;
          begin
-            a:= e
+            a:= e;
+				call proc0;
+				call proc1;
+				call proc2;
+				call proc3;
+				call proc4
          end;
 
        begin
          a:= e;
-         e:= c[e]
+         e:= c[e];
+			call proc0;
+			call proc1;
+			call proc2;
+			call proc3;
+			call proc4
        end;
 
      begin
@@ -40,11 +50,21 @@ program test (input, output);
        while ((a >= 4) and ((b <= e) 
                        or (not (a = c[a])))) do
          begin
-           a:= c[a] + 1
+           a:= c[a] + 1;
+			  call proc0;
+			  call proc1;
+			  call proc2;
+			  call proc3;
+			  call proc4
          end
      end;
 
 begin
   if (a < 2) then a:= 1 else a := a + 2;
-  if (b > 4.2) then a := c[a]
+  if (b > 4.2) then a := c[a];
+  call proc0;
+  call proc1;
+  call proc2;
+  call proc3;
+  call proc4
 end.
