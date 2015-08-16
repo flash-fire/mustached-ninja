@@ -34,6 +34,7 @@ public:
 	std::string name; // For procedures (since they each have their own scope)
 private:
 	Scope* hasSibling(std::string name);
+	Scope* hasChildOrSibsRec(std::string name);
 	bool hasParam(std::string name);
 
 	SymbolTable vars; // For variables. Will also allow to get entries and stuff.

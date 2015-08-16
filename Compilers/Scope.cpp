@@ -137,23 +137,18 @@ bool Scope::addVar(std::string name, Type::TYPE type, int addr, std::string* err
 }
 
 // Treat a procedure scope like a variable in a scope one above the current one.
-// In that regard, you can call all of your siblings, and any parent or parent above you.
-// Returns the scope of the name that is trying to be called as is resolved by compiler or NULL if not found.
+// In that regard, you can call yourself and all of your children that have been declared.
+// IF having yourself one scope higher includes all other procedures of same level, simply call hasChildOrSibsRec directly.
 Scope* Scope::isProcCallable(std::string name)
 {
-	Scope* sib = hasSibling(name);
-	if (sib != NULL)
+	if (this->name == name)
 	{
-		return sib;
+		return this;
 	}
-	Scope* parent = this->parent;
-	while (parent != NULL)
+
+	if (child)
 	{
-		if (parent->name == name)
-		{
-			return parent;
-		}
-		parent = parent->parent;
+		return child->hasChildOrSibsRec(name);
 	}
 	return NULL;
 }
@@ -212,5 +207,28 @@ Scope* Scope::hasSibling(std::string name)
 		curr = curr->nextSib;
 	} while (this != curr);
 
+	return NULL;
+}
+
+Scope* Scope::hasChildOrSibsRec(std::string name)
+{
+	if (this == NULL)
+	{
+		return NULL;
+	}
+	Scope* curr = this;
+	do
+	{
+		if (curr->name == name)
+		{
+			return curr;
+		}
+		else if (curr->child)
+		{
+			Scope* nested = curr->child->hasChildOrSibsRec(name);
+			if (nested) return nested;
+		}
+		curr = curr->nextSib;
+	} while (curr != this);
 	return NULL;
 }
