@@ -142,6 +142,7 @@ bool Scope::addVar(std::string name, Type::TYPE type, int addr, std::string* err
 // Treat a procedure scope like a variable in a scope one above the current one.
 // In that regard, you can call yourself and all of your children that have been declared.
 // IF having yourself one scope higher includes all other procedures of same level, simply call hasChildOrSibsRec directly.
+// THIS IS CORRECT ACCORDING TO Introduction to Pascal and Structured Design.
 Scope* Scope::isProcCallable(std::string name)
 {
 	if (this->name == name)
@@ -149,11 +150,11 @@ Scope* Scope::isProcCallable(std::string name)
 		return this;
 	}
 
-	if (child)
-	{
-		return child->hasChildOrSibsRec(name);
-	}
-	return NULL;
+	// Current level have priority over children.
+	Scope* sib = hasSibling(name);
+	if (sib) return sib;
+
+	return hasChildOrSibsRec(name);
 }
 
 // Used to instantiate a dummy node into a scope.
