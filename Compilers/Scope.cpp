@@ -187,12 +187,7 @@ bool Scope::addSibling(Scope* sib, std::string* err)
 	
 	if (hasSibling(sib->name) == NULL)
 	{
-		if (sib->nextSib != sib)
-		{
-			*err = "SEMERR: This is really weird, and most definitely shouldn't be happening. Compiler bug! Adding " + sib->name + " to " + name + "\n";
-			return false;
-		}
-		Scope* temp = nextSib; // Yes this reverses the order of the scopes for printing later. Annoying but oh well. Any other way would be more complex.
+		Scope* temp = nextSib;
 		nextSib = sib;
 		sib->nextSib = temp;
 		return true;
