@@ -1,9 +1,9 @@
 program Example (Input, Output);
-	var Example: integer;
+	var A1: integer;
 	var A2: integer;
 	
 	procedure Block3 ( A1: integer; B2: integer );
-		var Block3 : integer;
+		var C1 : integer;
 		var D2 : integer;
 		
 		begin
@@ -14,8 +14,8 @@ program Example (Input, Output);
 		var B2 : integer;
 		
 		procedure Block2;
-			var Block1 : integer;
-			var Block2 : integer;
+			var C1 : integer;
+			var B2 : integer;
 			
 			begin
 			end;

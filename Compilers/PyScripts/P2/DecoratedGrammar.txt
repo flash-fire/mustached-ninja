@@ -288,11 +288,11 @@ variable_1:
 	<<vars>> t
 	<<begin>> id_1 variableLF1_1 <<end>>
 		id_1
-			Token* tok = factor_1->findT("id_1");
+			Token* tok = variable_1->findT("id_1");
 			std::string id = tok->lex;
 			std::string* err = &std::string();
 			Type::TYPE foundType = currScope->getTypeOfVar(id, err);
-			factorLF1_1->set("i", foundType); // It will set the type to error if not found.s
+			variableLF1_1->set("i", foundType); // It will set the type to error if not found.
 			if (*err != "")
 			{
 				target << "SEMERR : attempting to use uninitialized variable: " << id << " on line " << std::to_string(tok->line) << " char position " << std::to_string(tok->charNum) << "\n";
@@ -347,7 +347,7 @@ proc_stmtLF1_1:
 				}
 				else
 				{
-					target << "SEMERR: Expected " << std::to_string(calledScope->getParams().size().size()) << " parameters, but received none on line " << lookAhead.line << "\n";
+					target << "SEMERR: Expected " << std::to_string(calledScope->getParams().size()) << " parameters, but received none on line " << lookAhead.line << "\n";
 					proc_stmtLF1_1->set("t", TTI(ERROR));
 				}
 			}
@@ -367,28 +367,23 @@ expr_list_1:
 	<<begin>> expr_1 expr_listLR1_1 <<end>> 
 		<<begin>>
 			// LOOK INTO THIS FOR WHEN PARAMETERS ARE < but NOT EQUAL TO SIZE?
-			target << " Need to debug this sector of code for expr_list_1";
+			// LOOK INTO THIS FOR WHEN PARAM TYPES DON'T MATCH INPUT
 			expr_listLR1_1->leSigh = expr_list_1->leSigh;
 			std::string procID = *expr_list_1->leSigh;
 			Scope* calledScope = currScope->isProcCallable(procID);
 			if (calledScope != NULL)
 			{
 				std::vector<Scope::VAR_WRAP> params = calledScope->getParams();
-				if (expr_list_1->get("ind") < params.size())
+				int currInd = expr_list_1->get("ind");
+				if (currInd < params.size())
 				{
-					expr_listLR1_1->set("ind", expr_list_1->get("ind") + 1);
-					expr_1->set("i", params[expr_list_1->get("ind")].type);
-				}
+					expr_listLR1_1->set("ind", currInd + 1);
+					expr_1->set("i", params[currInd].type);
+				} // Ensuring that the number of parameters is correct is checked in expr_listLR1_1::EPSILON
 				else
 				{
-					expr_listLR1_1->set("i", TTI(ERROR));
-					expr_1->set("i", TTI(IGNORE));
-					target << "SEMERR: Expected ";
-					for (Scope::VAR_WRAP wrap : params)
-					{
-						target << Type::typeToString(wrap.type) << " , ";
-					} 
-					target << " but received additional parameters on line " << lookAhead.line << "\n";
+					expr_listLR1_1->set("ind", currInd + 1);
+					expr_1->set("i", TTI(ERROR));
 				}
 			}
 			else
@@ -414,39 +409,32 @@ expr_listLR1_1:
 		<<begin>>
 			expr_listLR1_2->leSigh = expr_listLR1_1->leSigh;
 			std::string procID = *expr_listLR1_1->leSigh;
-			if (expr_listLR1_1->get("i") != TTI(ERROR))
+			if (expr_listLR1_1->get("i") == TTI(ERROR))
+			{ // Even if we had the wrong type for previous arg, we still want to check the types of later parameters.
+				expr_listLR1_2->set("i", TTI(ERROR));
+			}
+
+			Scope* calledScope = currScope->isProcCallable(procID);
+			if (calledScope != NULL)
 			{
-				Scope* calledScope = currScope->isProcCallable(procID);
-				if (calledScope != NULL)
+				std::vector<Scope::VAR_WRAP> params = calledScope->getParams();
+				int currInd = expr_listLR1_1->get("ind");
+				if (currInd < params.size())
 				{
-					std::vector<Scope::VAR_WRAP> params = calledScope->getParams();
-					if (expr_listLR1_1->get("ind") < params.size())
-					{
-						expr_listLR1_2->set("ind", expr_listLR1_1->get("ind") + 1);
-						expr_1->set("i", params[expr_listLR1_1->get("ind")].type);
-					}
-					else
-					{
-						expr_listLR1_2->set("i", TTI(ERROR));
-						expr_1->set("i", TTI(IGNORE));
-						target << "SEMERR: Expected ";
-						for (Scope::VAR_WRAP wrap : params)
-						{
-							target << Type::typeToString(wrap.type) << " , ";
-						} 
-						target << " but received additional parameters on line " << lookAhead.line << "\n";
-					}
-				}
+					expr_listLR1_2->set("ind", currInd + 1);
+					expr_1->set("i", params[currInd].type);
+				} // Ensuring correct number of arguments is ensured inside of EPSILON
 				else
 				{
-					expr_listLR1_2->set("i", TTI(ERROR));
-					expr_1->set("i", TTI(IGNORE));
-					target << "SEMERR: Procedure " << procID << " is not in scope on line " << lookAhead.line << "\n";
+					expr_listLR1_2->set("ind", currInd + 1);
+					expr_1->set("i", TTI(ERROR));
 				}
 			}
 			else
 			{
 				expr_listLR1_2->set("i", TTI(ERROR));
+				expr_1->set("i", TTI(IGNORE));
+				target << "SEMERR: Procedure " << procID << " is not in scope on line " << lookAhead.line << "\n";
 			}
 		expr_1
 			if (expr_1->get("t") == TTI(ERROR))
@@ -461,7 +449,22 @@ expr_listLR1_1:
 			expr_listLR1_1->set("t", expr_listLR1_2->get("t"));
 	<<begin>> EPSILON <<end>> 
 		<<end>>
-			expr_listLR1_1->set("t", expr_listLR1_1->get("i"));
+			std::string& procID   = *expr_listLR1_1->leSigh;
+			Scope* calledScope    = currScope->isProcCallable(procID);
+			if (calledScope)
+			{
+				int numParamsExpected = calledScope->getParams().size();
+				int numParamsFound = expr_listLR1_1->get("ind");
+				if (numParamsExpected == numParamsFound)
+				{
+					expr_listLR1_1->set("t", expr_listLR1_1->get("i"));
+				}
+				else
+				{
+					expr_listLR1_1->set("t", TTI(ERROR));
+					target << "SEMERR: Expected " << std::to_string(numParamsExpected) << " parameters but received " << std::to_string(numParamsFound) << " parameters on line " << lookAhead.line << " for function " << procID << "\n";
+				}
+			}
 expr_1:
 	<<vars>> t i
 	<<begin>> simple_expr_1 exprLF1_1 <<end>> 
@@ -474,8 +477,8 @@ expr_1:
 			{
 				if ((exp == TTI(ERROR) || rec == TTI(ERROR)) == false)
 				{
-					target << "TYPERR: Expected type " << Type::typeToString(ITT(exp)) << " but receive " << Type::typeToString(ITT(rec))
-					<< "\non line " << lookAhead.line << " and near column " << lookAhead.charNum;
+					target << "TYPERR: Expected type " << Type::typeToString(ITT(exp)) << " but received " << Type::typeToString(ITT(rec))
+					<< " on line " << lookAhead.line << " and near column " << lookAhead.charNum << "\n";
 				}
 				expr_1->set("t", TTI(ERROR));
 			}
@@ -597,18 +600,18 @@ simple_exprLR1_1:
 				}
 				else if (t_1 != TTI(ERROR))
 				{
-					target << "TYPERR: invalid type arguments for " << add->lex << ".\n";
+					target << "TYPERR: invalid type arguments for " << add->lex << ".";
 					if (add->lex == "or")
-						target << "Expected both booleans; received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2)) << "\n";
+						target << " Expected both booleans; received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2)) << " respectively.\n";
 					else
-						target << "Expected both numeric types; received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2)) << "\n";
+						target << " Expected both numeric types; received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2)) << " respectively.\n";
 					target << " on line " << lookAhead.line << "\n";
 				}
 			}
 			else if (t_1 != TTI(ERROR) && t_2 != TTI(ERROR))
 			{
-				target << "TYPERR: Expecting matching types of either both being INT or REAL, but received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
-				<< "\nfor relop " << add->lex << " on line " << add->line << " and column " << add->charNum << "\n";
+			target << "TYPERR: Expecting matching types but received " << Type::typeToString(ITT(t_1)) << " and " << Type::typeToString(ITT(t_2))
+				<< " respectively for operation " << add->lex << " on line " << add->line << " and column " << add->charNum << "\n";
 				simple_exprLR1_2->set("i", TTI(ERROR));
 			}
 			else
@@ -622,17 +625,17 @@ factor_1:
 	<<begin>> id_1 factorLF1_1 <<end>> 
 		id_1
 			Token* tok = factor_1->findT("id_1");
-			std::string id = tok->lex;
+			std::string lex = tok->lex;
 			std::string* err = &std::string();
 			Type::TYPE varType = currScope->getTypeOfVar(lex, err);
-			if (*err = "")
+			if (*err == "")
 			{
-				variableLF1_1->set("i", varType);
+				factorLF1_1->set("i", varType);
 			}
 			else
 			{
 				target << "SEMERR: Attempting to use variable " << lex << " before it was initialized on line " << tok->line << " and collumn " << tok->charNum;
-				variableLF1_1->set("i", TTI(ERROR));
+				factorLF1_1->set("i", TTI(ERROR));
 			}
 		<<end>>
 			factor_1->set("t", factorLF1_1->get("t")); //# place holder

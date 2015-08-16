@@ -4,6 +4,9 @@ program test (input, output);
   var c : array [1..2] of integer;
   var d : real;
   
+  procedure proc0;
+    begin
+    end;
   procedure proc1(x:integer; y:real; 
                   z:array [1..2] of integer; q: real);
     var d: integer;
@@ -21,8 +24,16 @@ program test (input, output);
 
        procedure proc4(a: integer; z: array [1..3] of real);
          var x: integer;
+         var q: real;
          begin
-           a:= e 
+            a:= e;
+            call proc0;
+            call proc0(x,x,x,x,x,x,x,x);
+            call proc3(x,q+x);
+            call proc3;
+            call proc3(x,q);
+            call proc3(x);
+            call proc3(x,q,x)
          end;
 
        begin
