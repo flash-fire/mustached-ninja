@@ -496,7 +496,7 @@ void Project2::type(ParseNode* type_1) {
 		}
 		else if (arraySize <= 0) //# if bad args
 		{
-			target << "SEMERR: Array parameters improper. Min >= Max with " << tok1->lex << " and " << tok2->lex << "\n\n";
+			target << "SEMERR: Array parameters improper. Min >= Max with " << tok1->lex << " and " << tok2->lex << " on line " << lookAhead.line << "\n";
 		}
 		else
 		{
