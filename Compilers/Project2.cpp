@@ -25,10 +25,17 @@ Project2::~Project2()
 }
 
 
-int main()
+int main(int argc, char* argv[])
 {
 	Project1 a;
-	a.HandleLexing();
+	if (argc == 2)
+	{
+		a.HandleLexing(argv[1]);
+	}
+	else
+	{
+		a.HandleLexing();
+	}
 	Project2 b(&a);
 	return 0;
 }

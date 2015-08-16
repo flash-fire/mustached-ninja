@@ -31,7 +31,7 @@ public:
 	std::string TokenToGrammar(int tok);
 	bool hasToken();
 
-	void HandleLexing(); // Performs lexing
+	void HandleLexing(std::string filePath = ""); // Performs lexing
 	static const int BUFFER_SIZE = 72; // Max size of buffer
 	static const int MAX_EXP = 2; // exp
 	static const int MAX_LEFT = 5; // left dec

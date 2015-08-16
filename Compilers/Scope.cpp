@@ -7,6 +7,10 @@ Scope::~Scope() {}
 
 void Scope::printScope(Scope* targ, std::ostream* os, int level, bool printSibs)
 {
+	if (targ == NULL)
+	{ // Happens when the file does not exist.
+		return;
+	}
 	std::string tab = "";
 	if (level > 0)
 	{

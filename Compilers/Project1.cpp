@@ -98,12 +98,15 @@ void Project1::ReadOpWordTable()
 	else std::cout << "DEBUG ERROR: Unable to open file for misc word table\n";
 }
 
-void Project1::HandleLexing()
+void Project1::HandleLexing(std::string filePath)
 {
-
+	if (filePath == "")
+	{
+		filePath = Project1::SOURCE_PATH;
+	}
 	auto paddify = [](std::string a, int pad) { int max = std::max(pad - static_cast<int>(a.length()), 1); return std::string(a).append(max, ' '); };
 
-	std::ifstream source(Project1::SOURCE_PATH);
+	std::ifstream source(filePath);
 	std::string currentLine;
 	if (source.is_open())
 	{
@@ -120,7 +123,13 @@ void Project1::HandleLexing()
 		PrettyPrintToken(eof);
 		//TODO: ADD TOKEN FOR EOF
 	}
-	else std::cout << "Unable to open file for source\n";
+	else
+	{ // If you can't open the file, just pretend you have an empty file so that the parser doesn't cry out in anguish.
+		Token eof = Token(EOF, 0, "$", lineNum);
+		eof.charNum = 0;
+		tokens.push_back(eof);
+		std::cout << "Unable to open file for source\n";
+	}
 	source.close();
 	target.close();
 	tokenFile.close();
