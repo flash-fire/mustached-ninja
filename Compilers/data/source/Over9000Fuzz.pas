@@ -1,5 +1,6 @@
 program goner ( Ecuadorian ) ; var planners : array [ 0 .. 0 ] of real
-; procedure yourself ( deflate : integer ; mutations : array [ 7786 ..
+; procedure yourself ( Bourbaki : integer;
+deflate : integer ; mutations : array [ 7786 ..
 810.2e56 ] of real ; hitchhiked : integer ; grind : integer ; pack :
 real ; meted : array [ 7.2 .. 0 ] of integer ) ; var crosses : real ;
 begin begin call asserter ; while ( Bourbaki div ( not attic ) or

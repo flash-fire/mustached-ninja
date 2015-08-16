@@ -2948,7 +2948,7 @@ void Project2::factor(ParseNode* factor_1) {
 		}
 		else
 		{
-			target << "SEMERR: Attempting to use variable " << lex << " before it was initialized on line " << tok->line << " and collumn " << tok->charNum;
+			target << "SEMERR: Attempting to use variable " << lex << " before it was initialized on line " << tok->line << " and collumn " << tok->charNum << "\n";
 			factorLF1_1->set("i", TTI(ERROR));
 		}
 

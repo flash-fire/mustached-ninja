@@ -72,6 +72,7 @@ void ParseNode::WriteUndecoratedTree(Wrap wrap, std::ostream* os, int level)
 }
 
 static int debug = 0;
+// The purpose of this method and the write decorated tree method is to debug any of my decorated grammar.
 void ParseNode::WriteDecoratedTree(Wrap wrap, std::ostream* os, int level)
 {
 	std::string out = "";
@@ -103,7 +104,7 @@ void ParseNode::WriteDecoratedTree(Wrap wrap, std::ostream* os, int level)
 					if (check == Type::ERROR)
 					{
 						debug++;
-						std::cout << " DBUG CHECK #$#$" << debug << "\n";
+						//std::cout << " DBUG CHECK #$#$" << debug << "\n"; // Used when a seemingly valid program fails to count the failures.
 					}
 					out += tab + "   " + "<<" + var + ">> : " + check2 + "\n";
 				}
