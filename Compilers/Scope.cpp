@@ -53,7 +53,6 @@ void Scope::printScope(Scope* targ, std::ostream* os, int level, bool printSibs)
 			targName = targ->name;
 		}
 	}
-	//std::cout << out;
 	os->flush();
 }
 
