@@ -24,33 +24,17 @@ public:
 	bool addChild(Scope* child, std::string* err);
 	bool addSibling(Scope* sib, std::string* err);
 	bool addVar(std::string name, Type::TYPE type, int addr, std::string* err);
-	bool hasParam(std::string name);
-	
-	std::vector<VAR_WRAP> getParamIfSis(std::string name);
 
-	bool procInScope(std::string name);
-	std::vector<VAR_WRAP> getParams(std::string name);
-	/*int numParams() { return params.size(); };
-	Type::TYPE paramType(int i, std::string* err) {
-		if (i > numParams())
-		{
-			*err = "Too many parameters inputted into procedure " + name;
-			return Type::ERROR;
-		}
-		return params.at(i).type;
-	};*/
+	std::vector<VAR_WRAP> getParams();
 
-	bool isVarInScope(std::string name);
-	Type::TYPE getTypeOfVar(std::string name, std::string* err);
+	Type::TYPE getTypeOfVar(std::string name, std::string* err); // Returns the type of a variable.  If not found, err is created, and error is returned.
 
-	bool hasSibling(std::string name);
-	bool deepHasSibling(std::string name); // like has sibling but deeper
-
-	bool isProcCallable(std::string name);
+	Scope* isProcCallable(std::string name); // Returns the called scope if it is callable, null otherwise.
 
 	std::string name; // For procedures (since they each have their own scope)
 private:
-
+	Scope* hasSibling(std::string name);
+	bool hasParam(std::string name);
 
 	SymbolTable vars; // For variables. Will also allow to get entries and stuff.
 	int lineNum;

@@ -4,75 +4,9 @@ Scope::Scope(Scope* par, std::string name, int lineNum) : parent(par), nextSib(t
 
 Scope::~Scope() {}
 
-
-bool Scope::procInScope(std::string targ)
+std::vector<Scope::VAR_WRAP> Scope::getParams()
 {
-	if (name == targ)
-	{
-		return true;
-	}
-	return hasSibling(targ) || (parent && parent->hasSibling(targ));
-}
-
-std::vector<Scope::VAR_WRAP> Scope::getParamIfSis(std::string targ)
-{
-	if (name == targ)
-	{
-		return params;
-	}
-	Scope* curr = this;
-	do
-	{
-		if (curr->name == targ)
-		{
-			return curr->params;
-		}
-		curr = curr->nextSib;
-	} while (curr != this);
-	return std::vector<Scope::VAR_WRAP>();
-}
-
-/*std::vector<Scope::VAR_WRAP> Scope::getParams(std::string targ)
-{
-	if (false == procInScope(targ))
-	{
-		return std::vector<Scope::VAR_WRAP>();
-	}
-	if (name == targ)
-	{
-		return params;
-	}
-	if (hasSibling(targ))
-	{
-		return getParamIfSis(targ);
-	}
-	return parent->getParams(targ);
-} */
-
-std::vector<Scope::VAR_WRAP> Scope::getParams(std::string targ)
-{
-	if (isProcCallable(targ) == false)
-	{
-		return std::vector<Scope::VAR_WRAP>();
-	}
-	Scope* curr = this;
-	do
-	{
-		if (curr->name == targ) // dirty hack! If its void, who cares if the array returned is size 0!
-		{
-			return curr->params;
-		}
-		if (curr->child)
-		{
-			std::vector<Scope::VAR_WRAP> ret = curr->child->getParams(targ);
-			if (ret.size() > 0)
-			{
-				return ret;
-			}
-		}
-		curr = curr->nextSib;
-	} while (curr != this);
-	return std::vector<Scope::VAR_WRAP>();
+	return params;
 }
 
 void Scope::printScope(Scope* targ, std::ostream* os, int level, bool printSibs)
@@ -129,11 +63,6 @@ void Scope::printScope(Scope* targ, std::ostream* os, int level, bool printSibs)
 	//std::cout << out;
 	os->flush();
 }
-bool Scope::isVarInScope(std::string name)
-{
-	return vars.hasEntry(name) || hasParam(name) || (parent && 
-		parent->isVarInScope(name));
-}
 
 bool Scope::hasParam(std::string name)
 {
@@ -145,40 +74,41 @@ bool Scope::hasParam(std::string name)
 	return false;
 }
 
+// User must check if variable is in scope virst.
+// Although technically not required, it made the logic easier.
 Type::TYPE Scope::getTypeOfVar(std::string name, std::string* err)
 {
-	if (isVarInScope(name))
+	if (hasParam(name))
 	{
-		if (hasParam(name))
+		for (VAR_WRAP wrap : params)
 		{
-			for (VAR_WRAP wrap : params)
+			if (wrap.name == name)
 			{
-				if (wrap.name == name)
-				{
-					return wrap.type;
-				}
+				return wrap.type;
 			}
-			return Type::ERROR;
 		}
-		else if (vars.hasEntry(name))
-		{
-			SymbolTableEntry e = vars.get(name);
-			return e.type;
-		}
-		else
-		{ // null pointer is impossible since I already checked the scope. That's a nice advantage of inneficiency. 
-			return parent->getTypeOfVar(name, err);
-		}
+		return Type::ERROR;
+	}
+	else if (vars.hasEntry(name))
+	{
+		SymbolTableEntry e = vars.get(name);
+		return e.type;
 	}
 	else
 	{
-		*err = "Attemptng to use " + name + " before it was given a type.";
-		return Type::ERROR;
+		if (parent == NULL)
+		{
+			*err = "This should never happen unless if you called this method without first checking if variable was in scope first.";
+			// TODO: Refactor so that everyoen just uses this return value for error checking rather than juts having the outside world perform more work than necessary.
+			return Type::ERROR;
+		}
+		return parent->getTypeOfVar(name, err);
 	}
 }
 
 bool Scope::addParam(std::string name, Type::TYPE type, int addr, std::string* err)
 {
+	// Don't need to check symbol table since the params occur BEFORE variable initialization
 	if (hasParam(name))
 	{
 		*err = "SEMERR: Attempting to add parameter " + name + " when it already exists in parameters!";
@@ -214,57 +144,33 @@ bool Scope::addVar(std::string name, Type::TYPE type, int addr, std::string* err
 		return false;
 	}
 }
-bool Scope::deepHasSibling(std::string name)
-{
-	if (!this) // null check bitches
-	{
-		return false;
-	}
-	Scope* curr = this;
-	do
-	{ 
-		if (curr->name == name || (curr->child && curr->child->deepHasSibling(name)))
-		{
-			return true;
-		}
-		curr = curr->nextSib;
-	} while (curr != this);
-	return false;
 
+// Treat a procedure scope like a variable in a scope one above the current one.
+// In that regard, you can call all of your siblings, and any parent or parent above you.
+// Returns the scope of the name that is trying to be called as is resolved by compiler.
+
+// CAN RETURN NULL!
+
+Scope* Scope::isProcCallable(std::string name)
+{
+	Scope* sib = hasSibling(name);
+	if (sib != NULL)
+	{
+		return sib;
+	}
+	Scope* parent = this->parent;
+	while (parent != NULL)
+	{
+		if (parent->name == name)
+		{
+			return parent;
+		}
+		parent = parent->parent;
+	}
+	return NULL;
 }
 
-bool Scope::isProcCallable(std::string name)
-{
-	if (this->deepHasSibling(name))
-
-		// You can call your parents, and any subsequent grandparent of that.  You can call your siblings, and all of your siblings children, and subsequent children
-	{
-		return true;
-	}
-	
-	// If Shenoi wants it so that you can't call nested children of siblings, uncomment this code, and comment the above if statement
-	/*if
-	(this->hasSibling(name) && (this->child && this->child->deepHasSibling(name)))
-	{
-		return true;
-	}
-	*/
-	Scope* curr = this;
-	do
-	{
-		if (curr->name == name)
-		{
-			return true;
-		}
-		curr = curr->parent;
-	} while (curr != NULL); // Checks if scope is in parents
-	if (child == NULL)
-	{ 
-		return false;
-	}
-	return hasSibling(name) || (parent && parent->isProcCallable(name));
-}
-
+// Used to instantiate a dummy node into a scope.
 bool Scope::addChild(Scope* newChild, std::string* err)
 {
 	if (child == NULL)
@@ -272,27 +178,30 @@ bool Scope::addChild(Scope* newChild, std::string* err)
 		child = newChild;
 		return true;
 	}
+
 	return this->child->addSibling(newChild, err);
 }
 
 bool Scope::addSibling(Scope* sib, std::string* err)
 {
+	*err = "";
 	Scope* curr = this;
 	while (curr != NULL)
 	{
 		if (curr->name == sib->name)
 		{
-			*err = "SEMERR: Attempting to add scope -- " + sib->name + " -- when name already exists in parenting scope!\nNew scope is on line " 
-				+ std::to_string(sib->lineNum) + " conflicting scope is line " + std::to_string(this->lineNum);
-			return false;
+			*err = "WARNING: Attempting to add scope -- " + sib->name + " -- when name already exists in parenting scope!\nNew scope is on line " 
+				+ std::to_string(sib->lineNum) + " conflicting scope is line " + std::to_string(this->lineNum) + "\n";
+			break; // Technically this isn't an error, but who would want to do this?!!
 		}
 		curr = curr->parent;
 	}
-	if (!hasSibling(sib->name))
+	
+	if (hasSibling(sib->name) == NULL)
 	{
 		if (sib->nextSib != sib)
 		{
-			*err = "SEMERR: This is really weird, and most definitely shouldn't be happening. Compiler bug! Adding " + sib->name + " to " + name;
+			*err = "SEMERR: This is really weird, and most definitely shouldn't be happening. Compiler bug! Adding " + sib->name + " to " + name + "\n";
 			return false;
 		}
 		Scope* temp = nextSib; // Yes this reverses the order of the scopes for printing later. Annoying but oh well. Any other way would be more complex.
@@ -300,23 +209,25 @@ bool Scope::addSibling(Scope* sib, std::string* err)
 		sib->nextSib = temp;
 		return true;
 	}
-
-	*err = "SEMERR: Attempting to add scope -- " + sib->name + " -- when name already exists as a sibling in same level!\n"
-		+ "New sibling is on line " + std::to_string(sib->lineNum);
-	return false;
+	else
+	{
+		*err = "SEMERR: Attempting to add scope -- " + sib->name + " -- when name already exists as a sibling in same level!\n"
+			+ "New sibling is on line " + std::to_string(sib->lineNum);
+		return false;
+	}
 }
 
-bool Scope::hasSibling(std::string name)
+Scope* Scope::hasSibling(std::string name)
 {
 	Scope* curr = this;
 	do
 	{
 		if (curr->name == name)
 		{
-			return true;
+			return curr;
 		}
 		curr = curr->nextSib;
 	} while (this != curr);
 
-	return false;
+	return NULL;
 }
