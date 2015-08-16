@@ -1405,7 +1405,7 @@ void Project2::proc_stmt(ParseNode* proc_stmt_1) {
 		proc_stmtLF1_1->leSigh = procName; //# Making a one time use pointer in ParseNode just to make this decorating easier and safer.
 		if (currScope->isProcCallable(*procName) == NULL)
 		{ // Put this check here so that console won't get spammed for each parameter when not in scope.
-			target << "SEMERR: Procedure " << *procName << " is not in scope on line " << lookAhead.line << "\n";
+			target << "SEMERR: Procedure " << *procName << " is not in scope on line " << lookAhead.line << " for current scope " << currScope->name << "\n";
 		}
 
 		ref = proc_stmtLF1_1;
