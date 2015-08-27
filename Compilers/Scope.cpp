@@ -153,8 +153,11 @@ Scope* Scope::isProcCallable(std::string name)
 	// Current level have priority over children.
 	Scope* sib = hasSibling(name);
 	if (sib) return sib;
-
-	return hasChildOrSibsRec(name);
+	if (child)
+	{
+		return child->hasSibling(name);
+	}
+	return NULL;
 }
 
 // Used to instantiate a dummy node into a scope.

@@ -1,13 +1,13 @@
 test
+  LINE NUM :: 0
   PARAMS:
     VOID
   LOCAL_VARS:
     NAME a TYPE INT ADDR 0
-    NAME badInd TYPE ERROR ADDR 12
-    NAME badStd TYPE ERROR ADDR 12
-    NAME badType TYPE ERROR ADDR 12
-    NAME repeat TYPE REAL ADDR 4
-  shitty
+    NAME b TYPE REAL ADDR 4
+    NAME c TYPE ARRAY_INT ADDR 12
+  proc1
+    LINE NUM :: 5
     PARAMS:
       NAME x TYPE INT ADDR 0
       NAME y TYPE REAL ADDR 4
@@ -15,3 +15,24 @@ test
       NAME q TYPE REAL ADDR 16
     LOCAL_VARS:
       NAME d TYPE INT ADDR 24
+  proc2
+    LINE NUM :: 14
+    PARAMS:
+      NAME x TYPE INT ADDR 0
+      NAME y TYPE INT ADDR 4
+    LOCAL_VARS:
+      NAME e TYPE REAL ADDR 8
+    proc3
+      LINE NUM :: 17
+      PARAMS:
+        NAME n TYPE INT ADDR 0
+        NAME z TYPE REAL ADDR 4
+      LOCAL_VARS:
+        NAME e TYPE INT ADDR 12
+      proc4
+        LINE NUM :: 20
+        PARAMS:
+          NAME a TYPE INT ADDR 0
+          NAME z TYPE ARRAY_REAL ADDR 4
+        LOCAL_VARS:
+          NAME x TYPE INT ADDR 20

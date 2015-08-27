@@ -56,10 +56,10 @@ void ParseNode::WriteUndecoratedTree(Wrap wrap, std::ostream* os, int level)
 	}
 	else
 	{
-		out += ParseNode::name(wrap) + "\t\t" + wrap.val.tok->lex + "\n";
+		out += ParseNode::name(wrap) + " : " + wrap.val.tok->lex + "\n";
 	}
 	*os << out;
-	//std::cout << out;
+	std::cout << out;
 
 	if (wrap.isNode)
 	{
@@ -126,7 +126,7 @@ void ParseNode::WriteDecoratedTree(Wrap wrap, std::ostream* os, int level)
 	else
 	{
 		//out += tab + ParseNode::name(wrap) + "\n";
-		out += tab + ParseNode::name(wrap) + "\t\t" + wrap.val.tok->lex + "\n";
+		out += tab + ParseNode::name(wrap) + " : " + wrap.val.tok->lex + "\n";
 		*os << out;
 	}
 }
