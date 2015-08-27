@@ -30,16 +30,20 @@
 29               end;
 30        
 31             begin
-32               e := e + 4.44;
-33               a:= (a mod y) div x;
-34               while ((a >= 4) and ((b <= e) 
-35                               or (not (a = c[a])))) do
-36                 begin
-37                   a:= c[a] + 1
-38                 end
-39             end;
-40        
-41        begin
-42          if (a < 2) then a:= 1 else a := a + 2;
-43          if (b > 4.2) then a := c[a]
-44        end.
+32               call proc1(x, e, c, b);
+33               call proc3(c[1], e);
+34               e := e + 4.44;
+35               a:= (a mod y) div x;
+36               while ((a >= 4) and ((b <= e) 
+37                               or (not (a = c[a])))) do
+38                 begin
+39                   a:= c[a] + 1
+40                 end
+41             end;
+42        
+43        begin
+44          call proc2(c[4], c[5]);
+45          call proc2(c[4],2);
+46          if (a < 2) then a:= 1 else a := a + 2;
+47          if (b > 4.2) then a := c[a]
+48        end.

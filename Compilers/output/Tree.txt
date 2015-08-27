@@ -1,729 +1,914 @@
 <prgm_1>
-  program_1		program
-  id_1		test
-  (_1		(
+  program_1 : program
+  id_1 : test
+  (_1 : (
   <idList_1>
-    id_1		input
+    id_1 : input
     <idListLR1_1>
-      ,_1		,
-      id_1		output
+      ,_1 : ,
+      id_1 : output
       <idListLR1_2>
-  )_1		)
-  ;_1		;
+  )_1 : )
+  ;_1 : ;
   <prgmLF1_1>
     <decs_1>
-      var_1		var
-      id_1		a
-      :_1		:
+      var_1 : var
+      id_1 : a
+      :_1 : :
       <type_1>
         <std_type_1>
-          integer_1		integer
-      ;_1		;
+          integer_1 : integer
+      ;_1 : ;
       <decsLR1_1>
-        var_1		var
-        id_1		b
-        :_1		:
+        var_1 : var
+        id_1 : b
+        :_1 : :
         <type_1>
           <std_type_1>
-            real_1		real
-        ;_1		;
+            real_1 : real
+        ;_1 : ;
         <decsLR1_2>
-          var_1		var
-          id_1		c
-          :_1		:
+          var_1 : var
+          id_1 : c
+          :_1 : :
           <type_1>
-            array_1		array
-            [_1		[
-            num_1		1
-            .._1		..
-            num_2		2
-            ]_1		]
-            of_1		of
+            array_1 : array
+            [_1 : [
+            num_1 : 1
+            .._1 : ..
+            num_2 : 2
+            ]_1 : ]
+            of_1 : of
             <std_type_1>
-              integer_1		integer
-          ;_1		;
+              integer_1 : integer
+          ;_1 : ;
           <decsLR1_2>
     <prgmLF1LF1_1>
       <subprgm_decs_1>
         <subprgm_dec_1>
           <subprgm_head_1>
-            procedure_1		procedure
-            id_1		proc1
+            procedure_1 : procedure
+            id_1 : proc1
             <subprgm_headLF1_1>
               <args_1>
-                (_1		(
+                (_1 : (
                 <param_list_1>
-                  id_1		x
-                  :_1		:
+                  id_1 : x
+                  :_1 : :
                   <type_1>
                     <std_type_1>
-                      integer_1		integer
+                      integer_1 : integer
                   <param_listLR1_1>
-                    ;_1		;
-                    id_1		y
-                    :_1		:
+                    ;_1 : ;
+                    id_1 : y
+                    :_1 : :
                     <type_1>
                       <std_type_1>
-                        real_1		real
+                        real_1 : real
                     <param_listLR1_2>
-                      ;_1		;
-                      id_1		z
-                      :_1		:
+                      ;_1 : ;
+                      id_1 : z
+                      :_1 : :
                       <type_1>
-                        array_1		array
-                        [_1		[
-                        num_1		1
-                        .._1		..
-                        num_2		2
-                        ]_1		]
-                        of_1		of
+                        array_1 : array
+                        [_1 : [
+                        num_1 : 1
+                        .._1 : ..
+                        num_2 : 2
+                        ]_1 : ]
+                        of_1 : of
                         <std_type_1>
-                          integer_1		integer
+                          integer_1 : integer
                       <param_listLR1_2>
-                        ;_1		;
-                        id_1		q
-                        :_1		:
+                        ;_1 : ;
+                        id_1 : q
+                        :_1 : :
                         <type_1>
                           <std_type_1>
-                            real_1		real
+                            real_1 : real
                         <param_listLR1_2>
-                )_1		)
-              ;_1		;
+                )_1 : )
+              ;_1 : ;
           <subprgm_decLF1_1>
             <decs_1>
-              var_1		var
-              id_1		d
-              :_1		:
+              var_1 : var
+              id_1 : d
+              :_1 : :
               <type_1>
                 <std_type_1>
-                  integer_1		integer
-              ;_1		;
+                  integer_1 : integer
+              ;_1 : ;
               <decsLR1_1>
             <subprgm_decLF1LF1_1>
               <comp_stmt_1>
-                begin_1		begin
+                begin_1 : begin
                 <comp_stmtLF1_1>
                   <opt_stmts_1>
                     <stmt_list_1>
                       <stmt_1>
                         <variable_1>
-                          id_1		a
+                          id_1 : a
                           <variableLF1_1>
                         <assignop_1>
-                          assignop_1		:=
+                          assignop_1 : :=
                         <expr_1>
                           <simple_expr_1>
                             <term_1>
                               <factor_1>
-                                num_1		2
+                                num_1 : 2
                               <termLR1_1>
                             <simple_exprLR1_1>
                           <exprLF1_1>
                       <stmt_listLR1_1>
-                        ;_1		;
+                        ;_1 : ;
                         <stmt_1>
                           <variable_1>
-                            id_1		z
+                            id_1 : z
                             <variableLF1_1>
-                              [_1		[
+                              [_1 : [
                               <expr_1>
                                 <simple_expr_1>
                                   <term_1>
                                     <factor_1>
-                                      id_1		a
+                                      id_1 : a
                                       <factorLF1_1>
                                     <termLR1_1>
                                   <simple_exprLR1_1>
                                 <exprLF1_1>
-                              ]_1		]
+                              ]_1 : ]
                           <assignop_1>
-                            assignop_1		:=
+                            assignop_1 : :=
                           <expr_1>
                             <simple_expr_1>
                               <term_1>
                                 <factor_1>
-                                  num_1		4
+                                  num_1 : 4
                                 <termLR1_1>
                               <simple_exprLR1_1>
                             <exprLF1_1>
                         <stmt_listLR1_2>
-                          ;_1		;
+                          ;_1 : ;
                           <stmt_1>
                             <variable_1>
-                              id_1		c
+                              id_1 : c
                               <variableLF1_1>
-                                [_1		[
+                                [_1 : [
                                 <expr_1>
                                   <simple_expr_1>
                                     <term_1>
                                       <factor_1>
-                                        num_1		3
+                                        num_1 : 3
                                       <termLR1_1>
                                     <simple_exprLR1_1>
                                   <exprLF1_1>
-                                ]_1		]
+                                ]_1 : ]
                             <assignop_1>
-                              assignop_1		:=
+                              assignop_1 : :=
                             <expr_1>
                               <simple_expr_1>
                                 <term_1>
                                   <factor_1>
-                                    num_1		3
+                                    num_1 : 3
                                   <termLR1_1>
                                 <simple_exprLR1_1>
                               <exprLF1_1>
                           <stmt_listLR1_2>
-                  end_1		end
-        ;_1		;
+                  end_1 : end
+        ;_1 : ;
         <subprgm_decsLR1_1>
           <subprgm_dec_1>
             <subprgm_head_1>
-              procedure_1		procedure
-              id_1		proc2
+              procedure_1 : procedure
+              id_1 : proc2
               <subprgm_headLF1_1>
                 <args_1>
-                  (_1		(
+                  (_1 : (
                   <param_list_1>
-                    id_1		x
-                    :_1		:
+                    id_1 : x
+                    :_1 : :
                     <type_1>
                       <std_type_1>
-                        integer_1		integer
+                        integer_1 : integer
                     <param_listLR1_1>
-                      ;_1		;
-                      id_1		y
-                      :_1		:
+                      ;_1 : ;
+                      id_1 : y
+                      :_1 : :
                       <type_1>
                         <std_type_1>
-                          integer_1		integer
+                          integer_1 : integer
                       <param_listLR1_2>
-                  )_1		)
-                ;_1		;
+                  )_1 : )
+                ;_1 : ;
             <subprgm_decLF1_1>
               <decs_1>
-                var_1		var
-                id_1		e
-                :_1		:
+                var_1 : var
+                id_1 : e
+                :_1 : :
                 <type_1>
                   <std_type_1>
-                    real_1		real
-                ;_1		;
+                    real_1 : real
+                ;_1 : ;
                 <decsLR1_1>
               <subprgm_decLF1LF1_1>
                 <subprgm_decs_1>
                   <subprgm_dec_1>
                     <subprgm_head_1>
-                      procedure_1		procedure
-                      id_1		proc3
+                      procedure_1 : procedure
+                      id_1 : proc3
                       <subprgm_headLF1_1>
                         <args_1>
-                          (_1		(
+                          (_1 : (
                           <param_list_1>
-                            id_1		n
-                            :_1		:
+                            id_1 : n
+                            :_1 : :
                             <type_1>
                               <std_type_1>
-                                integer_1		integer
+                                integer_1 : integer
                             <param_listLR1_1>
-                              ;_1		;
-                              id_1		z
-                              :_1		:
+                              ;_1 : ;
+                              id_1 : z
+                              :_1 : :
                               <type_1>
                                 <std_type_1>
-                                  real_1		real
+                                  real_1 : real
                               <param_listLR1_2>
-                          )_1		)
-                        ;_1		;
+                          )_1 : )
+                        ;_1 : ;
                     <subprgm_decLF1_1>
                       <decs_1>
-                        var_1		var
-                        id_1		e
-                        :_1		:
+                        var_1 : var
+                        id_1 : e
+                        :_1 : :
                         <type_1>
                           <std_type_1>
-                            integer_1		integer
-                        ;_1		;
+                            integer_1 : integer
+                        ;_1 : ;
                         <decsLR1_1>
                       <subprgm_decLF1LF1_1>
                         <subprgm_decs_1>
                           <subprgm_dec_1>
                             <subprgm_head_1>
-                              procedure_1		procedure
-                              id_1		proc4
+                              procedure_1 : procedure
+                              id_1 : proc4
                               <subprgm_headLF1_1>
                                 <args_1>
-                                  (_1		(
+                                  (_1 : (
                                   <param_list_1>
-                                    id_1		a
-                                    :_1		:
+                                    id_1 : a
+                                    :_1 : :
                                     <type_1>
                                       <std_type_1>
-                                        integer_1		integer
+                                        integer_1 : integer
                                     <param_listLR1_1>
-                                      ;_1		;
-                                      id_1		z
-                                      :_1		:
+                                      ;_1 : ;
+                                      id_1 : z
+                                      :_1 : :
                                       <type_1>
-                                        array_1		array
-                                        [_1		[
-                                        num_1		1
-                                        .._1		..
-                                        num_2		3
-                                        ]_1		]
-                                        of_1		of
+                                        array_1 : array
+                                        [_1 : [
+                                        num_1 : 1
+                                        .._1 : ..
+                                        num_2 : 3
+                                        ]_1 : ]
+                                        of_1 : of
                                         <std_type_1>
-                                          real_1		real
+                                          real_1 : real
                                       <param_listLR1_2>
-                                  )_1		)
-                                ;_1		;
+                                  )_1 : )
+                                ;_1 : ;
                             <subprgm_decLF1_1>
                               <decs_1>
-                                var_1		var
-                                id_1		x
-                                :_1		:
+                                var_1 : var
+                                id_1 : x
+                                :_1 : :
                                 <type_1>
                                   <std_type_1>
-                                    integer_1		integer
-                                ;_1		;
+                                    integer_1 : integer
+                                ;_1 : ;
                                 <decsLR1_1>
                               <subprgm_decLF1LF1_1>
                                 <comp_stmt_1>
-                                  begin_1		begin
+                                  begin_1 : begin
                                   <comp_stmtLF1_1>
                                     <opt_stmts_1>
                                       <stmt_list_1>
                                         <stmt_1>
                                           <variable_1>
-                                            id_1		a
+                                            id_1 : a
                                             <variableLF1_1>
                                           <assignop_1>
-                                            assignop_1		:=
+                                            assignop_1 : :=
                                           <expr_1>
                                             <simple_expr_1>
                                               <term_1>
                                                 <factor_1>
-                                                  id_1		e
+                                                  id_1 : e
                                                   <factorLF1_1>
                                                 <termLR1_1>
                                               <simple_exprLR1_1>
                                             <exprLF1_1>
                                         <stmt_listLR1_1>
-                                    end_1		end
-                          ;_1		;
+                                    end_1 : end
+                          ;_1 : ;
                           <subprgm_decsLR1_1>
                         <comp_stmt_1>
-                          begin_1		begin
+                          begin_1 : begin
                           <comp_stmtLF1_1>
                             <opt_stmts_1>
                               <stmt_list_1>
                                 <stmt_1>
                                   <variable_1>
-                                    id_1		a
+                                    id_1 : a
                                     <variableLF1_1>
                                   <assignop_1>
-                                    assignop_1		:=
+                                    assignop_1 : :=
                                   <expr_1>
                                     <simple_expr_1>
                                       <term_1>
                                         <factor_1>
-                                          id_1		e
+                                          id_1 : e
                                           <factorLF1_1>
                                         <termLR1_1>
                                       <simple_exprLR1_1>
                                     <exprLF1_1>
                                 <stmt_listLR1_1>
-                                  ;_1		;
+                                  ;_1 : ;
                                   <stmt_1>
                                     <variable_1>
-                                      id_1		e
+                                      id_1 : e
                                       <variableLF1_1>
                                     <assignop_1>
-                                      assignop_1		:=
+                                      assignop_1 : :=
                                     <expr_1>
                                       <simple_expr_1>
                                         <term_1>
                                           <factor_1>
-                                            id_1		c
+                                            id_1 : c
                                             <factorLF1_1>
-                                              [_1		[
+                                              [_1 : [
                                               <expr_1>
                                                 <simple_expr_1>
                                                   <term_1>
                                                     <factor_1>
-                                                      id_1		e
+                                                      id_1 : e
                                                       <factorLF1_1>
                                                     <termLR1_1>
                                                   <simple_exprLR1_1>
                                                 <exprLF1_1>
-                                              ]_1		]
+                                              ]_1 : ]
                                           <termLR1_1>
                                         <simple_exprLR1_1>
                                       <exprLF1_1>
                                   <stmt_listLR1_2>
-                            end_1		end
-                  ;_1		;
+                            end_1 : end
+                  ;_1 : ;
                   <subprgm_decsLR1_1>
                 <comp_stmt_1>
-                  begin_1		begin
+                  begin_1 : begin
                   <comp_stmtLF1_1>
                     <opt_stmts_1>
                       <stmt_list_1>
                         <stmt_1>
-                          <variable_1>
-                            id_1		e
-                            <variableLF1_1>
-                          <assignop_1>
-                            assignop_1		:=
-                          <expr_1>
-                            <simple_expr_1>
-                              <term_1>
-                                <factor_1>
-                                  id_1		e
-                                  <factorLF1_1>
-                                <termLR1_1>
-                              <simple_exprLR1_1>
-                                <addop_1>
-                                  +_1		+
-                                <term_1>
-                                  <factor_1>
-                                    num_1		4.44
-                                  <termLR1_1>
-                                <simple_exprLR1_2>
-                            <exprLF1_1>
-                        <stmt_listLR1_1>
-                          ;_1		;
-                          <stmt_1>
-                            <variable_1>
-                              id_1		a
-                              <variableLF1_1>
-                            <assignop_1>
-                              assignop_1		:=
-                            <expr_1>
-                              <simple_expr_1>
-                                <term_1>
-                                  <factor_1>
-                                    (_1		(
+                          <proc_stmt_1>
+                            call_1 : call
+                            id_1 : proc1
+                            <proc_stmtLF1_1>
+                              (_1 : (
+                              <expr_list_1>
+                                <expr_1>
+                                  <simple_expr_1>
+                                    <term_1>
+                                      <factor_1>
+                                        id_1 : x
+                                        <factorLF1_1>
+                                      <termLR1_1>
+                                    <simple_exprLR1_1>
+                                  <exprLF1_1>
+                                <expr_listLR1_1>
+                                  ,_1 : ,
+                                  <expr_1>
+                                    <simple_expr_1>
+                                      <term_1>
+                                        <factor_1>
+                                          id_1 : e
+                                          <factorLF1_1>
+                                        <termLR1_1>
+                                      <simple_exprLR1_1>
+                                    <exprLF1_1>
+                                  <expr_listLR1_2>
+                                    ,_1 : ,
                                     <expr_1>
                                       <simple_expr_1>
                                         <term_1>
                                           <factor_1>
-                                            id_1		a
+                                            id_1 : c
                                             <factorLF1_1>
                                           <termLR1_1>
-                                            <mulop_1>
-                                              mulop_1		mod
-                                            <factor_1>
-                                              id_1		y
-                                              <factorLF1_1>
-                                            <termLR1_2>
                                         <simple_exprLR1_1>
                                       <exprLF1_1>
-                                    )_1		)
-                                  <termLR1_1>
-                                    <mulop_1>
-                                      mulop_1		div
-                                    <factor_1>
-                                      id_1		x
-                                      <factorLF1_1>
-                                    <termLR1_2>
-                                <simple_exprLR1_1>
-                              <exprLF1_1>
-                          <stmt_listLR1_2>
-                            ;_1		;
-                            <stmt_1>
-                              while_1		while
-                              <expr_1>
-                                <simple_expr_1>
-                                  <term_1>
-                                    <factor_1>
-                                      (_1		(
+                                    <expr_listLR1_2>
+                                      ,_1 : ,
                                       <expr_1>
                                         <simple_expr_1>
                                           <term_1>
                                             <factor_1>
-                                              (_1		(
-                                              <expr_1>
-                                                <simple_expr_1>
-                                                  <term_1>
-                                                    <factor_1>
-                                                      id_1		a
-                                                      <factorLF1_1>
-                                                    <termLR1_1>
-                                                  <simple_exprLR1_1>
-                                                <exprLF1_1>
-                                                  <relop_1>
-                                                    relop_1		>=
-                                                  <simple_expr_1>
-                                                    <term_1>
-                                                      <factor_1>
-                                                        num_1		4
-                                                      <termLR1_1>
-                                                    <simple_exprLR1_1>
-                                              )_1		)
+                                              id_1 : b
+                                              <factorLF1_1>
                                             <termLR1_1>
-                                              <mulop_1>
-                                                mulop_1		and
-                                              <factor_1>
-                                                (_1		(
-                                                <expr_1>
-                                                  <simple_expr_1>
-                                                    <term_1>
-                                                      <factor_1>
-                                                        (_1		(
-                                                        <expr_1>
-                                                          <simple_expr_1>
-                                                            <term_1>
-                                                              <factor_1>
-                                                                id_1		b
-                                                                <factorLF1_1>
-                                                              <termLR1_1>
-                                                            <simple_exprLR1_1>
-                                                          <exprLF1_1>
-                                                            <relop_1>
-                                                              relop_1		<=
-                                                            <simple_expr_1>
-                                                              <term_1>
-                                                                <factor_1>
-                                                                  id_1		e
-                                                                  <factorLF1_1>
-                                                                <termLR1_1>
-                                                              <simple_exprLR1_1>
-                                                        )_1		)
-                                                      <termLR1_1>
-                                                    <simple_exprLR1_1>
-                                                      <addop_1>
-                                                        addop_1		or
-                                                      <term_1>
-                                                        <factor_1>
-                                                          (_1		(
-                                                          <expr_1>
-                                                            <simple_expr_1>
-                                                              <term_1>
-                                                                <factor_1>
-                                                                  not_1		not
-                                                                  <factor_2>
-                                                                    (_1		(
-                                                                    <expr_1>
-                                                                      <simple_expr_1>
-                                                                        <term_1>
-                                                                          <factor_1>
-                                                                            id_1		a
-                                                                            <factorLF1_1>
-                                                                          <termLR1_1>
-                                                                        <simple_exprLR1_1>
-                                                                      <exprLF1_1>
-                                                                        <relop_1>
-                                                                          relop_1		=
-                                                                        <simple_expr_1>
-                                                                          <term_1>
-                                                                            <factor_1>
-                                                                              id_1		c
-                                                                              <factorLF1_1>
-                                                                                [_1		[
-                                                                                <expr_1>
-                                                                                  <simple_expr_1>
-                                                                                    <term_1>
-                                                                                      <factor_1>
-                                                                                        id_1		a
-                                                                                        <factorLF1_1>
-                                                                                      <termLR1_1>
-                                                                                    <simple_exprLR1_1>
-                                                                                  <exprLF1_1>
-                                                                                ]_1		]
-                                                                            <termLR1_1>
-                                                                          <simple_exprLR1_1>
-                                                                    )_1		)
-                                                                <termLR1_1>
-                                                              <simple_exprLR1_1>
-                                                            <exprLF1_1>
-                                                          )_1		)
-                                                        <termLR1_1>
-                                                      <simple_exprLR1_2>
-                                                  <exprLF1_1>
-                                                )_1		)
-                                              <termLR1_2>
                                           <simple_exprLR1_1>
                                         <exprLF1_1>
-                                      )_1		)
-                                    <termLR1_1>
-                                  <simple_exprLR1_1>
-                                <exprLF1_1>
-                              do_1		do
-                              <stmt_2>
-                                <comp_stmt_1>
-                                  begin_1		begin
-                                  <comp_stmtLF1_1>
-                                    <opt_stmts_1>
-                                      <stmt_list_1>
-                                        <stmt_1>
-                                          <variable_1>
-                                            id_1		a
-                                            <variableLF1_1>
-                                          <assignop_1>
-                                            assignop_1		:=
-                                          <expr_1>
-                                            <simple_expr_1>
-                                              <term_1>
-                                                <factor_1>
-                                                  id_1		c
-                                                  <factorLF1_1>
-                                                    [_1		[
-                                                    <expr_1>
-                                                      <simple_expr_1>
-                                                        <term_1>
-                                                          <factor_1>
-                                                            id_1		a
-                                                            <factorLF1_1>
-                                                          <termLR1_1>
-                                                        <simple_exprLR1_1>
-                                                      <exprLF1_1>
-                                                    ]_1		]
-                                                <termLR1_1>
-                                              <simple_exprLR1_1>
-                                                <addop_1>
-                                                  +_1		+
+                                      <expr_listLR1_2>
+                              )_1 : )
+                        <stmt_listLR1_1>
+                          ;_1 : ;
+                          <stmt_1>
+                            <proc_stmt_1>
+                              call_1 : call
+                              id_1 : proc3
+                              <proc_stmtLF1_1>
+                                (_1 : (
+                                <expr_list_1>
+                                  <expr_1>
+                                    <simple_expr_1>
+                                      <term_1>
+                                        <factor_1>
+                                          id_1 : c
+                                          <factorLF1_1>
+                                            [_1 : [
+                                            <expr_1>
+                                              <simple_expr_1>
                                                 <term_1>
                                                   <factor_1>
-                                                    num_1		1
+                                                    num_1 : 1
                                                   <termLR1_1>
-                                                <simple_exprLR1_2>
-                                            <exprLF1_1>
-                                        <stmt_listLR1_1>
-                                    end_1		end
-                            <stmt_listLR1_2>
-                    end_1		end
-          ;_1		;
-          <subprgm_decsLR1_2>
-      <comp_stmt_1>
-        begin_1		begin
-        <comp_stmtLF1_1>
-          <opt_stmts_1>
-            <stmt_list_1>
-              <stmt_1>
-                if_1		if
-                <expr_1>
-                  <simple_expr_1>
-                    <term_1>
-                      <factor_1>
-                        (_1		(
-                        <expr_1>
-                          <simple_expr_1>
-                            <term_1>
-                              <factor_1>
-                                id_1		a
-                                <factorLF1_1>
-                              <termLR1_1>
-                            <simple_exprLR1_1>
-                          <exprLF1_1>
-                            <relop_1>
-                              relop_1		<
-                            <simple_expr_1>
-                              <term_1>
-                                <factor_1>
-                                  num_1		2
-                                <termLR1_1>
-                              <simple_exprLR1_1>
-                        )_1		)
-                      <termLR1_1>
-                    <simple_exprLR1_1>
-                  <exprLF1_1>
-                then_1		then
-                <stmt_2>
-                  <variable_1>
-                    id_1		a
-                    <variableLF1_1>
-                  <assignop_1>
-                    assignop_1		:=
-                  <expr_1>
-                    <simple_expr_1>
-                      <term_1>
-                        <factor_1>
-                          num_1		1
-                        <termLR1_1>
-                      <simple_exprLR1_1>
-                    <exprLF1_1>
-                <stmtLF1_1>
-                  else_1		else
-                  <stmt_1>
-                    <variable_1>
-                      id_1		a
-                      <variableLF1_1>
-                    <assignop_1>
-                      assignop_1		:=
-                    <expr_1>
-                      <simple_expr_1>
-                        <term_1>
-                          <factor_1>
-                            id_1		a
-                            <factorLF1_1>
-                          <termLR1_1>
-                        <simple_exprLR1_1>
-                          <addop_1>
-                            +_1		+
-                          <term_1>
-                            <factor_1>
-                              num_1		2
-                            <termLR1_1>
-                          <simple_exprLR1_2>
-                      <exprLF1_1>
-              <stmt_listLR1_1>
-                ;_1		;
-                <stmt_1>
-                  if_1		if
-                  <expr_1>
-                    <simple_expr_1>
-                      <term_1>
-                        <factor_1>
-                          (_1		(
-                          <expr_1>
-                            <simple_expr_1>
-                              <term_1>
-                                <factor_1>
-                                  id_1		b
-                                  <factorLF1_1>
-                                <termLR1_1>
-                              <simple_exprLR1_1>
-                            <exprLF1_1>
-                              <relop_1>
-                                relop_1		>
-                              <simple_expr_1>
-                                <term_1>
-                                  <factor_1>
-                                    num_1		4.2
-                                  <termLR1_1>
-                                <simple_exprLR1_1>
-                          )_1		)
-                        <termLR1_1>
-                      <simple_exprLR1_1>
-                    <exprLF1_1>
-                  then_1		then
-                  <stmt_2>
-                    <variable_1>
-                      id_1		a
-                      <variableLF1_1>
-                    <assignop_1>
-                      assignop_1		:=
-                    <expr_1>
-                      <simple_expr_1>
-                        <term_1>
-                          <factor_1>
-                            id_1		c
-                            <factorLF1_1>
-                              [_1		[
+                                                <simple_exprLR1_1>
+                                              <exprLF1_1>
+                                            ]_1 : ]
+                                        <termLR1_1>
+                                      <simple_exprLR1_1>
+                                    <exprLF1_1>
+                                  <expr_listLR1_1>
+                                    ,_1 : ,
+                                    <expr_1>
+                                      <simple_expr_1>
+                                        <term_1>
+                                          <factor_1>
+                                            id_1 : e
+                                            <factorLF1_1>
+                                          <termLR1_1>
+                                        <simple_exprLR1_1>
+                                      <exprLF1_1>
+                                    <expr_listLR1_2>
+                                )_1 : )
+                          <stmt_listLR1_2>
+                            ;_1 : ;
+                            <stmt_1>
+                              <variable_1>
+                                id_1 : e
+                                <variableLF1_1>
+                              <assignop_1>
+                                assignop_1 : :=
                               <expr_1>
                                 <simple_expr_1>
                                   <term_1>
                                     <factor_1>
-                                      id_1		a
+                                      id_1 : e
+                                      <factorLF1_1>
+                                    <termLR1_1>
+                                  <simple_exprLR1_1>
+                                    <addop_1>
+                                      +_1 : +
+                                    <term_1>
+                                      <factor_1>
+                                        num_1 : 4.44
+                                      <termLR1_1>
+                                    <simple_exprLR1_2>
+                                <exprLF1_1>
+                            <stmt_listLR1_2>
+                              ;_1 : ;
+                              <stmt_1>
+                                <variable_1>
+                                  id_1 : a
+                                  <variableLF1_1>
+                                <assignop_1>
+                                  assignop_1 : :=
+                                <expr_1>
+                                  <simple_expr_1>
+                                    <term_1>
+                                      <factor_1>
+                                        (_1 : (
+                                        <expr_1>
+                                          <simple_expr_1>
+                                            <term_1>
+                                              <factor_1>
+                                                id_1 : a
+                                                <factorLF1_1>
+                                              <termLR1_1>
+                                                <mulop_1>
+                                                  mulop_1 : mod
+                                                <factor_1>
+                                                  id_1 : y
+                                                  <factorLF1_1>
+                                                <termLR1_2>
+                                            <simple_exprLR1_1>
+                                          <exprLF1_1>
+                                        )_1 : )
+                                      <termLR1_1>
+                                        <mulop_1>
+                                          mulop_1 : div
+                                        <factor_1>
+                                          id_1 : x
+                                          <factorLF1_1>
+                                        <termLR1_2>
+                                    <simple_exprLR1_1>
+                                  <exprLF1_1>
+                              <stmt_listLR1_2>
+                                ;_1 : ;
+                                <stmt_1>
+                                  while_1 : while
+                                  <expr_1>
+                                    <simple_expr_1>
+                                      <term_1>
+                                        <factor_1>
+                                          (_1 : (
+                                          <expr_1>
+                                            <simple_expr_1>
+                                              <term_1>
+                                                <factor_1>
+                                                  (_1 : (
+                                                  <expr_1>
+                                                    <simple_expr_1>
+                                                      <term_1>
+                                                        <factor_1>
+                                                          id_1 : a
+                                                          <factorLF1_1>
+                                                        <termLR1_1>
+                                                      <simple_exprLR1_1>
+                                                    <exprLF1_1>
+                                                      <relop_1>
+                                                        relop_1 : >=
+                                                      <simple_expr_1>
+                                                        <term_1>
+                                                          <factor_1>
+                                                            num_1 : 4
+                                                          <termLR1_1>
+                                                        <simple_exprLR1_1>
+                                                  )_1 : )
+                                                <termLR1_1>
+                                                  <mulop_1>
+                                                    mulop_1 : and
+                                                  <factor_1>
+                                                    (_1 : (
+                                                    <expr_1>
+                                                      <simple_expr_1>
+                                                        <term_1>
+                                                          <factor_1>
+                                                            (_1 : (
+                                                            <expr_1>
+                                                              <simple_expr_1>
+                                                                <term_1>
+                                                                  <factor_1>
+                                                                    id_1 : b
+                                                                    <factorLF1_1>
+                                                                  <termLR1_1>
+                                                                <simple_exprLR1_1>
+                                                              <exprLF1_1>
+                                                                <relop_1>
+                                                                  relop_1 : <=
+                                                                <simple_expr_1>
+                                                                  <term_1>
+                                                                    <factor_1>
+                                                                      id_1 : e
+                                                                      <factorLF1_1>
+                                                                    <termLR1_1>
+                                                                  <simple_exprLR1_1>
+                                                            )_1 : )
+                                                          <termLR1_1>
+                                                        <simple_exprLR1_1>
+                                                          <addop_1>
+                                                            addop_1 : or
+                                                          <term_1>
+                                                            <factor_1>
+                                                              (_1 : (
+                                                              <expr_1>
+                                                                <simple_expr_1>
+                                                                  <term_1>
+                                                                    <factor_1>
+                                                                      not_1 : not
+                                                                      <factor_2>
+                                                                        (_1 : (
+                                                                        <expr_1>
+                                                                          <simple_expr_1>
+                                                                            <term_1>
+                                                                              <factor_1>
+                                                                                id_1 : a
+                                                                                <factorLF1_1>
+                                                                              <termLR1_1>
+                                                                            <simple_exprLR1_1>
+                                                                          <exprLF1_1>
+                                                                            <relop_1>
+                                                                              relop_1 : =
+                                                                            <simple_expr_1>
+                                                                              <term_1>
+                                                                                <factor_1>
+                                                                                  id_1 : c
+                                                                                  <factorLF1_1>
+                                                                                    [_1 : [
+                                                                                    <expr_1>
+                                                                                      <simple_expr_1>
+                                                                                        <term_1>
+                                                                                          <factor_1>
+                                                                                            id_1 : a
+                                                                                            <factorLF1_1>
+                                                                                          <termLR1_1>
+                                                                                        <simple_exprLR1_1>
+                                                                                      <exprLF1_1>
+                                                                                    ]_1 : ]
+                                                                                <termLR1_1>
+                                                                              <simple_exprLR1_1>
+                                                                        )_1 : )
+                                                                    <termLR1_1>
+                                                                  <simple_exprLR1_1>
+                                                                <exprLF1_1>
+                                                              )_1 : )
+                                                            <termLR1_1>
+                                                          <simple_exprLR1_2>
+                                                      <exprLF1_1>
+                                                    )_1 : )
+                                                  <termLR1_2>
+                                              <simple_exprLR1_1>
+                                            <exprLF1_1>
+                                          )_1 : )
+                                        <termLR1_1>
+                                      <simple_exprLR1_1>
+                                    <exprLF1_1>
+                                  do_1 : do
+                                  <stmt_2>
+                                    <comp_stmt_1>
+                                      begin_1 : begin
+                                      <comp_stmtLF1_1>
+                                        <opt_stmts_1>
+                                          <stmt_list_1>
+                                            <stmt_1>
+                                              <variable_1>
+                                                id_1 : a
+                                                <variableLF1_1>
+                                              <assignop_1>
+                                                assignop_1 : :=
+                                              <expr_1>
+                                                <simple_expr_1>
+                                                  <term_1>
+                                                    <factor_1>
+                                                      id_1 : c
+                                                      <factorLF1_1>
+                                                        [_1 : [
+                                                        <expr_1>
+                                                          <simple_expr_1>
+                                                            <term_1>
+                                                              <factor_1>
+                                                                id_1 : a
+                                                                <factorLF1_1>
+                                                              <termLR1_1>
+                                                            <simple_exprLR1_1>
+                                                          <exprLF1_1>
+                                                        ]_1 : ]
+                                                    <termLR1_1>
+                                                  <simple_exprLR1_1>
+                                                    <addop_1>
+                                                      +_1 : +
+                                                    <term_1>
+                                                      <factor_1>
+                                                        num_1 : 1
+                                                      <termLR1_1>
+                                                    <simple_exprLR1_2>
+                                                <exprLF1_1>
+                                            <stmt_listLR1_1>
+                                        end_1 : end
+                                <stmt_listLR1_2>
+                    end_1 : end
+          ;_1 : ;
+          <subprgm_decsLR1_2>
+      <comp_stmt_1>
+        begin_1 : begin
+        <comp_stmtLF1_1>
+          <opt_stmts_1>
+            <stmt_list_1>
+              <stmt_1>
+                <proc_stmt_1>
+                  call_1 : call
+                  id_1 : proc2
+                  <proc_stmtLF1_1>
+                    (_1 : (
+                    <expr_list_1>
+                      <expr_1>
+                        <simple_expr_1>
+                          <term_1>
+                            <factor_1>
+                              id_1 : c
+                              <factorLF1_1>
+                                [_1 : [
+                                <expr_1>
+                                  <simple_expr_1>
+                                    <term_1>
+                                      <factor_1>
+                                        num_1 : 4
+                                      <termLR1_1>
+                                    <simple_exprLR1_1>
+                                  <exprLF1_1>
+                                ]_1 : ]
+                            <termLR1_1>
+                          <simple_exprLR1_1>
+                        <exprLF1_1>
+                      <expr_listLR1_1>
+                        ,_1 : ,
+                        <expr_1>
+                          <simple_expr_1>
+                            <term_1>
+                              <factor_1>
+                                id_1 : c
+                                <factorLF1_1>
+                                  [_1 : [
+                                  <expr_1>
+                                    <simple_expr_1>
+                                      <term_1>
+                                        <factor_1>
+                                          num_1 : 5
+                                        <termLR1_1>
+                                      <simple_exprLR1_1>
+                                    <exprLF1_1>
+                                  ]_1 : ]
+                              <termLR1_1>
+                            <simple_exprLR1_1>
+                          <exprLF1_1>
+                        <expr_listLR1_2>
+                    )_1 : )
+              <stmt_listLR1_1>
+                ;_1 : ;
+                <stmt_1>
+                  <proc_stmt_1>
+                    call_1 : call
+                    id_1 : proc2
+                    <proc_stmtLF1_1>
+                      (_1 : (
+                      <expr_list_1>
+                        <expr_1>
+                          <simple_expr_1>
+                            <term_1>
+                              <factor_1>
+                                id_1 : c
+                                <factorLF1_1>
+                                  [_1 : [
+                                  <expr_1>
+                                    <simple_expr_1>
+                                      <term_1>
+                                        <factor_1>
+                                          num_1 : 4
+                                        <termLR1_1>
+                                      <simple_exprLR1_1>
+                                    <exprLF1_1>
+                                  ]_1 : ]
+                              <termLR1_1>
+                            <simple_exprLR1_1>
+                          <exprLF1_1>
+                        <expr_listLR1_1>
+                          ,_1 : ,
+                          <expr_1>
+                            <simple_expr_1>
+                              <term_1>
+                                <factor_1>
+                                  num_1 : 2
+                                <termLR1_1>
+                              <simple_exprLR1_1>
+                            <exprLF1_1>
+                          <expr_listLR1_2>
+                      )_1 : )
+                <stmt_listLR1_2>
+                  ;_1 : ;
+                  <stmt_1>
+                    if_1 : if
+                    <expr_1>
+                      <simple_expr_1>
+                        <term_1>
+                          <factor_1>
+                            (_1 : (
+                            <expr_1>
+                              <simple_expr_1>
+                                <term_1>
+                                  <factor_1>
+                                    id_1 : a
+                                    <factorLF1_1>
+                                  <termLR1_1>
+                                <simple_exprLR1_1>
+                              <exprLF1_1>
+                                <relop_1>
+                                  relop_1 : <
+                                <simple_expr_1>
+                                  <term_1>
+                                    <factor_1>
+                                      num_1 : 2
+                                    <termLR1_1>
+                                  <simple_exprLR1_1>
+                            )_1 : )
+                          <termLR1_1>
+                        <simple_exprLR1_1>
+                      <exprLF1_1>
+                    then_1 : then
+                    <stmt_2>
+                      <variable_1>
+                        id_1 : a
+                        <variableLF1_1>
+                      <assignop_1>
+                        assignop_1 : :=
+                      <expr_1>
+                        <simple_expr_1>
+                          <term_1>
+                            <factor_1>
+                              num_1 : 1
+                            <termLR1_1>
+                          <simple_exprLR1_1>
+                        <exprLF1_1>
+                    <stmtLF1_1>
+                      else_1 : else
+                      <stmt_1>
+                        <variable_1>
+                          id_1 : a
+                          <variableLF1_1>
+                        <assignop_1>
+                          assignop_1 : :=
+                        <expr_1>
+                          <simple_expr_1>
+                            <term_1>
+                              <factor_1>
+                                id_1 : a
+                                <factorLF1_1>
+                              <termLR1_1>
+                            <simple_exprLR1_1>
+                              <addop_1>
+                                +_1 : +
+                              <term_1>
+                                <factor_1>
+                                  num_1 : 2
+                                <termLR1_1>
+                              <simple_exprLR1_2>
+                          <exprLF1_1>
+                  <stmt_listLR1_2>
+                    ;_1 : ;
+                    <stmt_1>
+                      if_1 : if
+                      <expr_1>
+                        <simple_expr_1>
+                          <term_1>
+                            <factor_1>
+                              (_1 : (
+                              <expr_1>
+                                <simple_expr_1>
+                                  <term_1>
+                                    <factor_1>
+                                      id_1 : b
                                       <factorLF1_1>
                                     <termLR1_1>
                                   <simple_exprLR1_1>
                                 <exprLF1_1>
-                              ]_1		]
-                          <termLR1_1>
-                        <simple_exprLR1_1>
-                      <exprLF1_1>
-                  <stmtLF1_1>
-                <stmt_listLR1_2>
-          end_1		end
-      ._1		.
+                                  <relop_1>
+                                    relop_1 : >
+                                  <simple_expr_1>
+                                    <term_1>
+                                      <factor_1>
+                                        num_1 : 4.2
+                                      <termLR1_1>
+                                    <simple_exprLR1_1>
+                              )_1 : )
+                            <termLR1_1>
+                          <simple_exprLR1_1>
+                        <exprLF1_1>
+                      then_1 : then
+                      <stmt_2>
+                        <variable_1>
+                          id_1 : a
+                          <variableLF1_1>
+                        <assignop_1>
+                          assignop_1 : :=
+                        <expr_1>
+                          <simple_expr_1>
+                            <term_1>
+                              <factor_1>
+                                id_1 : c
+                                <factorLF1_1>
+                                  [_1 : [
+                                  <expr_1>
+                                    <simple_expr_1>
+                                      <term_1>
+                                        <factor_1>
+                                          id_1 : a
+                                          <factorLF1_1>
+                                        <termLR1_1>
+                                      <simple_exprLR1_1>
+                                    <exprLF1_1>
+                                  ]_1 : ]
+                              <termLR1_1>
+                            <simple_exprLR1_1>
+                          <exprLF1_1>
+                      <stmtLF1_1>
+                    <stmt_listLR1_2>
+          end_1 : end
+      ._1 : .
